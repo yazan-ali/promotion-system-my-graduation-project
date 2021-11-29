@@ -65,8 +65,8 @@ function Register() {
             year: date,
             administrativeRank: 0
         }
-        // axios.post("/register", newUser)
-        axios.post("http://localhost:5000/register", newUser)
+        axios.post("/register", newUser)
+            // axios.post("http://localhost:5000/register", newUser)
             .then(res => {
                 if (res.data.auth) {
                     context.login(res.data.result);
