@@ -1,0 +1,35 @@
+.login-form-root{
+    margin-top: 50px;
+    width: 600px;
+    padding: 20px;
+    box-shadow: 2px 2px 10px rgba(0, 105, 112, 0.3);
+    border-radius: 10px;
+    text-align: end;
+}
+
+.login-form-root h2{
+    text-align: center;
+}
+
+.login-form-root input{
+    text-align: end;
+}
+
+.login-form-root .login-select{
+    text-align: end;
+}
+
+.ui.dropdown .menu>.item{
+    text-align: end;
+}
+
+.login-form-root .error{
+    padding: 10px;
+    color: #9f3a38;
+}
+
+@media only screen and (max-width: 900px) {
+   .login-form-root{
+       width: 90%;
+   }
+}

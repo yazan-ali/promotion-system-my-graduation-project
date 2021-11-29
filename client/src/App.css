@@ -1,0 +1,13 @@
+.App{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-width: 100vw;
+  padding-bottom: 20px;
+  text-decoration: none;
+  box-sizing: border-box;
+  font-family: "Cairo";
+  font-weight: 600;
+  scroll-behavior: smooth;
+}

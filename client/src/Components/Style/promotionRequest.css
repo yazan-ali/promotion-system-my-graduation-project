@@ -1,0 +1,89 @@
+.promotion-request-root{
+    width: 48%;
+}
+
+.promotion-request-card{
+    width: 100%;
+    padding: 1.5rem;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 105, 112, 0.5);
+    text-align: end;
+}
+
+.promotion-request-card .btns-container{
+    margin-top: auto;
+}
+
+.promotion-request-form{
+    width: 100%;
+    background-color: #fff;
+    text-align: end;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 105, 112, 0.5);
+}
+
+.promotion-request-form h2{
+  text-align: center;
+}
+
+.promotion-request-form input{
+    text-align: end;
+}
+
+.files-list{
+    line-height: 0.1rem;
+    padding: 30px 0;
+}
+
+.file{
+    background-color: #098D9C;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+}
+
+.promotion-request-card-header{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;    
+}
+
+.promotion-request-card-header p{
+    max-width: 48%;
+}
+
+.promotion-request-card-header p:nth-child(2){
+    color:green;
+    text-align: start;
+}
+
+.accordion{
+    padding: 0.8rem 0;
+    color: #794b02;
+    border-radius: 3px;
+}
+
+.accordion ul{
+    direction: rtl;
+    text-align: start;
+}
+
+.accordion .accordion-btn{
+    color: #794b02;
+    padding: 0.5rem;
+}
+
+.accordion .accordion-btn i{
+    margin-right: 1rem;
+}
+
+@media only screen and (max-width: 900px) {
+    .promotion-request-root{
+        width: 100%;
+    }
+}

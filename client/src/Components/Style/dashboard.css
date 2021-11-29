@@ -1,0 +1,137 @@
+.dashboard-root{
+    width: 80%;
+    margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    font-size: inherit;
+}
+
+.dashboard{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.teacher-card-root{
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    text-align: center;
+    background-color: #1FBDC7;
+    box-shadow: 2px 2px 10px rgba(0, 105, 112, 0.5);
+    border-radius: 10px;
+    padding: 2rem;
+    gap: 2rem;
+}
+
+.teacher-card{
+    width: 45%;
+    font-size: 1.5rem;
+    border-left: 2px solid #fff;
+    /* background-color: #3EBAC2; */
+    color: #fff;
+    padding: 1.5rem;
+    /* border-radius: 10px; */
+    /* box-shadow: 2px 2px 10px rgba(0, 105, 112, 0.5); */
+}
+
+.teacher-card p:first-of-type{
+    font-size: 2rem;
+    font-weight: 500;;
+}
+
+
+.fa-user-circle{
+    font-size: 100px;
+    padding-bottom: 20px;
+}
+
+.teachers-list{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 1.6rem;
+}
+
+.teacher{
+    width: 49%;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-around;
+    align-items: center;
+    text-align: end;
+    padding: 2rem;
+    background-color: #F7F7F7;
+    box-shadow: 2px 2px 10px rgba(0, 105, 112, 0.5);
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+
+.teacher:hover{
+    background-color: #EFEFEF;
+}
+
+.teacher .teacher-promotion-card-container{
+    width: 60%;
+    padding : 2rem;
+}
+
+.teacher .teacher-promotion-card-container > div{
+    border-right: 2px solid gray;
+    padding-right: 3rem;
+}
+
+@media only screen and (max-width: 950px) {
+    .dashboard-root{
+        width: 92%;
+        align-items: center;
+    }
+    .dashboard{
+        width: 100%;
+        align-items: center;
+    }
+    .teacher-card-root{
+        justify-content: center;
+        flex-direction: column-reverse;
+    }
+    .teacher-card{
+        width: 100%;
+        border-left: none;
+        border-bottom: 2px solid #fff;
+    }
+    .teachers-list{
+        flex-direction: column;
+    }
+    .teacher{
+        width: 100%;
+        padding: 1rem;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .teachers-list{
+        flex-direction: column;
+    }
+    .teacher{
+        flex-direction: column;
+        justify-content: start;
+        align-items: end;
+    }
+    .teacher .teacher-promotion-card-container{
+       width: 100%;
+       padding: 0;
+       margin-top: 20px;
+    }
+    .teacher .teacher-promotion-card-container > div{
+        border-right: none;
+        border-top: 2px solid gray;
+        padding-right: 0;
+        padding-top: 3rem;
+    }
+}
