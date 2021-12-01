@@ -40,8 +40,8 @@ const promototionRequestSchema = new mongoose.Schema({
         type: String,
     },
     user_files: {
-        type: [],
-        default: []
+        type: {},
+        default: {}
     },
     administrative_files: {
         type: [],

@@ -76,4 +76,9 @@ const ranks = {
     3: "رئاسة الجامعة"
 }
 
-export { rankOptions, collegeOptions, sectionOptions, ranks }
+const research_types = [
+    { key: 'alone', value: 'منفرد', text: 'منفرد' },
+    { key: 'not alone', value: 'غير منفرد', text: 'غير منفرد' },
+]
+
+export { rankOptions, collegeOptions, sectionOptions, ranks, research_types }

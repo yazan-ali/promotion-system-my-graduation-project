@@ -4,11 +4,12 @@ import axios from 'axios';
 import { Button, Form, Label } from 'semantic-ui-react';
 import FileUpload from './fileUpload';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
+import AddResearchFiles from './addResearchFiles';
 
 function PromotionRequestCreateForm({ handleCreatePromotionRequest, handleShowCreateForm, handleAlert, user, promotionType }) {
 
     const [values, setValues, resetValues] = useForm({});
-    const [files, setFiles] = useState([]);
+    const [files, setFiles] = useState({});
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [dateErr, setDateErr] = useState(null);
@@ -35,12 +36,16 @@ function PromotionRequestCreateForm({ handleCreatePromotionRequest, handleShowCr
         }
     }, [startDate, endDate])
 
-    const fileUpload = (file) => {
-        const newFile = {
-            ...file,
-            uploaded_by_administrativeRank: user.administrativeRank
-        }
-        setFiles([...files, newFile])
+    const fileUpload = (file, n = null) => {
+        // const newFile = {
+        //     ...file,
+        // }
+        // const newFiles = { ...files.files, [`file_${n}`]: newFile }
+        setFiles({ ...files, [`file_${n}`]: file })
+    }
+
+    const addResearchFiles = (researchFiles) => {
+        setFiles({ ...files, researchFiles })
     }
 
     const onStartDateChange = (event, data) => {
@@ -51,28 +56,29 @@ function PromotionRequestCreateForm({ handleCreatePromotionRequest, handleShowCr
         setEndDate(data.value)
     }
 
-    const handleRemoveFile = (uploadId) => {
-        const updatedFiles = files.filter(file => file.uploadId !== uploadId)
-        setFiles(updatedFiles)
+    // const handleRemoveFile = (uploadId) => {
+    //     // const updatedFiles = files.filter(file => file.uploadId !== uploadId)
+    //     const updatedFiles = delete files[`file_${n}`]
+    //     setFiles(updatedFiles)
+    // }
+
+    const handleRemoveFile = (n) => {
+        delete files[`file_${n}`]
     }
 
-    const handleSubmit = () => {
-        // if (!startDate) {
-        //     setDateErr("ghh")
-        // }
+    const handleSubmit = (evt) => {
         if (dateErr !== null) return;
 
         let alert;
 
         const newPromtionRequest = {
-            example_info_1: values.example_info_1,
             user_files: files,
             start_date: startDate,
             end_date: endDate,
             current_phase_number: 1,
         }
-        axios.post("/promotionRequests", newPromtionRequest)
-            // axios.post("http://localhost:5000/promotionRequests", newPromtionRequest)
+        // axios.post("/promotionRequests", newPromtionRequest)
+        axios.post("http://localhost:5000/promotionRequests", newPromtionRequest)
             .then(res => {
                 if (res.data.success) {
                     alert = {
@@ -110,10 +116,6 @@ function PromotionRequestCreateForm({ handleCreatePromotionRequest, handleShowCr
                 </a>
             </Button>
             <Form onSubmit={handleSubmit} style={{ marginTop: 20 }}>
-                {/* <Form.Field>
-                    <label>Example Info 1</label>
-                    <input placeholder='Example Info 1' name="example_info_1" value={values.example_info_1} onChange={setValues} />
-                </Form.Field> */}
                 <p>سنة بدء الخدمة في الرتبة الحالية</p>
                 {dateErr && <div>
                     <Label basic color='red' pointing>
@@ -142,17 +144,21 @@ function PromotionRequestCreateForm({ handleCreatePromotionRequest, handleShowCr
                     label="السيرة الذاتية"
                     fileUpload={fileUpload}
                     removeFile={handleRemoveFile}
+                    n={1}
                 />
                 <FileUpload
                     label="البحث الأول"
                     fileUpload={fileUpload}
                     removeFile={handleRemoveFile}
+                    n={2}
                 />
                 <FileUpload
                     label="البحث الثاني"
                     fileUpload={fileUpload}
                     removeFile={handleRemoveFile}
+                    n={3}
                 />
+                <AddResearchFiles addResearchFiles={addResearchFiles} user={user} />
                 {errors.files && <div style={{ paddingTop: 10 }}>
                     <Label basic color='red' pointing="right">
                         {errors.files}

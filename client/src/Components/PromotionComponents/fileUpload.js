@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { PickerOverlay } from 'filestack-react';
 import { Button } from 'semantic-ui-react';
 
-function FileUpload({ label, fileUpload, removeFile, fileData, by_administrative }) {
+function FileUpload({ label, fileUpload, removeFile, fileData, doNotShowFile, n }) {
 
     const [showFilePicker, setShowFilePicker] = useState(false);
     const [file, setFile] = useState(fileData);
@@ -21,14 +21,15 @@ function FileUpload({ label, fileUpload, removeFile, fileData, by_administrative
             uploadId: file.uploadId,
             label: label
         }
-        if (!by_administrative) {
+        if (!doNotShowFile) {
             setFile(newFile);
         }
-        fileUpload(newFile);
+        fileUpload(newFile, n);
     }
 
     const handleRemoveFile = () => {
-        removeFile(file.uploadId)
+        // removeFile(file.uploadId)
+        removeFile(n)
         setFile(null);
     }
 
@@ -47,7 +48,7 @@ function FileUpload({ label, fileUpload, removeFile, fileData, by_administrative
                 }
             </div>
             <div>
-                <label style={{ display: "block", marginRight: 5, padding: "10px 0" }} htmlFor="file-upload">{label}</label>
+                {label && <label style={{ display: "block", marginRight: 5, padding: "10px 0" }} htmlFor="file-upload">{label}</label>}
                 {
                     file ? (
                         <p className="file" key={file.uploadId}>

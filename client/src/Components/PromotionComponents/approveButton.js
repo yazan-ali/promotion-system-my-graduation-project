@@ -5,8 +5,8 @@ import axios from 'axios';
 function ApproveButton({ id, teacher_id, handleApprove, handleTogglePromotionRequest }) {
 
     const approve = () => {
-        axios.put(`/promotionRequests/${id}/approve`)
-            // axios.put(`http://localhost:5000/promotionRequests/${id}/approve`)
+        // axios.put(`/promotionRequests/${id}/approve`)
+        axios.put(`http://localhost:5000/promotionRequests/${id}/approve`)
             .then(res => {
                 if (res.data.success) {
                     handleApprove(teacher_id)

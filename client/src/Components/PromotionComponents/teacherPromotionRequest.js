@@ -63,8 +63,8 @@ function TeacherPromotionRequest({ promotionRequest, handleReject, handleApprove
         const updatedPromotionRequest = {
             administrative_files: files
         }
-        // axios.put(`http://localhost:5000/promotionRequests/administrative/${promotionRequest._id}`, updatedPromotionRequest)
-        axios.put(`/promotionRequests/administrative/${promotionRequest._id}`, updatedPromotionRequest)
+        axios.put(`http://localhost:5000/promotionRequests/administrative/${promotionRequest._id}`, updatedPromotionRequest)
+            // axios.put(`/promotionRequests/administrative/${promotionRequest._id}`, updatedPromotionRequest)
             .then(res => {
                 if (res.data.success) {
                     setShowSaveBtn(false);
@@ -83,7 +83,7 @@ function TeacherPromotionRequest({ promotionRequest, handleReject, handleApprove
                 <p>{promotionRequest.example_info_2}</p>
                 <p>{promotionRequest.promotion_request_status}</p>
                 <div className="files-list">
-                    {
+                    {/* {
                         promotionRequest.user_files.map(file => (
                             <p className="file" key={file.uploadId}>
                                 <span>{file.name}</span>
@@ -97,6 +97,16 @@ function TeacherPromotionRequest({ promotionRequest, handleReject, handleApprove
                                     )
                                 }
                             </p>
+                        ))
+                    } */}
+                    {
+                        promotionRequest.user_files.file_1 && (
+                            <p className="file">{promotionRequest.user_files.file_1.name}</p>
+                        )
+                    }
+                    {
+                        promotionRequest.user_files.researchFiles.map(file => (
+                            <p className="file" key={file.file.uploadId}>{file.file.name}</p>
                         ))
                     }
                     {
@@ -116,7 +126,7 @@ function TeacherPromotionRequest({ promotionRequest, handleReject, handleApprove
                         ))
                     }
                 </div>
-                <FileUpload fileUpload={fileUpload} by_administrative={true} />
+                <FileUpload fileUpload={fileUpload} doNotShowFile={true} />
                 {
                     showSaveBtn && <Button type="button" style={{ backgroundColor: "#098D9C", color: "#fff", marginTop: 20 }} onClick={handleSubmit}>
                         حفظ

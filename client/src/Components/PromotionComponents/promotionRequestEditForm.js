@@ -5,18 +5,12 @@ import { Button, Form, Label } from 'semantic-ui-react';
 import FileUpload from './fileUpload';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import Accordion from './accordion';
+import EditResearchFiles from './editResearchFiles';
 
 function PromotionRequestEditForm({ promotionRequestData, handleUpdatePromotionRequest, handleToggleEditForm, handleAlert, user }) {
 
     const [promotionRequest, setPromotionRequest] = useState(promotionRequestData);
     const [errors, setErrors] = useState({});
-
-    const initailValues = {
-        example_info_1: promotionRequest.example_info_1,
-        example_info_2: promotionRequest.example_info_2,
-    }
-
-    const [values, setValues] = useForm(initailValues);
     const [files, setFiles] = useState(promotionRequestData.user_files);
 
     // useEffect(() => {
@@ -40,13 +34,12 @@ function PromotionRequestEditForm({ promotionRequestData, handleUpdatePromotionR
     //     }
     // }, [startDate, endDate])
 
-
     const fileUpload = (file) => {
-        const newFile = {
-            ...file,
-            uploaded_by_administrativeRank: user.administrativeRank
-        }
-        setFiles([...files, newFile])
+        setFiles([...files, file])
+    }
+
+    const addResearchFiles = (researchFiles) => {
+        setFiles({ ...files, researchFiles })
     }
 
     const handleRemoveFile = (uploadId) => {
@@ -59,20 +52,18 @@ function PromotionRequestEditForm({ promotionRequestData, handleUpdatePromotionR
         let alert;
 
         const updatedPromotionRequest = {
-            example_info_1: values.example_info_1,
-            example_info_2: values.example_info_2,
             user_files: files,
             rejectionReasons: []
         }
-        axios.put(`/promotionRequests/${promotionRequest._id}`, updatedPromotionRequest)
-            // axios.put(`http://localhost:5000/promotionRequests/${promotionRequest._id}`, updatedPromotionRequest)
+        // axios.put(`/promotionRequests/${promotionRequest._id}`, updatedPromotionRequest)
+        axios.put(`http://localhost:5000/promotionRequests/${promotionRequest._id}`, updatedPromotionRequest)
             .then(res => {
                 if (res.data.success) {
                     handleUpdatePromotionRequest(promotionRequest._id,
                         {
                             ...promotionRequest,
                             ...updatedPromotionRequest,
-                            current_phase_number: 1
+                            current_phase_number: 0
                         })
                     setPromotionRequest({ ...promotionRequest, ...updatedPromotionRequest });
                     alert = {
@@ -97,27 +88,27 @@ function PromotionRequestEditForm({ promotionRequestData, handleUpdatePromotionR
     return (
         <div className="promotion-request-form">
             <Form onSubmit={handleSubmit}>
-                <Form.Field>
-                    <label>Example Info 1</label>
-                    <input placeholder='Example Info 1' name="example_info_1" value={values.example_info_1} onChange={setValues} />
-                </Form.Field>
                 <FileUpload
                     label="البحث الأول"
                     fileUpload={fileUpload}
                     removeFile={handleRemoveFile}
-                    fileData={files[0]}
-                />
-                <FileUpload
-                    label="البحث الثاني"
-                    fileUpload={fileUpload}
-                    removeFile={handleRemoveFile}
-                    fileData={files[1]}
+                    fileData={files.file_1}
                 />
                 {errors.files && <div style={{ paddingTop: 10 }}>
                     <Label basic color='red' pointing="right">
                         {errors.files}
                     </Label>
                 </div>}
+                {/* {
+                    files.researchFiles.map(research => (
+                        
+                    ))
+                } */}
+                <EditResearchFiles
+                    addResearchFiles={addResearchFiles}
+                    user={user}
+                    researchFilesData={files.researchFiles}
+                />
                 {/* <div className="files-list">
                     {
                         files.map(file => (

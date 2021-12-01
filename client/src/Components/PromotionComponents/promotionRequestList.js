@@ -177,8 +177,8 @@ function PromotionRequestList({ user }) {
         // if (promotionRequest) {
         // setPromotionRequestList([promotionRequest])
         if (user) {
-            axios.get(`/promotionRequests/${user.id}`).
-                // axios.get(`http://localhost:5000/promotionRequests/${user.id}`).
+            // axios.get(`/promotionRequests/${user.id}`).
+            axios.get(`http://localhost:5000/promotionRequests/${user.id}`).
                 then(res => {
                     if (res.data.success) {
                         setPromotionRequest(res.data.result)

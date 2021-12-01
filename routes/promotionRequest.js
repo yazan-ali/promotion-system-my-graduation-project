@@ -95,15 +95,15 @@ router.get("/promotionRequests/:college/:section/:current_phase_number", async (
 // create promotion request
 router.post("/promotionRequests", async (req, res) => {
 
-    const { valid, errors } = validateCreatePromotionRequestInput(req.body.start_date, req.body.end_date, req.body.user_files);
+    // const { valid, errors } = validateCreatePromotionRequestInput(req.body.start_date, req.body.end_date, req.body.user_files);
 
-    if (!valid) {
-        res.json({
-            success: false,
-            errors: errors
-        })
-        return
-    }
+    // if (!valid) {
+    //     res.json({
+    //         success: false,
+    //         errors: errors
+    //     })
+    //     return
+    // }
 
     const user = checkAuth(req, res);
 
@@ -155,15 +155,15 @@ router.post("/promotionRequests", async (req, res) => {
 // update promotion request
 router.put("/promotionRequests/:id", async (req, res) => {
 
-    const { valid, errors } = validateUpdatePromotionRequestInput(req.body.user_files);
+    // const { valid, errors } = validateUpdatePromotionRequestInput(req.body.user_files);
 
-    if (!valid) {
-        res.json({
-            success: false,
-            errors: errors
-        })
-        return
-    }
+    // if (!valid) {
+    //     res.json({
+    //         success: false,
+    //         errors: errors
+    //     })
+    //     return
+    // }
 
     try {
 
@@ -179,7 +179,8 @@ router.put("/promotionRequests/:id", async (req, res) => {
                     end_date: req.body.end_date,
                     rejectionReasons: [],
                     rejected: false,
-                    current_phase_number: promotionRequest.current_phase_number + 1,
+                    // current_phase_number: promotionRequest.current_phase_number + 1,
+                    current_phase_number: 0,
                     updated_at: new Date()
 
                     // current_phase_number: promotionRequest.current_phase_number === 0 ?

@@ -17,8 +17,8 @@ function Login() {
             username: values.username,
             password: values.password,
         }
-        axios.post("/login", loginInfo)
-            // axios.post("http://localhost:5000/login", loginInfo)
+        // axios.post("/login", loginInfo)
+        axios.post("http://localhost:5000/login", loginInfo)
             .then(res => {
                 if (res.data.auth) {
                     context.login(res.data.result);

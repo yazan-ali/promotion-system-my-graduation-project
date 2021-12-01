@@ -54,9 +54,29 @@ function PromotionRequest({ promotionRequest, handleUpdatePromotionRequest, hand
                             <p>{promotionRequest.example_info_2}</p>
                             <p>{promotionRequest.promotion_request_status}</p>
                             <div className="files-list">
-                                {
+                                {/* {
                                     promotionRequest.user_files.map(file => (
                                         <p className="file" key={file.uploadId}>{file.name}</p>
+                                    ))
+                                } */}
+                                {
+                                    promotionRequest.user_files.file_1 && (
+                                        <p className="file">{promotionRequest.user_files.file_1.name}</p>
+                                    )
+                                }
+                                {
+                                    promotionRequest.user_files.file_2 && (
+                                        <p className="file">{promotionRequest.user_files.file_2.name}</p>
+                                    )
+                                }
+                                {
+                                    promotionRequest.user_files.file_3 && (
+                                        <p className="file">{promotionRequest.user_files.file_3.name}</p>
+                                    )
+                                }
+                                {
+                                    promotionRequest.user_files.researchFiles.map(file => (
+                                        <p className="file" key={file.file.uploadId}>{file.file.name}</p>
                                     ))
                                 }
                                 {

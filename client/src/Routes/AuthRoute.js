@@ -21,8 +21,8 @@ const MutationRoute = ({ component: Component, ...rest }) => {
         <Route
             {...rest}
             render={props =>
-                // !user ? <Redirect to="/login" /> : <Component {...props} />
-                !user ? <Redirect to="/wise/login" /> : <Component {...props} />
+                !user ? <Redirect to="/login" /> : <Component {...props} />
+                // !user ? <Redirect to="/wise/login" /> : <Component {...props} />
             }
         />
     )
@@ -34,8 +34,8 @@ const DashboardRoute = ({ component: Component, ...rest }) => {
         <Route
             {...rest}
             render={props =>
-                // !user ? <Redirect to="/login" /> : <Component {...props} />
-                !user ? <Redirect to="/wise/login" /> : <Component {...props} />
+                !user ? <Redirect to="/login" /> : <Component {...props} />
+                // !user ? <Redirect to="/wise/login" /> : <Component {...props} />
             }
         />
     )

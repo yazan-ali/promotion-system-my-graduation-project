@@ -19,8 +19,8 @@ function Dashboard() {
         const token = localStorage.getItem("jwtToken");
         axios.defaults.headers.common['Authorization'] = token ? `Bearer ${token}` : ""
 
-        axios.get(`/user/${user.college}/${user.section}`).
-            // axios.get(`http://localhost:5000/user/${user.college}/${user.section}`).
+        // axios.get(`/user/${user.college}/${user.section}`).
+        axios.get(`http://localhost:5000/user/${user.college}/${user.section}`).
             then(res => {
                 if (res.data.success) {
                     setTeachers(res.data.teachers)
