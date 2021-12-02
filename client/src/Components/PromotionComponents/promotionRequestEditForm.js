@@ -12,6 +12,8 @@ function PromotionRequestEditForm({ promotionRequestData, handleUpdatePromotionR
     const [promotionRequest, setPromotionRequest] = useState(promotionRequestData);
     const [errors, setErrors] = useState({});
     const [files, setFiles] = useState(promotionRequestData.user_files);
+    const [showResearchFiles, setShowResearchFiles] = useState(false);
+    const [canSubmit, setCanSubmit] = useState(false);
 
     // useEffect(() => {
     //     if (startDate && endDate) {
@@ -47,7 +49,17 @@ function PromotionRequestEditForm({ promotionRequestData, handleUpdatePromotionR
         setFiles(updatedFiles)
     }
 
+    const toggleShowResearchFiles = () => {
+        setShowResearchFiles(prev => !prev)
+    }
+
+    const checkIfCanSubmit = (val) => {
+        setCanSubmit(val)
+    }
+
     const handleSubmit = () => {
+
+        if (!canSubmit) return;
 
         let alert;
 
@@ -87,29 +99,34 @@ function PromotionRequestEditForm({ promotionRequestData, handleUpdatePromotionR
 
     return (
         <div className="promotion-request-form">
-            <Form onSubmit={handleSubmit}>
-                <FileUpload
-                    label="البحث الأول"
-                    fileUpload={fileUpload}
-                    removeFile={handleRemoveFile}
-                    fileData={files.file_1}
-                />
-                {errors.files && <div style={{ paddingTop: 10 }}>
-                    <Label basic color='red' pointing="right">
-                        {errors.files}
-                    </Label>
-                </div>}
-                {/* {
-                    files.researchFiles.map(research => (
-                        
-                    ))
-                } */}
+            <div style={{ display: showResearchFiles ? "" : "none" }}>
                 <EditResearchFiles
                     addResearchFiles={addResearchFiles}
                     user={user}
                     researchFilesData={files.researchFiles}
+                    toggleShowResearchFiles={toggleShowResearchFiles}
+                    checkIfCanSubmit={checkIfCanSubmit}
                 />
-                {/* <div className="files-list">
+            </div>
+            <div style={{ display: showResearchFiles ? "none" : "" }}>
+                <Form onSubmit={handleSubmit}>
+                    <FileUpload
+                        label="البحث الأول"
+                        fileUpload={fileUpload}
+                        removeFile={handleRemoveFile}
+                        fileData={files.file_1}
+                    />
+                    {errors.files && <div style={{ paddingTop: 10 }}>
+                        <Label basic color='red' pointing="right">
+                            {errors.files}
+                        </Label>
+                    </div>}
+                    {/* {
+                    files.researchFiles.map(research => (
+                        
+                    ))
+                } */}
+                    {/* <div className="files-list">
                     {
                         files.map(file => (
                             <p className="file" key={file.uploadId}>
@@ -126,20 +143,33 @@ function PromotionRequestEditForm({ promotionRequestData, handleUpdatePromotionR
                     }
                 </div> */}
 
-                {/* <FileUpload fileUpload={fileUpload} /> */}
-                {
-                    promotionRequest.rejectionReasons.length > 0 &&
-                    < Accordion items={promotionRequest.rejectionReasons} />
-                }
+                    {/* <FileUpload fileUpload={fileUpload} /> */}
+                    {files.researchFiles && (
+                        <div style={{ marginTop: 20 }}>
+                            {
+                                files.researchFiles.map(research => (
+                                    <p className="file">{research.file.name}</p>
+                                ))
+                            }
+                            <Button
+                                onClick={toggleShowResearchFiles}
+                                type='button'>تعديل الأبحاث</Button>
+                        </div>
+                    )}
+                    {
+                        promotionRequest.rejectionReasons.length > 0 &&
+                        < Accordion items={promotionRequest.rejectionReasons} />
+                    }
 
-                <Button
-                    onClick={() => handleToggleEditForm()}
-                    style={{ width: 92, marginTop: 30, marginRight: 20 }}
-                    type='button'>إلغاء</Button>
-                <Button
-                    style={{ width: 92, marginTop: 30, backgroundColor: "#098D9C", color: "#fff" }}
-                    type='submit'>حفظ</Button>
-            </Form>
+                    <Button
+                        onClick={() => handleToggleEditForm()}
+                        style={{ width: 92, marginTop: 30, marginRight: 20 }}
+                        type='button'>إلغاء</Button>
+                    <Button
+                        style={{ width: 92, marginTop: 30, backgroundColor: "#098D9C", color: "#fff" }}
+                        type='submit'>حفظ</Button>
+                </Form>
+            </div>
         </div>
     )
 }

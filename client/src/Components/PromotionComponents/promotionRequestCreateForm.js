@@ -14,6 +14,8 @@ function PromotionRequestCreateForm({ handleCreatePromotionRequest, handleShowCr
     const [endDate, setEndDate] = useState(null);
     const [dateErr, setDateErr] = useState(null);
     const [errors, setErrors] = useState({});
+    const [showResearchFiles, setShowResearchFiles] = useState(false);
+    const [canSubmit, setCanSubmit] = useState(false);
 
     useEffect(() => {
         if (startDate && endDate) {
@@ -48,6 +50,10 @@ function PromotionRequestCreateForm({ handleCreatePromotionRequest, handleShowCr
         setFiles({ ...files, researchFiles })
     }
 
+    const toggleShowResearchFiles = () => {
+        setShowResearchFiles(prev => !prev)
+    }
+
     const onStartDateChange = (event, data) => {
         setStartDate(data.value)
     }
@@ -66,8 +72,12 @@ function PromotionRequestCreateForm({ handleCreatePromotionRequest, handleShowCr
         delete files[`file_${n}`]
     }
 
+    const checkIfCanSubmit = (val) => {
+        setCanSubmit(val)
+    }
+
     const handleSubmit = (evt) => {
-        if (dateErr !== null) return;
+        if (dateErr !== null || !canSubmit) return;
 
         let alert;
 
@@ -103,76 +113,103 @@ function PromotionRequestCreateForm({ handleCreatePromotionRequest, handleShowCr
 
     return (
         <div className="promotion-request-form">
-            <h2>{`إنشاء طلب ${promotionType}`}</h2>
-            <Button style={{ backgroundColor: "#098D9C" }}>
-                <a
-                    style={{ color: "#fff" }}
-                    download
-                    href={`${promotionType === "تثبيت" ? "https://cdn.filestackcontent.com/PAOdZt9TQD2ZyHlkLFJQ" :
-                        promotionType === "ترقية أستاذ مساعد" ? "https://cdn.filestackcontent.com/X6mPbGkPQWKoNbq5oMUu" :
-                            "https://cdn.filestackcontent.com/kxiXCurhTayD8SwseX0M"
-                        }`} >
-                    <i style={{ marginRight: 10 }} className="fas fa-book"></i> {`شروط ${promotionType}`}
-                </a>
-            </Button>
-            <Form onSubmit={handleSubmit} style={{ marginTop: 20 }}>
-                <p>سنة بدء الخدمة في الرتبة الحالية</p>
-                {dateErr && <div>
-                    <Label basic color='red' pointing>
-                        {dateErr}
-                    </Label>
-                </div>}
-                <Form.Field>
-                    <label>من</label>
-                    <SemanticDatepicker pointing="bottom right" onChange={onStartDateChange} />
-                    {errors.start_date && <div style={{ marginTop: -10 }}>
+            <div style={{ display: showResearchFiles ? "" : "none" }}>
+                <AddResearchFiles
+                    addResearchFiles={addResearchFiles}
+                    user={user}
+                    toggleShowResearchFiles={toggleShowResearchFiles}
+                    checkIfCanSubmit={checkIfCanSubmit}
+                />
+            </div>
+            <div style={{ display: showResearchFiles ? "none" : "" }}>
+                <h2>{`إنشاء طلب ${promotionType}`}</h2>
+                <Button style={{ backgroundColor: "#098D9C" }}>
+                    <a
+                        style={{ color: "#fff" }}
+                        download
+                        href={`${promotionType === "تثبيت أستاذ مساعد" ? "https://cdn.filestackcontent.com/PAOdZt9TQD2ZyHlkLFJQ" :
+                            promotionType === "ترقية أستاذ مشارك" ? "https://cdn.filestackcontent.com/X6mPbGkPQWKoNbq5oMUu" :
+                                "https://cdn.filestackcontent.com/kxiXCurhTayD8SwseX0M"
+                            }`} >
+                        <i style={{ marginRight: 10 }} className="fas fa-book"></i> {`شروط ${promotionType}`}
+                    </a>
+                </Button>
+                <Form onSubmit={handleSubmit} style={{ marginTop: 20 }}>
+                    <p>سنة بدء الخدمة في الرتبة الحالية</p>
+                    {dateErr && <div>
                         <Label basic color='red' pointing>
-                            {errors.start_date}
+                            {dateErr}
                         </Label>
                     </div>}
-                </Form.Field>
-                <Form.Field>
-                    <label>إلى</label>
-                    <SemanticDatepicker pointing="bottom right" onChange={onEndDateChange} />
-                    {errors.end_date && <div style={{ marginTop: -10 }}>
-                        <Label basic color='red' pointing>
-                            {errors.end_date}
+                    <Form.Field>
+                        <label>من</label>
+                        <SemanticDatepicker pointing="bottom right" onChange={onStartDateChange} />
+                        {errors.start_date && <div style={{ marginTop: -10 }}>
+                            <Label basic color='red' pointing>
+                                {errors.start_date}
+                            </Label>
+                        </div>}
+                    </Form.Field>
+                    <Form.Field>
+                        <label>إلى</label>
+                        <SemanticDatepicker pointing="bottom right" onChange={onEndDateChange} />
+                        {errors.end_date && <div style={{ marginTop: -10 }}>
+                            <Label basic color='red' pointing>
+                                {errors.end_date}
+                            </Label>
+                        </div>}
+                    </Form.Field>
+                    <FileUpload
+                        label="السيرة الذاتية"
+                        fileUpload={fileUpload}
+                        removeFile={handleRemoveFile}
+                        n={1}
+                    />
+                    {
+                        promotionType === "تثبيت أستاذ مساعد" && (
+                            <>
+                                <FileUpload
+                                    label="البحث الأول"
+                                    fileUpload={fileUpload}
+                                    removeFile={handleRemoveFile}
+                                    n={2}
+                                />
+                                <FileUpload
+                                    label="البحث الثاني"
+                                    fileUpload={fileUpload}
+                                    removeFile={handleRemoveFile}
+                                    n={3}
+                                />
+                            </>
+                        )
+                    }
+                    {promotionType !== "تثبيت أستاذ مساعد" && (
+                        <div style={{ marginTop: 20 }}>
+                            {
+                                files.researchFiles && files.researchFiles.map(research => (
+                                    <p className="file">{research.file.name}</p>
+                                ))
+                            }
+                            <Button
+                                onClick={toggleShowResearchFiles}
+                                type='button'>أضافة أبحاث</Button>
+                        </div>
+                    )}
+                    {errors.files && <div style={{ paddingTop: 10 }}>
+                        <Label basic color='red' pointing="right">
+                            {errors.files}
                         </Label>
                     </div>}
-                </Form.Field>
-                <FileUpload
-                    label="السيرة الذاتية"
-                    fileUpload={fileUpload}
-                    removeFile={handleRemoveFile}
-                    n={1}
-                />
-                <FileUpload
-                    label="البحث الأول"
-                    fileUpload={fileUpload}
-                    removeFile={handleRemoveFile}
-                    n={2}
-                />
-                <FileUpload
-                    label="البحث الثاني"
-                    fileUpload={fileUpload}
-                    removeFile={handleRemoveFile}
-                    n={3}
-                />
-                <AddResearchFiles addResearchFiles={addResearchFiles} user={user} />
-                {errors.files && <div style={{ paddingTop: 10 }}>
-                    <Label basic color='red' pointing="right">
-                        {errors.files}
-                    </Label>
-                </div>}
-                <Button
-                    onClick={() => handleShowCreateForm()}
-                    style={{ width: 92, marginTop: 30, marginRight: 20 }}
-                    type='button'>إلغاء</Button>
-                <Button
-                    style={{ width: 92, marginTop: 20, backgroundColor: "#098D9C", color: "#fff" }} primary
-                    type='submit'>حفظ</Button>
-            </Form>
-        </div>
+                    <Button
+                        onClick={() => handleShowCreateForm()}
+                        style={{ width: 92, marginTop: 30, marginRight: 20 }}
+                        type='button'>إلغاء</Button>
+                    <Button
+                        style={{ width: 92, marginTop: 20, backgroundColor: "#098D9C", color: "#fff" }} primary
+                        type='submit'>حفظ</Button>
+                </Form>
+            </div>
+        </div >
     )
 }
 

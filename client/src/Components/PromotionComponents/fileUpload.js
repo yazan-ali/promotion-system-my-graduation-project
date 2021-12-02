@@ -57,11 +57,11 @@ function FileUpload({ label, fileUpload, removeFile, fileData, doNotShowFile, n 
                                 style={{ cursor: 'pointer' }}
                                 onClick={() => handleRemoveFile(file.uploadId)}
                             >
-                                <i class="fas fa-trash-alt"></i>
+                                <i className="fas fa-trash-alt"></i>
                             </span>
                         </p>
                     ) : (
-                        <Button type='button' onClick={handelShowFilePicker}>إضافة ملف</Button>
+                        <Button style={{ marginRight: -2 }} type='button' onClick={handelShowFilePicker}>إضافة ملف</Button>
                     )
                 }
             </div>

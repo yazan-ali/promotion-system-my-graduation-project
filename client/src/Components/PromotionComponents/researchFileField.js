@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Form, Label, Select } from 'semantic-ui-react';
+import { Button, Form, Label, Select, Divider } from 'semantic-ui-react';
 import FileUpload from './fileUpload';
-import { research_types } from '../../constants';
+import { research_types, is_research_specialty } from '../../constants';
 
 function ResearchFileField({ idx, addResearchData, handleRemoveResearch, researchFile }) {
 
@@ -10,6 +10,7 @@ function ResearchFileField({ idx, addResearchData, handleRemoveResearch, researc
     const [researchPoints, setResearchPoints] = useState(researchFile ? researchFile.researchPoints : null)
     const [researchType, setResearchType] = useState(researchFile ? researchFile.researchType : null)
     const [researcherRank, setResearcherRank] = useState(researchFile ? researchFile.researcherRank : null)
+    const [isResearchSpecialty, setIsResearchSpecialty] = useState(researchFile ? researchFile.isResearchSpecialty : null)
 
     useEffect(() => {
         if (researchData) {
@@ -17,7 +18,11 @@ function ResearchFileField({ idx, addResearchData, handleRemoveResearch, researc
                 file,
                 researchPoints: parseInt(researchPoints),
                 researchType,
-                researcherRank: researchType === "غير منفرد" ? parseInt(researcherRank) : 0
+                researcherRank: researchType === "غير منفرد" ? parseInt(researcherRank) : null,
+                isResearchSpecialty: isResearchSpecialty
+            }
+            if (research.researchType === "منفرد" && !research.researcherRank) {
+                delete research.researcherRank
             }
             addResearchData({ ...research, id: idx })
         }
@@ -40,7 +45,7 @@ function ResearchFileField({ idx, addResearchData, handleRemoveResearch, researc
 
     const handleSelectResearchType = (evt, data) => {
         setResearchType(data.value)
-        if (data.value === "منفرد") {
+        if (data.value === "منفرد" && researcherRank) {
             delete researchData.researcherRank
         }
         setResearchData({ ...researchData, researchType: data.value })
@@ -52,32 +57,48 @@ function ResearchFileField({ idx, addResearchData, handleRemoveResearch, researc
         setResearcherRank(evt.target.value)
     }
 
+    const handleSelectIsResearchSpecialty = (evt, data) => {
+        setIsResearchSpecialty(data.value)
+        setResearchData({ ...researchData, isResearchSpecialty: data.value })
+    }
+
     const removeResearch = () => {
         handleRemoveResearch(idx);
         setResearchData(null)
         setResearchPoints("")
         setResearchType("")
         setResearcherRank("")
+        setIsResearchSpecialty("")
     }
 
     return (
         <>
             <hr />
+            {/* <div style={{ display: "flex", flexDirection: "row-reverse", flexWrap: "wrap", gap: "1rem" }}>
+                <span>ملف البحث</span>
+                <span>نقاط البحث</span>
+                <span>الانفرادية</span>
+                {researchType === "غير منفرد" && <span>ترتيب الباحث</span>}
+                <span>تخصص البحث</span>
+            </div> */}
             <Form>
                 <div style={{ display: "flex", flexDirection: "row-reverse", flexWrap: "wrap", gap: "1rem" }}>
-                    {researchData && researchData.file ? (
-                        <p className="file">
-                            <span>{researchData.file.name}</span>
-                        </p>
-                    ) : (
-                        <FileUpload
-                            doNotShowFile={true}
-                            fileUpload={fileUpload}
-                        />
-                    )
-                    }
                     <Form.Field>
-                        {/* <label>عدد نقاط البحث</label> */}
+                        <label>ملف البحث</label>
+                        {researchData && researchData.file ? (
+                            <p className="file">
+                                <span>{researchData.file.name}</span>
+                            </p>
+                        ) : (
+                            <FileUpload
+                                doNotShowFile={true}
+                                fileUpload={fileUpload}
+                            />
+                        )
+                        }
+                    </Form.Field>
+                    <Form.Field>
+                        <label>عدد نقاط البحث</label>
                         <input
                             value={researchPoints}
                             style={{ width: 100 }}
@@ -86,6 +107,7 @@ function ResearchFileField({ idx, addResearchData, handleRemoveResearch, researc
                         />
                     </Form.Field>
                     <Form.Field>
+                        <label>الانفرادية</label>
                         <Select
                             className="login-select"
                             placeholder='منفرد'
@@ -97,17 +119,27 @@ function ResearchFileField({ idx, addResearchData, handleRemoveResearch, researc
                     {
                         researchData && researchData.researchType === "غير منفرد" && (
                             <Form.Field>
-                                {/* <label>عدد نقاط البحث</label> */}
+                                <label>ترتيب الباحث</label>
                                 <input
                                     style={{ width: 120 }}
                                     value={researcherRank}
-                                    placeholder='ترتيبك في البحث'
+                                    placeholder='ترتيب الباحث'
                                     onChange={handleResearcherRankChange}
                                 />
                             </Form.Field>
                         )
                     }
-                    <span onClick={removeResearch}>X</span>
+                    <Form.Field>
+                        <label>تخصص البحث</label>
+                        <Select
+                            className="login-select"
+                            placeholder='هل كان البحث في تخصصك الدقيق'
+                            options={is_research_specialty}
+                            value={isResearchSpecialty}
+                            onChange={handleSelectIsResearchSpecialty}
+                        />
+                    </Form.Field>
+                    <i style={{ marginTop: 35, cursor: 'pointer', color: "gray" }} onClick={removeResearch} className="fas fa-minus-circle"></i>
                 </div>
             </Form>
             {/* <Button

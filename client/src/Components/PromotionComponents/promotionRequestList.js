@@ -260,18 +260,27 @@ function PromotionRequestList({ user }) {
                                 </Button>
                             </div>
                             <div>
-                                <Button style={{ backgroundColor: "#fff", color: "#1FBDC7", width: 180 }} primary onClick={() => handleShowCreateForm("التثبيت")}>
-                                    إنشاء طلب تثبيت
+                                <Button
+                                    style={{ backgroundColor: "#fff", color: "#1FBDC7", width: 180 }}
+                                    primary
+                                    onClick={() => handleShowCreateForm("تثبيت أستاذ مساعد")}>
+                                    إنشاء طلب تثبيت أستاذ مساعد
                                 </Button>
                             </div>
                             <div>
-                                <Button style={{ backgroundColor: "#fff", color: "#1FBDC7", width: 180 }} primary onClick={() => handleShowCreateForm("ترقية أستاذ مساعد")}>
-                                    إنشاء طلب ترقية أستاذ مساعد
-                                </Button>
-                            </div>
-                            <div>
-                                <Button style={{ backgroundColor: "#fff", color: "#1FBDC7", width: 180 }} primary onClick={() => handleShowCreateForm("ترقية أستاذ مشارك")}>
+                                <Button
+                                    style={{ backgroundColor: "#fff", color: "#1FBDC7", width: 180 }}
+                                    primary
+                                    onClick={() => handleShowCreateForm("ترقية أستاذ مشارك")}>
                                     إنشاء طلب ترقية أستاذ مشارك
+                                </Button>
+                            </div>
+                            <div>
+                                <Button
+                                    style={{ backgroundColor: "#fff", color: "#1FBDC7", width: 180 }}
+                                    primary
+                                    onClick={() => handleShowCreateForm("ترقية أستاذ جامعي")}>
+                                    إنشاء طلب ترقية أستاذ جامعي
                                 </Button>
                             </div>
                             {/* <Button style={{ backgroundColor: "#fff", color: "#1FBDC7" }} primary onClick={handleShowCreateForm}>

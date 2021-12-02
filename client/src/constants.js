@@ -81,4 +81,9 @@ const research_types = [
     { key: 'not alone', value: 'غير منفرد', text: 'غير منفرد' },
 ]
 
-export { rankOptions, collegeOptions, sectionOptions, ranks, research_types }
+const is_research_specialty = [
+    { key: 'yes', value: true, text: 'نعم' },
+    { key: 'no', value: false, text: 'لا' },
+]
+
+export { rankOptions, collegeOptions, sectionOptions, ranks, research_types, is_research_specialty }
