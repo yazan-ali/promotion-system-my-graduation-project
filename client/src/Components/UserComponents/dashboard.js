@@ -7,6 +7,7 @@ import TeacherInfoCard from './teacherInfoCard';
 import TeachersList from './teachersList';
 import '../Style/dashboard.css';
 import axios from 'axios';
+import { Divider } from 'semantic-ui-react';
 
 
 function Dashboard() {

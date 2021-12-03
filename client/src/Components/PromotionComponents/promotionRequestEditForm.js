@@ -13,7 +13,7 @@ function PromotionRequestEditForm({ promotionRequestData, handleUpdatePromotionR
     const [errors, setErrors] = useState({});
     const [files, setFiles] = useState(promotionRequestData.user_files);
     const [showResearchFiles, setShowResearchFiles] = useState(false);
-    const [canSubmit, setCanSubmit] = useState(false);
+    const [canSubmit, setCanSubmit] = useState(true);
 
     // useEffect(() => {
     //     if (startDate && endDate) {
@@ -75,7 +75,7 @@ function PromotionRequestEditForm({ promotionRequestData, handleUpdatePromotionR
                         {
                             ...promotionRequest,
                             ...updatedPromotionRequest,
-                            current_phase_number: 0
+                            current_phase_number: 1
                         })
                     setPromotionRequest({ ...promotionRequest, ...updatedPromotionRequest });
                     alert = {
@@ -106,6 +106,7 @@ function PromotionRequestEditForm({ promotionRequestData, handleUpdatePromotionR
                     researchFilesData={files.researchFiles}
                     toggleShowResearchFiles={toggleShowResearchFiles}
                     checkIfCanSubmit={checkIfCanSubmit}
+                    promotionType={promotionRequest.promotion_type}
                 />
             </div>
             <div style={{ display: showResearchFiles ? "none" : "" }}>
@@ -146,6 +147,7 @@ function PromotionRequestEditForm({ promotionRequestData, handleUpdatePromotionR
                     {/* <FileUpload fileUpload={fileUpload} /> */}
                     {files.researchFiles && (
                         <div style={{ marginTop: 20 }}>
+                            <p>الأبحاث</p>
                             {
                                 files.researchFiles.map(research => (
                                     <p className="file">{research.file.name}</p>
@@ -153,7 +155,7 @@ function PromotionRequestEditForm({ promotionRequestData, handleUpdatePromotionR
                             }
                             <Button
                                 onClick={toggleShowResearchFiles}
-                                type='button'>تعديل الأبحاث</Button>
+                                type='button'>تعديل</Button>
                         </div>
                     )}
                     {

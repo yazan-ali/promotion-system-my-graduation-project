@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Form, Label, Select, Divider } from 'semantic-ui-react';
 import FileUpload from './fileUpload';
 import { research_types, is_research_specialty } from '../../constants';
+import uuid from 'uuid/dist/v4';
 
 function ResearchFileField({ idx, addResearchData, handleRemoveResearch, researchFile }) {
 
@@ -15,16 +16,16 @@ function ResearchFileField({ idx, addResearchData, handleRemoveResearch, researc
     useEffect(() => {
         if (researchData) {
             const research = {
+                id: idx,
                 file,
                 researchPoints: parseInt(researchPoints),
                 researchType,
                 researcherRank: researchType === "غير منفرد" ? parseInt(researcherRank) : null,
-                isResearchSpecialty: isResearchSpecialty
+                isResearchSpecialty: isResearchSpecialty,
             }
-            if (research.researchType === "منفرد" && !research.researcherRank) {
-                delete research.researcherRank
-            }
-            addResearchData({ ...research, id: idx })
+
+            addResearchData(research)
+            // addResearchData({ ...research, id: researchData.id ? researchData.id : uuid() })
         }
     }, [researchData])
 
@@ -109,7 +110,7 @@ function ResearchFileField({ idx, addResearchData, handleRemoveResearch, researc
                     <Form.Field>
                         <label>الانفرادية</label>
                         <Select
-                            className="login-select"
+                            style={{ textAlign: 'end' }}
                             placeholder='منفرد'
                             options={research_types}
                             value={researchType}
@@ -132,7 +133,7 @@ function ResearchFileField({ idx, addResearchData, handleRemoveResearch, researc
                     <Form.Field>
                         <label>تخصص البحث</label>
                         <Select
-                            className="login-select"
+                            style={{ textAlign: 'end' }}
                             placeholder='هل كان البحث في تخصصك الدقيق'
                             options={is_research_specialty}
                             value={isResearchSpecialty}

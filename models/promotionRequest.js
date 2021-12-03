@@ -60,6 +60,10 @@ const promototionRequestSchema = new mongoose.Schema({
     promotion_request_status: {
         type: String,
     },
+    promotion_type: {
+        type: String,
+        require: true,
+    },
     current_phase_number: {
         type: Number,
         require: true,

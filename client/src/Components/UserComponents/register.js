@@ -5,10 +5,12 @@ import axios from 'axios';
 import { Button, Form } from 'semantic-ui-react';
 import { AuthContext } from './userContext';
 import { Select } from 'semantic-ui-react';
-import { rankOptions, collegeOptions, sectionOptions } from '../../constants'
+import { rankOptions, collegeOptions, sectionOptions } from '../../constants';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
-import { Message } from 'semantic-ui-react'
+import { Message } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
+import logo from '../wise-logo/wise-logo.png'
 
 function Register() {
 
@@ -79,6 +81,9 @@ function Register() {
 
     return (
         <div className="login-form-root">
+            <div className="wise-logo">
+                <img src={logo} alt="wise-logo" />
+            </div>
             <h2>إنشاء حساب جديد</h2>
             <div style={{ padding: "20px 0" }} id="alert">
                 {
@@ -137,7 +142,10 @@ function Register() {
                     <label>كلمة السر</label>
                     <input type="password" placeholder='كلمة السر' name="password" value={values.password} onChange={setValues} />
                 </Form.Field>
-                <Button type='submit'>إنشاء حساب</Button>
+                <div className="login-buttons">
+                    <Link to="/login">لديك حساب بالفعل ؟</Link>
+                    <Button style={{ fontFamily: "inherit" }} type='submit'>إنشاء حساب</Button>
+                </div>
             </Form>
         </div>
     )

@@ -3,7 +3,10 @@ import useForm from '../../Hooks/useForm';
 import axios from 'axios';
 import { Button, Form } from 'semantic-ui-react';
 import { AuthContext } from './userContext';
-import { Message } from 'semantic-ui-react'
+import { Message } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
+import logo from '../wise-logo/wise-logo.png'
+
 
 function Login() {
 
@@ -31,6 +34,9 @@ function Login() {
 
     return (
         <div className="login-form-root">
+            <div className="wise-logo">
+                <img src={logo} alt="wise-logo" />
+            </div>
             <h2>تسجيل الدخول</h2>
             {
                 alert && (
@@ -49,7 +55,10 @@ function Login() {
                     <label>كلمة السر</label>
                     <input type="password" placeholder='كلمة السر' name="password" value={values.password} onChange={setValues} />
                 </Form.Field>
-                <Button type='submit'>دخول</Button>
+                <div className="login-buttons" >
+                    <Link to="/register">إنشاء حساب جديد</Link>
+                    <Button style={{ fontFamily: "inherit" }} type='submit'>دخول</Button>
+                </div>
             </Form>
         </div>
     )

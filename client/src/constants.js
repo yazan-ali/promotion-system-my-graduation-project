@@ -86,4 +86,5 @@ const is_research_specialty = [
     { key: 'no', value: false, text: 'لا' },
 ]
 
+
 export { rankOptions, collegeOptions, sectionOptions, ranks, research_types, is_research_specialty }

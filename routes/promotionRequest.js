@@ -123,7 +123,8 @@ router.post("/promotionRequests", async (req, res) => {
             user_files: req.body.user_files,
             start_date: req.body.start_date,
             end_date: req.body.end_date,
-            current_phase_number: req.body.current_phase_number,
+            promotion_type: req.body.promotion_type,
+            current_phase_number: 1,
             rejected: false,
             created_at: new Date()
         }
@@ -179,8 +180,7 @@ router.put("/promotionRequests/:id", async (req, res) => {
                     end_date: req.body.end_date,
                     rejectionReasons: [],
                     rejected: false,
-                    // current_phase_number: promotionRequest.current_phase_number + 1,
-                    current_phase_number: 0,
+                    current_phase_number: promotionRequest.current_phase_number + 1,
                     updated_at: new Date()
 
                     // current_phase_number: promotionRequest.current_phase_number === 0 ?

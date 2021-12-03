@@ -85,7 +85,7 @@ function PromotionRequestCreateForm({ handleCreatePromotionRequest, handleShowCr
             user_files: files,
             start_date: startDate,
             end_date: endDate,
-            current_phase_number: 1,
+            promotion_type: promotionType,
         }
         // axios.post("/promotionRequests", newPromtionRequest)
         axios.post("http://localhost:5000/promotionRequests", newPromtionRequest)
@@ -119,6 +119,7 @@ function PromotionRequestCreateForm({ handleCreatePromotionRequest, handleShowCr
                     user={user}
                     toggleShowResearchFiles={toggleShowResearchFiles}
                     checkIfCanSubmit={checkIfCanSubmit}
+                    promotionType={promotionType}
                 />
             </div>
             <div style={{ display: showResearchFiles ? "none" : "" }}>
@@ -184,16 +185,18 @@ function PromotionRequestCreateForm({ handleCreatePromotionRequest, handleShowCr
                         )
                     }
                     {promotionType !== "تثبيت أستاذ مساعد" && (
-                        <div style={{ marginTop: 20 }}>
+                        <Form.Field style={{ marginTop: 20 }}>
+                            <label>الأبحاث</label>
                             {
                                 files.researchFiles && files.researchFiles.map(research => (
                                     <p className="file">{research.file.name}</p>
                                 ))
                             }
                             <Button
+                                style={{ marginRight: -4 }}
                                 onClick={toggleShowResearchFiles}
                                 type='button'>أضافة أبحاث</Button>
-                        </div>
+                        </Form.Field>
                     )}
                     {errors.files && <div style={{ paddingTop: 10 }}>
                         <Label basic color='red' pointing="right">

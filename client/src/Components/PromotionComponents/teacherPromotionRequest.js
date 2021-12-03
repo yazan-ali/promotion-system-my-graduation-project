@@ -128,7 +128,11 @@ function TeacherPromotionRequest({ promotionRequest, handleReject, handleApprove
                 </div>
                 <FileUpload fileUpload={fileUpload} doNotShowFile={true} />
                 {
-                    showSaveBtn && <Button type="button" style={{ backgroundColor: "#098D9C", color: "#fff", marginTop: 20 }} onClick={handleSubmit}>
+                    showSaveBtn &&
+                    <Button
+                        type="button"
+                        style={{ backgroundColor: "#098D9C", color: "#fff", marginTop: 20 }}
+                        onClick={handleSubmit}>
                         حفظ
                     </Button>
                 }

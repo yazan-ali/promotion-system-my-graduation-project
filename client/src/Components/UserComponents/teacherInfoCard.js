@@ -27,9 +27,6 @@ function TeacherInfoCard({ teacherData }) {
                 <p>الرتبة : {teacherData.rank}</p>
                 <p>الكلية : {teacherData.college}</p>
                 <p>القسم :  {teacherData.section}</p>
-                <div style={{ marginTop: 50 }}>
-                    <LogoutButton />
-                </div>
             </div>
         </div>
     )

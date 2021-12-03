@@ -9,7 +9,7 @@ function LogoutButton() {
 
     return (
         <div>
-            <Button style={{ backgroundColor: "#fff", color: "#1FBDC7" }} onClick={logout} type='button'>Logout</Button>
+            <li onClick={logout}><span>تسجيل الخروج</span></li>
         </div>
     )
 }

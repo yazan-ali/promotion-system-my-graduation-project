@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Form, Label, Select } from 'semantic-ui-react';
 import ResearchFileField from './researchFileField';
+import uuid from 'uuid/dist/v4';
 
-function AddResearchFiles({ user, addResearchFiles, researchFilesData, toggleShowResearchFiles, checkIfCanSubmit }) {
+function AddResearchFiles({ user, addResearchFiles, researchFilesData, toggleShowResearchFiles, checkIfCanSubmit, promotionType }) {
 
     const [fieldsNum, setFieldsNum] = useState(1);
     const [researchFiles, setResearchFiles] = useState(researchFilesData ? researchFilesData : []);
@@ -15,6 +16,8 @@ function AddResearchFiles({ user, addResearchFiles, researchFilesData, toggleSho
         err_3: true,
     })
 
+    const promotionPointsScale = promotionType === "ترقية أستاذ مشارك" ? 8 : 12
+
     useEffect(() => {
         calculateResearchPoints(researchFiles)
         checkIfMore60Pre(researchFiles)
@@ -26,20 +29,20 @@ function AddResearchFiles({ user, addResearchFiles, researchFilesData, toggleSho
     }
 
     const addResearchData = (researchData) => {
-        let newFiles;
-        const file = researchFiles.find(file => file.id === researchData.id);
-        if (!file) {
-            newFiles = [...researchFiles, researchData]
+        let newResearch;
+        const research = researchFiles.find(research => research.id === researchData.id);
+        if (!research) {
+            newResearch = [...researchFiles, { ...researchData }]
         } else {
-            newFiles = researchFiles.map(file => {
-                if (file.id === researchData.id) {
+            newResearch = researchFiles.map(research => {
+                if (research.id === researchData.id) {
                     return researchData
                 } else {
-                    return file
+                    return research
                 }
             })
         }
-        setResearchFiles(newFiles);
+        setResearchFiles(newResearch);
     }
 
     const handleRemoveResearch = (id) => {
@@ -50,12 +53,12 @@ function AddResearchFiles({ user, addResearchFiles, researchFilesData, toggleSho
     const calculateResearchPoints = (researchFiles) => {
         let researchPoints = 0;
         researchFiles.map(research => {
-            // if (research.file) {
-            researchPoints += research.researchPoints
-            // }
+            if (research.researchPoints && research.researchType && research.isResearchSpecialty !== null) {
+                researchPoints += research.researchPoints
+            }
         })
         setResearchPoints(researchPoints)
-        if (researchPoints < 8) {
+        if (researchPoints < promotionPointsScale) {
             errors["err_1"] = true
         } else {
             errors["err_1"] = null
@@ -65,12 +68,14 @@ function AddResearchFiles({ user, addResearchFiles, researchFilesData, toggleSho
     const checkIfMore60Pre = (researchFiles) => {
         let aloneResearchPoints = 0;
         researchFiles.map(research => {
-            if (research.researchType === "منفرد") {
-                aloneResearchPoints += research.researchPoints
+            if (research.researchPoints && research.researchType && research.isResearchSpecialty !== null) {
+                if (research.researchType === "منفرد") {
+                    aloneResearchPoints += research.researchPoints
+                }
             }
         })
         setAloneResearchPoints(aloneResearchPoints)
-        if (aloneResearchPoints / 8 < 0.60) {
+        if (aloneResearchPoints / promotionPointsScale < 0.60) {
             errors["err_2"] = true
         } else {
             errors["err_2"] = null
@@ -80,12 +85,14 @@ function AddResearchFiles({ user, addResearchFiles, researchFilesData, toggleSho
     const checkIfMore70Pre = (researchFiles) => {
         let researchSpecialtyPoints = 0;
         researchFiles.map(research => {
-            if (research.isResearchSpecialty === true) {
-                researchSpecialtyPoints += research.researchPoints
+            if (research.researchPoints && research.researchType && research.isResearchSpecialty !== null) {
+                if (research.isResearchSpecialty === true) {
+                    researchSpecialtyPoints += research.researchPoints
+                }
             }
         })
         setResearchSpecialtyPoints(researchSpecialtyPoints)
-        if (researchSpecialtyPoints / 8 < 0.70) {
+        if (researchSpecialtyPoints / promotionPointsScale < 0.70) {
             errors["err_3"] = true
         } else {
             errors["err_3"] = null
@@ -121,7 +128,7 @@ function AddResearchFiles({ user, addResearchFiles, researchFilesData, toggleSho
                 {
                     Array.from({ length: fieldsNum }).map((field, idx) => (
                         <ResearchFileField
-                            idx={idx}
+                            idx={idx + 1}
                             addResearchData={addResearchData}
                             user={user}
                             handleRemoveResearch={handleRemoveResearch}
@@ -138,7 +145,7 @@ function AddResearchFiles({ user, addResearchFiles, researchFilesData, toggleSho
                     style={{ marginTop: 20 }}
                     type='button'>إضافة بحث آخر</Button>
 
-                <p style={{ color: errors.err_1 ? "red" : "green" }}>يجب ان تمتلك 8 نقاط ترقية على لأقل</p>
+                <p style={{ color: errors.err_1 ? "red" : "green" }}>{`يجب ان تمتلك ${promotionPointsScale} نقاط ترقية على لأقل`}</p>
                 <p style={{ color: errors.err_2 ? "red" : "green" }}>أكثر من %60</p>
                 <p style={{ color: errors.err_3 ? "red" : "green" }}>أكثر من %70</p>
 
