@@ -55,10 +55,9 @@ router.get("/user/:college/:section", async (req, res) => {
                 teachers = await User.find({
                     college: user.college,
                     section: user.section,
-                    administrativeRank: { $lt: 1 }
                 }).populate("promotionRequest")
             } else if (user.administrativeRank === 2) {
-                teachers = await User.find({ college: user.college, administrativeRank: { $lt: 2 } }).populate("promotionRequest")
+                teachers = await User.find({ college: user.college }).populate("promotionRequest")
             } else if (user.administrativeRank > 2) {
                 teachers = await User.find({}).populate("promotionRequest")
             }

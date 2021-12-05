@@ -36,17 +36,34 @@ function PromotionRequestEditForm({ promotionRequestData, handleUpdatePromotionR
     //     }
     // }, [startDate, endDate])
 
-    const fileUpload = (file) => {
-        setFiles([...files, file])
+    const fileUpload = (file, n = null) => {
+        // setFiles([...files, file])
+        setFiles({ ...files, [`file_${n}`]: file })
+        console.log(file)
     }
 
     const addResearchFiles = (researchFiles) => {
         setFiles({ ...files, researchFiles })
     }
 
-    const handleRemoveFile = (uploadId) => {
-        const updatedFiles = files.filter(file => file.uploadId !== uploadId)
-        setFiles(updatedFiles)
+    // const handleRemoveFile = (uploadId) => {
+    //     const updatedFiles = files.filter(file => file.uploadId !== uploadId)
+    //     setFiles(updatedFiles)
+    // }
+
+    const handleRemoveFile = (uploadId, n) => {
+        let currentFiles = { ...files }
+        delete currentFiles[`file_${n}`]
+        console.log(currentFiles)
+        setFiles(currentFiles)
+        // for (let file in files) {
+        //     if (files[file].uploadId === uploadId) {
+        //         updatedFiles = { ...updatedFiles, [`file_${n}`]: null }
+        //     } else {
+        //         updatedFiles = { ...updatedFiles, [`file_${n}`]: files[file] }
+        //     }
+        // }
+        // console.log(updatedFiles)
     }
 
     const toggleShowResearchFiles = () => {
@@ -99,6 +116,7 @@ function PromotionRequestEditForm({ promotionRequestData, handleUpdatePromotionR
 
     return (
         <div className="promotion-request-form">
+            {console.log(files)}
             <div style={{ display: showResearchFiles ? "" : "none" }}>
                 <EditResearchFiles
                     addResearchFiles={addResearchFiles}
@@ -112,11 +130,53 @@ function PromotionRequestEditForm({ promotionRequestData, handleUpdatePromotionR
             <div style={{ display: showResearchFiles ? "none" : "" }}>
                 <Form onSubmit={handleSubmit}>
                     <FileUpload
-                        label="البحث الأول"
+                        label={files.file_1 && files.file_1.label}
                         fileUpload={fileUpload}
                         removeFile={handleRemoveFile}
-                        fileData={files.file_1}
+                        fileData={files.file_1 ? files.file_1 : "استدعاء"}
+                        n={1}
                     />
+                    <FileUpload
+                        label={`${promotionRequest.promotion_type === "تثبيت أستاذ مساعد" ? "طلب التثبيت" : "طلب الترقية"}`}
+                        fileUpload={fileUpload}
+                        removeFile={handleRemoveFile}
+                        fileData={files.file_2 ? files.file_2 : ""}
+                        n={2}
+                    />
+                    <FileUpload
+                        label={files.file_3 ? files.file_3.label : "السيرة الذاتية"}
+                        fileUpload={fileUpload}
+                        removeFile={handleRemoveFile}
+                        fileData={files.file_3 && files.file_3}
+                        n={3}
+                    />
+                    <FileUpload
+                        label={files.file_4 ? files.file_4.label : "تقيم الطلبة"}
+                        fileUpload={fileUpload}
+                        removeFile={handleRemoveFile}
+                        fileData={files.file_4 && files.file_4}
+                        n={4}
+                    />
+                    {
+                        promotionRequest.promotion_type === "تثبيت أستاذ مساعد" && (
+                            <>
+                                <FileUpload
+                                    label={files.file_5 ? files.file_5.label : "البحث الأول"}
+                                    fileUpload={fileUpload}
+                                    removeFile={handleRemoveFile}
+                                    fileData={files.file_5 && files.file_5}
+                                    n={5}
+                                />
+                                <FileUpload
+                                    label={files.file_6 ? files.file_6.label : "البحث الثاني"}
+                                    fileUpload={fileUpload}
+                                    removeFile={handleRemoveFile}
+                                    fileData={files.file_6 && files.file_6}
+                                    n={6}
+                                />
+                            </>
+                        )
+                    }
                     {errors.files && <div style={{ paddingTop: 10 }}>
                         <Label basic color='red' pointing="right">
                             {errors.files}
@@ -172,7 +232,7 @@ function PromotionRequestEditForm({ promotionRequestData, handleUpdatePromotionR
                         type='submit'>حفظ</Button>
                 </Form>
             </div>
-        </div>
+        </div >
     )
 }
 

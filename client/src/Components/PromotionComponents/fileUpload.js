@@ -29,7 +29,7 @@ function FileUpload({ label, fileUpload, removeFile, fileData, doNotShowFile, n 
 
     const handleRemoveFile = () => {
         // removeFile(file.uploadId)
-        removeFile(n)
+        removeFile(file.uploadId, n)
         setFile(null);
     }
 

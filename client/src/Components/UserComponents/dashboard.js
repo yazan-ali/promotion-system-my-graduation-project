@@ -71,7 +71,6 @@ function Dashboard() {
             if (teacher._id === teacher_id) {
                 const updatedPromotionRequest =
                     { ...teacher.promotionRequest, current_phase_number: teacher.promotionRequest.current_phase_number - 1 }
-                console.log({ ...teacher, promotionRequest: updatedPromotionRequest })
                 return { ...teacher, promotionRequest: updatedPromotionRequest }
             }
             else {

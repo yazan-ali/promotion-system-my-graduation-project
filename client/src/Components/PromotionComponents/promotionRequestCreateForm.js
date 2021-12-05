@@ -20,7 +20,7 @@ function PromotionRequestCreateForm({ handleCreatePromotionRequest, handleShowCr
     useEffect(() => {
         if (startDate && endDate) {
             const dateDiff = Math.round((endDate - startDate) / (1000 * 60 * 60 * 24));
-            if (promotionType === "التثبيت") {
+            if (promotionType === "تثبيت أستاذ مساعد") {
                 if (dateDiff < 365) {
                     setDateErr("لتقديم طلب التثبيت يجب أن تمتلك سنة خدمة واحد على الأقل")
                 } else {
@@ -77,7 +77,7 @@ function PromotionRequestCreateForm({ handleCreatePromotionRequest, handleShowCr
     }
 
     const handleSubmit = (evt) => {
-        if (dateErr !== null || !canSubmit) return;
+        if (dateErr !== null) return;
 
         let alert;
 
@@ -160,11 +160,32 @@ function PromotionRequestCreateForm({ handleCreatePromotionRequest, handleShowCr
                             </Label>
                         </div>}
                     </Form.Field>
+
+                    <FileUpload
+                        label="استدعاء"
+                        fileUpload={fileUpload}
+                        removeFile={handleRemoveFile}
+                        n={1}
+                    />
+
+                    <FileUpload
+                        label={`${promotionType === "تثبيت أستاذ مساعد" ? "طلب التثبيت" : "طلب الترقية"}`}
+                        fileUpload={fileUpload}
+                        removeFile={handleRemoveFile}
+                        n={2}
+                    />
+
                     <FileUpload
                         label="السيرة الذاتية"
                         fileUpload={fileUpload}
                         removeFile={handleRemoveFile}
-                        n={1}
+                        n={3}
+                    />
+                    <FileUpload
+                        label="تقيم الطلبة"
+                        fileUpload={fileUpload}
+                        removeFile={handleRemoveFile}
+                        n={4}
                     />
                     {
                         promotionType === "تثبيت أستاذ مساعد" && (
@@ -173,13 +194,13 @@ function PromotionRequestCreateForm({ handleCreatePromotionRequest, handleShowCr
                                     label="البحث الأول"
                                     fileUpload={fileUpload}
                                     removeFile={handleRemoveFile}
-                                    n={2}
+                                    n={5}
                                 />
                                 <FileUpload
                                     label="البحث الثاني"
                                     fileUpload={fileUpload}
                                     removeFile={handleRemoveFile}
-                                    n={3}
+                                    n={6}
                                 />
                             </>
                         )

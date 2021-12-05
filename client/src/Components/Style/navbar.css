@@ -17,10 +17,11 @@
 
 .navbar .system-name {
   color: black;
+  font-family: "Roboto";
   font-size: 25px;
   line-height: 80px;
   margin-left: 40px;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .navbar ul {

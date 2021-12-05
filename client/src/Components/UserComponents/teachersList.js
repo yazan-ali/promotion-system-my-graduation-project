@@ -10,15 +10,13 @@ function TeachersList({ teachers, user, handleReject, handleApprove }) {
             <div className="teachers-list">
                 {
                     teachers.map(teacher => {
-                        if (user.id !== teacher._id) {
-                            return <Teacher
-                                key={teacher._id}
-                                teacher={teacher}
-                                user={user}
-                                handleReject={handleReject}
-                                handleApprove={handleApprove}
-                            />
-                        }
+                        return <Teacher
+                            key={teacher._id}
+                            teacher={teacher}
+                            user={user}
+                            handleReject={handleReject}
+                            handleApprove={handleApprove}
+                        />
                     })
                 }
             </div>

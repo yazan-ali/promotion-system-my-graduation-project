@@ -19,7 +19,7 @@ function Teacher({ teacher, user, handleReject, handleApprove }) {
         <div className="teacher" style={{ width: showPromotionRequest && "100%", transition: "0.3s  ease-in-out" }}>
             <div id={teacher._id}>
                 <p>{teacher.full_name}</p>
-                <p>الرقم الجامعي : {teacher.teacher_id}</p>
+                <p>الرقم الوظيفي : {teacher.teacher_id}</p>
                 <p>الرتبة : {teacher.rank}</p>
                 <p>الكلية : {teacher.college}</p>
                 <p>القسم :  {teacher.section}</p>
