@@ -63,8 +63,8 @@ function TeacherPromotionRequest({ promotionRequest, handleReject, handleApprove
         const updatedPromotionRequest = {
             administrative_files: files
         }
-        axios.put(`http://localhost:5000/promotionRequests/administrative/${promotionRequest._id}`, updatedPromotionRequest)
-            // axios.put(`/promotionRequests/administrative/${promotionRequest._id}`, updatedPromotionRequest)
+        // axios.put(`http://localhost:5000/promotionRequests/administrative/${promotionRequest._id}`, updatedPromotionRequest)
+        axios.put(`/promotionRequests/administrative/${promotionRequest._id}`, updatedPromotionRequest)
             .then(res => {
                 if (res.data.success) {
                     // console.log()

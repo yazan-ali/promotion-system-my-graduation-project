@@ -14,8 +14,8 @@ app.use(express.json());
 
 app.use(
     cors({
-        origin: "http://localhost:3000",
-        // origin: "https://wise-promotion-system.herokuapp.com",
+        // origin: "http://localhost:3000",
+        origin: "https://wise-promotion-system.herokuapp.com",
         credentials: true,
     })
 );
