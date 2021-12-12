@@ -6,6 +6,7 @@ require('dotenv').config();
 const path = require('path');
 
 const promotionRequestRoutes = require('./routes/promotionRequest');
+const promotionCommitteeRoutes = require('./routes/promotionCommittee');
 const userRoutes = require('./routes/user');
 
 
@@ -14,8 +15,8 @@ app.use(express.json());
 
 app.use(
     cors({
-        // origin: "http://localhost:3000",
-        origin: "https://wise-promotion-system.herokuapp.com",
+        origin: "http://localhost:3000",
+        // origin: "https://wise-promotion-system.herokuapp.com",
         credentials: true,
     })
 );
@@ -36,6 +37,7 @@ connection.once('open', () => {
 
 // routes
 app.use(promotionRequestRoutes);
+app.use(promotionCommitteeRoutes);
 app.use(userRoutes);
 
 

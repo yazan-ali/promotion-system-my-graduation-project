@@ -177,8 +177,8 @@ function PromotionRequestList({ user }) {
         // if (promotionRequest) {
         // setPromotionRequestList([promotionRequest])
         if (user) {
-            axios.get(`/promotionRequests/${user.id}`).
-                // axios.get(`http://localhost:5000/promotionRequests/${user.id}`).
+            // axios.get(`/promotionRequests/${user.id}`).
+            axios.get(`http://localhost:5000/promotionRequests/${user.id}`).
                 then(res => {
                     if (res.data.success) {
                         setPromotionRequest(res.data.result)
@@ -245,12 +245,6 @@ function PromotionRequestList({ user }) {
                     ) : (
                         <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
                             <div>
-
-                                {/* <PDFViewer
-                                    document={{
-                                        url: "https://cdn.filestackcontent.com/DBbljZ4MSCWa8H8g4OI3",
-                                    }}
-                                /> */}
                                 <Button style={{ backgroundColor: "#fff", color: "#1FBDC7", width: 180 }}>
                                     <a
                                         style={{ color: "#1FBDC7" }}

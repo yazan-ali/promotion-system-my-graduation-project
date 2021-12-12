@@ -36,16 +36,13 @@ const promototionRequestSchema = new mongoose.Schema({
             require: true,
         },
     },
-    example_info_1: {
-        type: String,
-    },
     user_files: {
         type: {},
         default: {}
     },
     administrative_files: {
-        type: [],
-        default: []
+        type: {},
+        default: {}
     },
     start_date: {
         type: Date

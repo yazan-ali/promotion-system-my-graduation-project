@@ -119,7 +119,6 @@ router.post("/promotionRequests", async (req, res) => {
                 section: user.section,
                 administrativeRank: user.administrativeRank,
             },
-            example_info_1: req.body.example_info_1,
             user_files: req.body.user_files,
             start_date: req.body.start_date,
             end_date: req.body.end_date,
@@ -165,7 +164,6 @@ router.put("/promotionRequests/:id", async (req, res) => {
     //     })
     //     return
     // }
-
     try {
 
         const user = checkAuth(req, res);
@@ -174,7 +172,6 @@ router.put("/promotionRequests/:id", async (req, res) => {
         if (promotionRequest && promotionRequest.current_phase_number === 0) {
             if (user.id === promotionRequest.created_by.id) {
                 const updatedPromotionRequest = {
-                    example_info_1: req.body.example_info_1,
                     user_files: req.body.user_files,
                     start_date: req.body.start_date,
                     end_date: req.body.end_date,
@@ -239,6 +236,7 @@ router.put("/promotionRequests/administrative/:id", async (req, res) => {
     }
 });
 
+// delete promotion request
 router.delete("/promotionRequests/:id", async (req, res) => {
 
     try {
@@ -279,6 +277,7 @@ router.put("/promotionRequests/:id/approve", async (req, res) => {
                 const updatedPromotionRequest = {
                     current_phase_number: promotionRequest.current_phase_number + 1,
                     rejected: false,
+                    rejectionReasons: [],
                     updated_at: new Date()
                 }
 

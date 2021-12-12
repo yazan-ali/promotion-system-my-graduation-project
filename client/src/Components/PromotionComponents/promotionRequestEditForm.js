@@ -54,7 +54,6 @@ function PromotionRequestEditForm({ promotionRequestData, handleUpdatePromotionR
     const handleRemoveFile = (uploadId, n) => {
         let currentFiles = { ...files }
         delete currentFiles[`file_${n}`]
-        console.log(currentFiles)
         setFiles(currentFiles)
         // for (let file in files) {
         //     if (files[file].uploadId === uploadId) {
@@ -84,8 +83,8 @@ function PromotionRequestEditForm({ promotionRequestData, handleUpdatePromotionR
             user_files: files,
             rejectionReasons: []
         }
-        axios.put(`/promotionRequests/${promotionRequest._id}`, updatedPromotionRequest)
-            // axios.put(`http://localhost:5000/promotionRequests/${promotionRequest._id}`, updatedPromotionRequest)
+        // axios.put(`/promotionRequests/${promotionRequest._id}`, updatedPromotionRequest)
+        axios.put(`http://localhost:5000/promotionRequests/${promotionRequest._id}`, updatedPromotionRequest)
             .then(res => {
                 if (res.data.success) {
                     handleUpdatePromotionRequest(promotionRequest._id,

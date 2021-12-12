@@ -11,8 +11,8 @@ function DeleteButton({ id, handleDeletePromotionRequest, handleAlert }) {
 
     const handleDelete = () => {
         let alert;
-        axios.delete(`/promotionRequests/${id}`)
-            // axios.delete(`http://localhost:5000/promotionRequests/${id}`)
+        // axios.delete(`/promotionRequests/${id}`)
+        axios.delete(`http://localhost:5000/promotionRequests/${id}`)
             .then(res => {
                 if (res.data.success) {
                     handleDeletePromotionRequest(id)

@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { PickerOverlay } from 'filestack-react';
 import { Button } from 'semantic-ui-react';
 
-function FileUpload({ label, fileUpload, removeFile, fileData, doNotShowFile, n }) {
+function FileUpload({ label, fileUpload, removeFile, fileData, doNotShowFile, n, canEdit }) {
 
     const [showFilePicker, setShowFilePicker] = useState(false);
     const [file, setFile] = useState(fileData);
@@ -53,12 +53,16 @@ function FileUpload({ label, fileUpload, removeFile, fileData, doNotShowFile, n 
                     file ? (
                         <p className="file" key={file.uploadId}>
                             <span>{file.name}</span>
-                            <span
-                                style={{ cursor: 'pointer' }}
-                                onClick={() => handleRemoveFile(file.uploadId)}
-                            >
-                                <i className="fas fa-trash-alt"></i>
-                            </span>
+                            {
+                                canEdit && (
+                                    <span
+                                        style={{ cursor: 'pointer' }}
+                                        onClick={() => handleRemoveFile(file.uploadId)}
+                                    >
+                                        <i className="fas fa-trash-alt"></i>
+                                    </span>
+                                )
+                            }
                         </p>
                     ) : (
                         <Button style={{ marginRight: -2 }} type='button' onClick={handelShowFilePicker}>إضافة ملف</Button>

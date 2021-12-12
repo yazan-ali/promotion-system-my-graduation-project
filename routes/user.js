@@ -25,13 +25,13 @@ function generateToken(user) {
 }
 
 // get user
-router.get("/user/:id", async (req, res) => {
+router.get("/teacher/:id", async (req, res) => {
     try {
-        const user = await User.findOne({ teacher_id: req.body.id }).populate('promotionRequest');
-        if (user) {
+        const teacher = await User.findOne({ _id: req.params.id }).populate('promotionRequest');
+        if (teacher) {
             res.json({
                 success: true,
-                user: user
+                result: teacher
             })
         } else {
             res.json({
@@ -53,11 +53,11 @@ router.get("/user/:college/:section", async (req, res) => {
         if (user) {
             if (user.administrativeRank === 1) {
                 teachers = await User.find({
-                    college: user.college,
-                    section: user.section,
+                    college: req.params.college,
+                    section: req.params.section,
                 }).populate("promotionRequest")
             } else if (user.administrativeRank === 2) {
-                teachers = await User.find({ college: user.college }).populate("promotionRequest")
+                teachers = await User.find({ college: req.params.college }).populate("promotionRequest")
             } else if (user.administrativeRank > 2) {
                 teachers = await User.find({}).populate("promotionRequest")
             }
@@ -68,7 +68,7 @@ router.get("/user/:college/:section", async (req, res) => {
         } else {
             res.json({
                 success: false,
-                message: "An error occurred"
+                message: "حدث خطأ ما"
             })
             throw new Error("An error occurred");
         }

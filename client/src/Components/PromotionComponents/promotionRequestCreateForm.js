@@ -87,8 +87,8 @@ function PromotionRequestCreateForm({ handleCreatePromotionRequest, handleShowCr
             end_date: endDate,
             promotion_type: promotionType,
         }
-        axios.post("/promotionRequests", newPromtionRequest)
-            // axios.post("http://localhost:5000/promotionRequests", newPromtionRequest)
+        // axios.post("/promotionRequests", newPromtionRequest)
+        axios.post("http://localhost:5000/promotionRequests", newPromtionRequest)
             .then(res => {
                 if (res.data.success) {
                     alert = {

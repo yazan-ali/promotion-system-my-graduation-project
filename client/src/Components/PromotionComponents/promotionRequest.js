@@ -60,7 +60,7 @@ function PromotionRequest({ promotionRequest, handleUpdatePromotionRequest, hand
                                     ))
                                 } */}
                                 {
-                                    promotionRequest.user_files.file_1 && (
+                                    promotionRequest?.user_files?.file_1 && (
                                         <div>
                                             <label style={{ display: "block", marginRight: 5, padding: "15px 0" }}>{promotionRequest.user_files.file_1.label}</label>
                                             <p className="file">{promotionRequest.user_files.file_1.name}</p>
@@ -68,7 +68,7 @@ function PromotionRequest({ promotionRequest, handleUpdatePromotionRequest, hand
                                     )
                                 }
                                 {
-                                    promotionRequest.user_files.file_2 && (
+                                    promotionRequest?.user_files?.file_2 && (
                                         <div>
                                             <label style={{ display: "block", marginRight: 5, padding: "15px 0" }}>{promotionRequest.user_files.file_2.label}</label>
                                             <p className="file">{promotionRequest.user_files.file_2.name}</p>
@@ -76,7 +76,7 @@ function PromotionRequest({ promotionRequest, handleUpdatePromotionRequest, hand
                                     )
                                 }
                                 {
-                                    promotionRequest.user_files.file_3 && (
+                                    promotionRequest?.user_files?.file_3 && (
                                         <div>
                                             <label style={{ display: "block", marginRight: 5, padding: "15px 0" }}>{promotionRequest.user_files.file_3.label}</label>
                                             <p className="file">{promotionRequest.user_files.file_3.name}</p>
@@ -84,7 +84,7 @@ function PromotionRequest({ promotionRequest, handleUpdatePromotionRequest, hand
                                     )
                                 }
                                 {
-                                    promotionRequest.user_files.file_4 && (
+                                    promotionRequest?.user_files?.file_4 && (
                                         <div>
                                             <label style={{ display: "block", marginRight: 5, padding: "15px 0" }}>{promotionRequest.user_files.file_4.label}</label>
                                             <p className="file">{promotionRequest.user_files.file_4.name}</p>
@@ -92,7 +92,7 @@ function PromotionRequest({ promotionRequest, handleUpdatePromotionRequest, hand
                                     )
                                 }
                                 {
-                                    promotionRequest.user_files.file_5 && (
+                                    promotionRequest?.user_files?.file_5 && (
                                         <div>
                                             <label style={{ display: "block", marginRight: 5, padding: "15px 0" }}>{promotionRequest.user_files.file_5.label}</label>
                                             <p className="file">{promotionRequest.user_files.file_5.name}</p>
@@ -100,7 +100,7 @@ function PromotionRequest({ promotionRequest, handleUpdatePromotionRequest, hand
                                     )
                                 }
                                 {
-                                    promotionRequest.user_files.file_6 && (
+                                    promotionRequest?.user_files?.file_6 && (
                                         <div>
                                             <label style={{ display: "block", marginRight: 5, padding: "15px 0" }}>{promotionRequest.user_files.file_6.label}</label>
                                             <p className="file">{promotionRequest.user_files.file_6.name}</p>
@@ -109,7 +109,7 @@ function PromotionRequest({ promotionRequest, handleUpdatePromotionRequest, hand
                                 }
 
                                 {
-                                    promotionRequest.user_files.researchFiles &&
+                                    promotionRequest?.user_files?.researchFiles &&
                                     <div>
                                         <label style={{ display: "block", marginRight: 5, padding: "15px 0" }}>الأبحاث</label>
                                         {
