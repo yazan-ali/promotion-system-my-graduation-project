@@ -7,7 +7,6 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import PromotionCommittee from '../PromotionCommitteeComponents/promotionCommittee';
 
-// function Teacher({ props, handleReject, handleApprove }) {
 function Teacher(props, { handleReject, handleApprove }) {
 
     const { user } = useContext(AuthContext);
@@ -104,7 +103,11 @@ function Teacher(props, { handleReject, handleApprove }) {
                         </div>
                     </div>
                 </div >
-                <PromotionCommittee user={user} promotionRequest={teacher.promotionRequest} />
+                {user.administrativeRank == 2 &&
+                    <PromotionCommittee
+                        user={user}
+                        promotionRequest={teacher.promotionRequest}
+                    />}
             </div>
         )
     }

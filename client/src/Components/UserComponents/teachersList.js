@@ -42,8 +42,8 @@ function TeachersList({ teachers, user, handleReject, handleApprove }) {
                             teacher={teacher}
                             user={user}
                             cssStyle={true}
-                            handleReject={handleReject}
-                            handleApprove={handleApprove}
+                        // handleReject={handleReject}
+                        // handleApprove={handleApprove}
                         />
                     ))
                 }

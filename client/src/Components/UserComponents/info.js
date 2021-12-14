@@ -13,14 +13,8 @@ function Info({ teacher, user, cssStyle }) {
             <p>الرتبة : {teacher.rank}</p>
             <p>الكلية : {teacher.college}</p>
             <p>القسم :  {teacher.section}</p>
-            {showButtonCondition &&
-                <Button
-                    type="button"
-                    primary
-                    style={{ backgroundColor: "#098D9C" }}
-                >
-                    <Link to={`/promotion-request/${teacher._id}`}>عرض طلب الترقية</Link>
-                </Button>
+            {showButtonCondition && cssStyle &&
+                <Link to={`/promotion-request/${teacher._id}`}>عرض طلب الترقية</Link>
             }
         </div >
     )

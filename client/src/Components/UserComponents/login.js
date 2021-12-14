@@ -5,7 +5,7 @@ import { Button, Form } from 'semantic-ui-react';
 import { AuthContext } from './userContext';
 import { Message } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import logo from '../wise-logo/wise-logo.png'
+import logo from '../wise-logo/wise-logo.png';
 
 
 function Login() {

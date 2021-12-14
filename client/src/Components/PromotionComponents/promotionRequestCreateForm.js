@@ -5,10 +5,12 @@ import { Button, Form, Label } from 'semantic-ui-react';
 import FileUpload from './fileUpload';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import AddResearchFiles from './addResearchFiles';
+import { useDispatch, useSelector } from "react-redux";
+import { setPromotionRequest } from "../../state/actions/promotionRequestActions";
 
-function PromotionRequestCreateForm({ handleCreatePromotionRequest, handleShowCreateForm, handleAlert, user, promotionType }) {
 
-    const [values, setValues, resetValues] = useForm({});
+function PromotionRequestCreateForm({ handleShowCreateForm, handleAlert, user, promotionType }) {
+
     const [files, setFiles] = useState({});
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
@@ -16,6 +18,9 @@ function PromotionRequestCreateForm({ handleCreatePromotionRequest, handleShowCr
     const [errors, setErrors] = useState({});
     const [showResearchFiles, setShowResearchFiles] = useState(false);
     const [canSubmit, setCanSubmit] = useState(false);
+
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (startDate && endDate) {
@@ -39,16 +44,17 @@ function PromotionRequestCreateForm({ handleCreatePromotionRequest, handleShowCr
     }, [startDate, endDate])
 
     const fileUpload = (file, n = null) => {
-        // const newFile = {
-        //     ...file,
-        // }
-        // const newFiles = { ...files.files, [`file_${n}`]: newFile }
         setFiles({ ...files, [`file_${n}`]: file })
     }
 
     const addResearchFiles = (researchFiles) => {
         setFiles({ ...files, researchFiles })
     }
+
+    const handleRemoveFile = (n) => {
+        delete files[`file_${n}`]
+    }
+
 
     const toggleShowResearchFiles = () => {
         setShowResearchFiles(prev => !prev)
@@ -60,16 +66,6 @@ function PromotionRequestCreateForm({ handleCreatePromotionRequest, handleShowCr
 
     const onEndDateChange = (event, data) => {
         setEndDate(data.value)
-    }
-
-    // const handleRemoveFile = (uploadId) => {
-    //     // const updatedFiles = files.filter(file => file.uploadId !== uploadId)
-    //     const updatedFiles = delete files[`file_${n}`]
-    //     setFiles(updatedFiles)
-    // }
-
-    const handleRemoveFile = (n) => {
-        delete files[`file_${n}`]
     }
 
     const checkIfCanSubmit = (val) => {
@@ -95,8 +91,7 @@ function PromotionRequestCreateForm({ handleCreatePromotionRequest, handleShowCr
                         message: res.data.message,
                         type: "success"
                     };
-                    handleCreatePromotionRequest(res.data.result,)
-                    resetValues();
+                    dispatch(setPromotionRequest(res.data.result));
                 } else {
                     if (Object.keys(res.data.errors).length > 0) {
                         setErrors(res.data.errors)
@@ -166,6 +161,7 @@ function PromotionRequestCreateForm({ handleCreatePromotionRequest, handleShowCr
                         fileUpload={fileUpload}
                         removeFile={handleRemoveFile}
                         n={1}
+                        canEdit={true}
                     />
 
                     <FileUpload
@@ -173,6 +169,7 @@ function PromotionRequestCreateForm({ handleCreatePromotionRequest, handleShowCr
                         fileUpload={fileUpload}
                         removeFile={handleRemoveFile}
                         n={2}
+                        canEdit={true}
                     />
 
                     <FileUpload
@@ -180,12 +177,14 @@ function PromotionRequestCreateForm({ handleCreatePromotionRequest, handleShowCr
                         fileUpload={fileUpload}
                         removeFile={handleRemoveFile}
                         n={3}
+                        canEdit={true}
                     />
                     <FileUpload
                         label="تقيم الطلبة"
                         fileUpload={fileUpload}
                         removeFile={handleRemoveFile}
                         n={4}
+                        canEdit={true}
                     />
                     {
                         promotionType === "تثبيت أستاذ مساعد" && (
@@ -195,12 +194,14 @@ function PromotionRequestCreateForm({ handleCreatePromotionRequest, handleShowCr
                                     fileUpload={fileUpload}
                                     removeFile={handleRemoveFile}
                                     n={5}
+                                    canEdit={true}
                                 />
                                 <FileUpload
                                     label="البحث الثاني"
                                     fileUpload={fileUpload}
                                     removeFile={handleRemoveFile}
                                     n={6}
+                                    canEdit={true}
                                 />
                             </>
                         )

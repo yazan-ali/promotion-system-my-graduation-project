@@ -1,6 +1,6 @@
-export const TeachersListReducer = (state = [], action) => {
+export const UserReducer = (state = null, action) => {
     switch (action.type) {
-        case "SET_TEACHERS":
+        case "SET_USER":
             return action.payload
         default:
             return state

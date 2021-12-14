@@ -1,8 +1,12 @@
 import React from 'react';
 import { Button } from 'semantic-ui-react';
 import axios from 'axios';
+import { useDispatch } from "react-redux";
+import { setPromotionCommittee, setTeachers, clearSelectedTeachers, removeMember, setMembers } from "../../state/actions/promotionCommitteeActions";
 
-function PromotionCommitteeMembers({ members, promotionCommitteeID, setPromotionCommittee, showEditForm, removeMember, setMembers }) {
+function PromotionCommitteeMembers({ members, promotionCommitteeID, showEditForm, canRemove }) {
+
+    const dispatch = useDispatch();
 
     const deleteCommittee = () => {
 
@@ -10,8 +14,9 @@ function PromotionCommitteeMembers({ members, promotionCommitteeID, setPromotion
         axios.delete(`http://localhost:5000/promotionCommittee/${promotionCommitteeID}`)
             .then(res => {
                 if (res.data.success) {
-                    setPromotionCommittee(null)
-                    setMembers([])
+                    dispatch(setPromotionCommittee(null))
+                    dispatch(clearSelectedTeachers())
+                    dispatch(setMembers([]))
                 }
             });
     }
@@ -25,7 +30,7 @@ function PromotionCommitteeMembers({ members, promotionCommitteeID, setPromotion
                         <p>الرقم الوظيفي : {member.teacher_id}</p>
                         <p>التخصص :  {member.section}</p>
                         <p>الرتبة : {member.rank}</p>
-                        {removeMember && <span onClick={() => removeMember(member._id)}>X</span>}
+                        {canRemove && <span onClick={() => dispatch(removeMember(member._id))}>X</span>}
                     </div>
                 ))
             }

@@ -10,7 +10,7 @@ import FileUpload from './fileUpload';
 import { ranks } from '../../constants';
 import Accordion from './accordion';
 
-function PromotionRequest({ promotionRequest, handleUpdatePromotionRequest, handleDeletePromotionRequest, handleAlert, user }) {
+function PromotionRequest({ promotionRequest, handleAlert, user }) {
 
     const [toggleEditForm, setToggleEditForm] = useState(false);
 
@@ -21,18 +21,11 @@ function PromotionRequest({ promotionRequest, handleUpdatePromotionRequest, hand
         setToggleEditForm(prevState => !prevState);
     }
 
-    const updatePromotionRequest = (id, updatedPromotionRequest) => {
-        handleUpdatePromotionRequest(id, updatedPromotionRequest)
-        handleToggleEditForm();
-    }
-
     return (
         <>
             {
                 toggleEditForm ? (
                     <PromotionRequestEditForm
-                        promotionRequestData={promotionRequest}
-                        handleUpdatePromotionRequest={updatePromotionRequest}
                         handleToggleEditForm={handleToggleEditForm}
                         handleAlert={handleAlert}
                         user={user}
@@ -50,15 +43,8 @@ function PromotionRequest({ promotionRequest, handleUpdatePromotionRequest, hand
                                     )
                                 }
                             </div>
-                            <p>{promotionRequest.example_info_1}</p>
-                            <p>{promotionRequest.example_info_2}</p>
                             <p>{promotionRequest.promotion_request_status}</p>
                             <div className="files-list">
-                                {/* {
-                                    promotionRequest.user_files.map(file => (
-                                        <p className="file" key={file.uploadId}>{file.name}</p>
-                                    ))
-                                } */}
                                 {
                                     promotionRequest?.user_files?.file_1 && (
                                         <div>
@@ -126,13 +112,6 @@ function PromotionRequest({ promotionRequest, handleUpdatePromotionRequest, hand
                                     ))
                                 }
                             </div>
-                            {/* <div>
-                                {
-                                    promotionRequest.rejectionReasons.map(reason => (
-                                        <p className="rejection-reason" key={reason.id}>{reason.reason}</p>
-                                    ))
-                                }
-                            </div> */}
                             {
                                 promotionRequest.rejectionReasons.length > 0 &&
                                 < Accordion items={promotionRequest.rejectionReasons} />
@@ -149,7 +128,6 @@ function PromotionRequest({ promotionRequest, handleUpdatePromotionRequest, hand
                                             user.id === promotionRequest.created_by.id && (
                                                 <DeleteButton
                                                     id={promotionRequest._id}
-                                                    handleDeletePromotionRequest={handleDeletePromotionRequest}
                                                     handleAlert={handleAlert}
                                                 />
                                             )

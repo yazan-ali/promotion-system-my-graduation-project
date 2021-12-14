@@ -4,10 +4,3 @@ export const setTeachers = (teachers) => {
         payload: teachers,
     };
 }
-
-export const setTeachers = (teachers) => {
-    return {
-        type: "PROMOTION_REQUEST_APPROVE",
-        payload: teachers,
-    };
-}

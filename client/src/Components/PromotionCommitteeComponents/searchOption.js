@@ -1,25 +1,29 @@
 import React, { useState } from 'react';
 import { Button, Form, Checkbox, Search } from 'semantic-ui-react';
+import { useDispatch, useSelector } from "react-redux";
+import { setMember, removeMember } from "../../state/actions/promotionCommitteeActions";
 
-function SearchOption({ option, updateOptions }) {
+function SearchOption({ option }) {
 
     const [checked, setChecked] = useState(option.checked)
+
+    const dispatch = useDispatch();
 
     const handleChange = (evt, data) => {
 
         setChecked(data.checked)
 
         if (data.checked) {
-            updateOptions({ ...data.value, checked: true });
+            dispatch(setMember(data.value))
         } else {
-            updateOptions({ ...data.value, checked: false });
+            dispatch(removeMember(data.value._id))
         }
 
     }
 
     return (
         <div className="search-option">
-            <Checkbox checked={checked} value={option} onChange={handleChange} />
+            <Checkbox checked={option.checked} value={option} onChange={handleChange} />
             <div>
                 <p>{option.full_name}</p>
                 <p>{option.section}</p>

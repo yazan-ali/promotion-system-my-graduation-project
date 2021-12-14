@@ -1,77 +1,47 @@
-// const findCategoryIdx = (movies, action) => {
-//     let movieCategoryIdx
-//     if (action.type === "SET_MOVIES") {
-//         movieCategoryIdx = movies.findIndex(movie => movie.category === action.payload.category)
-//     } else if (action.type === "DELETE_MOVIE") {
-//         movieCategoryIdx = movies.findIndex(movie => movie.moviesList.find(movie => movie.imdbID === action.payload))
-//     }
-//     return movieCategoryIdx
-// }
-
-// export const CategoryReducer = (state = moviesInitialState, action) => {
-//     const movieCategoryIdx = findCategoryIdx(state.movies, action)
-//     switch (action.type) {
-//         case "SET_MOVIES":
-//         case "DELETE_MOVIE": {
-//             if (movieCategoryIdx === -1) {
-//                 const oldMovies = state.movies
-//                 return {
-//                     ...state,
-//                     movies: oldMovies.concat({
-//                         category: action.payload.category,
-//                         moviesList: moviesReducer([], action)
-//                     })
-//                 }
-
-//             } else {
-//                 const oldMovieList = state.movies[movieCategoryIdx]
-//                 const newMoviesList = [{
-//                     ...oldMovieList,
-//                     moviesList: moviesReducer(oldMovieList.moviesList, action)
-//                 }]
-
-//                 return {
-//                     ...state,
-//                     movies: [
-//                         ...state.movies.slice(0, movieCategoryIdx),
-//                         ...newMoviesList,
-//                         ...state.movies.slice(movieCategoryIdx + 1)
-//                     ]
-//                 }
-//             }
-//         }
-//         default:
-//             return state
-//     }
-// }
-
-// const moviesReducer = (state = moviesInitialState.movies, action) => {
-//     switch (action.type) {
-//         case "SET_MOVIES":
-//             return [...state, ...action.payload.moviesList]
-//         case "DELETE_MOVIE":
-//             const newMoviesList = state.filter(movie => movie.imdbID !== action.payload)
-//             return newMoviesList
-//         default:
-//             return state
-//     }
-// };
-
-// export const activeMoviesCategoryReducer = (state = activeMoviesCategoryInitialState, action) => {
-//     if (action.type === "CHANGE_CATEGORY") {
-//         return action.payload
-//     } else {
-//         return state
-//     }
-// }
-
-const promotionCommitteeReducer = (state, action) => {
+export const PromotionCommitteeReducer = (state = { promotionCommittee: null, teachers: [], members: [] }, action) => {
     switch (action.type) {
-        case "SHOW_MEMBERS":
-            return [...state, ...action.payload.moviesList]
-        // case "DELETE_MOVIE":
-        //     const newMoviesList = state.filter(movie => movie.imdbID !== action.payload)
-        //     return newMoviesList
+        case "SET_PROMOTION_COMMITTEE":
+            return { ...state, promotionCommittee: action.payload }
+        case "SET_TEACHERS":
+            return { ...state, teachers: action.payload }
+        case "CLEAR_SELECTED_TEACHERS":
+            const newTeachersList = state.teachers.map(teacher => {
+                return { ...teacher, checked: false }
+            })
+            return { ...state, teachers: newTeachersList }
+        case "SET_MEMBERS":
+            return { ...state, members: action.payload }
+        case "SET_MEMBER":
+            if (state.members.some(m => m._id === action.payload._id)) return
+            if (state.members.length < 3) {
+                const newTeachers = state.teachers.map(teacher => {
+                    if (teacher._id === action.payload._id) {
+                        return { ...teacher, checked: true }
+                    } else {
+                        return teacher
+                    }
+                })
+                return {
+                    ...state,
+                    teachers: newTeachers,
+                    members: [...state.members, action.payload]
+                }
+            }
+        case "REMOVE_MEMBER":
+            const newMembers = state.members.filter(member => member._id !== action.payload)
+            const newTeachers = state.teachers.map(teacher => {
+                if (teacher._id === action.payload) {
+                    return { ...teacher, checked: false }
+                }
+                else {
+                    return teacher
+                }
+            })
+            return {
+                ...state,
+                teachers: newTeachers,
+                members: newMembers
+            }
         default:
             return state
     }

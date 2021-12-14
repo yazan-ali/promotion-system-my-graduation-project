@@ -8,13 +8,18 @@ import TeachersList from './teachersList';
 import '../Style/dashboard.css';
 import axios from 'axios';
 import { Divider } from 'semantic-ui-react';
+import { useDispatch, useSelector } from "react-redux";
+import { setTeachers } from "../../state/actions/teachersActions";
 
 
 function Dashboard() {
 
     const { user } = useContext(AuthContext);
-    const [teachers, setTeachers] = useState([]);
+    // const [teachers, setTeachers] = useState([]);
     const [promotionRequest, setPromotionRequest] = useState({})
+
+    const teachers = useSelector((state) => state.teachersList);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const token = localStorage.getItem("jwtToken");
@@ -24,7 +29,10 @@ function Dashboard() {
         axios.get(`http://localhost:5000/user/${user.college}/${user.section}`).
             then(res => {
                 if (res.data.success) {
-                    setTeachers(res.data.teachers)
+                    if (res.data.teachers) {
+                        // setTeachers(res.data.teachers)
+                        dispatch(setTeachers(res.data.teachers));
+                    }
                 }
             })
 
@@ -67,31 +75,31 @@ function Dashboard() {
     // }
 
     const handleReject = (teacher_id) => {
-        const updatedTeacherList = teachers.map(teacher => {
-            if (teacher._id === teacher_id) {
-                const updatedPromotionRequest =
-                    { ...teacher.promotionRequest, current_phase_number: teacher.promotionRequest.current_phase_number - 1 }
-                return { ...teacher, promotionRequest: updatedPromotionRequest }
-            }
-            else {
-                return teacher
-            }
-        })
-        setTeachers(updatedTeacherList);
+        //     const updatedTeacherList = teachers.map(teacher => {
+        //         if (teacher._id === teacher_id) {
+        //             const updatedPromotionRequest =
+        //                 { ...teacher.promotionRequest, current_phase_number: teacher.promotionRequest.current_phase_number - 1 }
+        //             return { ...teacher, promotionRequest: updatedPromotionRequest }
+        //         }
+        //         else {
+        //             return teacher
+        //         }
+        //     })
+        //     setTeachers(updatedTeacherList);
     }
 
     const handleApprove = (teacher_id) => {
-        const updatedTeacherList = teachers.map(teacher => {
-            if (teacher._id === teacher_id) {
-                const updatedPromotionRequest =
-                    { ...teacher.promotionRequest, current_phase_number: teacher.promotionRequest.current_phase_number + 1 }
-                return { ...teacher, promotionRequest: updatedPromotionRequest }
-            }
-            else {
-                return teacher
-            }
-        })
-        setTeachers(updatedTeacherList);
+        // const updatedTeacherList = teachers.map(teacher => {
+        //     if (teacher._id === teacher_id) {
+        //         const updatedPromotionRequest =
+        //             { ...teacher.promotionRequest, current_phase_number: teacher.promotionRequest.current_phase_number + 1 }
+        //         return { ...teacher, promotionRequest: updatedPromotionRequest }
+        //     }
+        //     else {
+        //         return teacher
+        //     }
+        // })
+        // setTeachers(updatedTeacherList);
     }
 
 
@@ -103,8 +111,8 @@ function Dashboard() {
                     <TeachersList
                         teachers={teachers}
                         user={user}
-                        handleReject={handleReject}
-                        handleApprove={handleApprove}
+                    // handleReject={handleReject}
+                    // handleApprove={handleApprove}
                     />
                 }
             </section>

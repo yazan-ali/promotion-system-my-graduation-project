@@ -1,13 +1,15 @@
 import React, { useState, useRef } from 'react';
 import { PickerOverlay } from 'filestack-react';
 import { Button } from 'semantic-ui-react';
+import { useDispatch, useSelector } from "react-redux";
+import { setUserFiles, removeUserFile } from "../../state/actions/promotionRequestActions";
 
 function FileUpload({ label, fileUpload, removeFile, fileData, doNotShowFile, n, canEdit }) {
 
+    const dispatch = useDispatch();
+
     const [showFilePicker, setShowFilePicker] = useState(false);
     const [file, setFile] = useState(fileData);
-
-    const inputRef = useRef(null);
 
     const handelShowFilePicker = () => {
         setShowFilePicker(true)
@@ -24,12 +26,22 @@ function FileUpload({ label, fileUpload, removeFile, fileData, doNotShowFile, n,
         if (!doNotShowFile) {
             setFile(newFile);
         }
-        fileUpload(newFile, n);
+        if (fileUpload) {
+            fileUpload(newFile, n)
+        } else {
+            dispatch(setUserFiles({
+                file: newFile,
+                file_num: n
+            }));
+        }
     }
 
     const handleRemoveFile = () => {
-        // removeFile(file.uploadId)
-        removeFile(file.uploadId, n)
+        if (removeFile) {
+            removeFile(n)
+        } else {
+            dispatch(removeUserFile(n))
+        }
         setFile(null);
     }
 

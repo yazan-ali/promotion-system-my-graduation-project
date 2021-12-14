@@ -1,9 +1,15 @@
 import { combineReducers } from "redux";
-// import { CategoryReducer, activeMoviesCategoryReducer } from "./moviesReducer";
+import { TeachersListReducer } from "./teachersReducer";
+import { PromotionRequestReducer, CreatePromotionRequestReducer } from "./promotionRequestReducer";
+import { PromotionCommitteeReducer } from "./promotionCommitteeReducer";
+import { UserReducer } from "./userReducer";
 
 
 const reducers = combineReducers({
-    // allMovies: CategoryReducer,
-    // activeMoviesCategory: activeMoviesCategoryReducer
+    teachersList: TeachersListReducer,
+    promotionRequest: PromotionRequestReducer,
+    createFormFiles: CreatePromotionRequestReducer,
+    promotionCommittee: PromotionCommitteeReducer,
+    user: UserReducer,
 });
 export default reducers;
