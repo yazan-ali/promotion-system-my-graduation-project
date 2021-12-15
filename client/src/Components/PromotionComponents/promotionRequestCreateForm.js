@@ -211,7 +211,7 @@ function PromotionRequestCreateForm({ handleShowCreateForm, handleAlert, user, p
                             <label>الأبحاث</label>
                             {
                                 files.researchFiles && files.researchFiles.map(research => (
-                                    <p className="file">{research.file.name}</p>
+                                    research.file && <p className="file">{research.file.name}</p>
                                 ))
                             }
                             <Button

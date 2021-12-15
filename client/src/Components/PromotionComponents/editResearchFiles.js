@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Form, Label, Select } from 'semantic-ui-react';
 import ResearchFileField from './researchFileField';
+import { useDispatch, useSelector } from "react-redux";
+import { setResearchFiles } from "../../state/actions/promotionRequestActions";
 
-function EditResearchFiles({ user, addResearchFiles, researchFilesData, toggleShowResearchFiles, checkIfCanSubmit, promotionType }) {
+function EditResearchFiles({ user, toggleShowResearchFiles, checkIfCanSubmit, promotionType }) {
+
 
     const [fieldsNum, setFieldsNum] = useState(1);
-    const [researchFiles, setResearchFiles] = useState(researchFilesData ? researchFilesData : []);
     const [researchPoints, setResearchPoints] = useState(0);
     const [aloneResearchPoints, setAloneResearchPoints] = useState(0);
     const [researchSpecialtyPoints, setResearchSpecialtyPoints] = useState(0);
@@ -15,6 +17,9 @@ function EditResearchFiles({ user, addResearchFiles, researchFilesData, toggleSh
         err_3: true,
     })
 
+    const researchFiles = useSelector((state) => state.promotionRequest.user_files.researchFiles);
+    EditResearchFiles.filesLen = 10;
+
     const promotionPointsScale = promotionType === "ترقية أستاذ مشارك" ? 8 : 12
 
     useEffect(() => {
@@ -22,32 +27,6 @@ function EditResearchFiles({ user, addResearchFiles, researchFilesData, toggleSh
         checkIfMore60Pre(researchFiles)
         checkIfMore70Pre(researchFiles)
     }, [researchFiles])
-
-    const increaseFields = () => {
-        setFieldsNum(prev => prev + 1);
-    }
-
-    const addResearchData = (researchData) => {
-        let newFiles;
-        const file = researchFiles.find(file => file.id === researchData.id);
-        if (!file) {
-            newFiles = [...researchFiles, researchData]
-        } else {
-            newFiles = researchFiles.map(file => {
-                if (file.id === researchData.id) {
-                    return researchData
-                } else {
-                    return file
-                }
-            })
-        }
-        setResearchFiles(newFiles);
-    }
-
-    const handleRemoveResearch = (id) => {
-        const updatedResearchFiles = researchFiles.filter(research => research.id !== id)
-        setResearchFiles(updatedResearchFiles)
-    }
 
     const calculateResearchPoints = (researchFiles) => {
         let researchPoints = 0;
@@ -105,7 +84,6 @@ function EditResearchFiles({ user, addResearchFiles, researchFilesData, toggleSh
         } else {
             checkIfCanSubmit(false)
         }
-        addResearchFiles(researchFiles)
     }
 
     return (
@@ -116,10 +94,8 @@ function EditResearchFiles({ user, addResearchFiles, researchFilesData, toggleSh
                     researchFiles.map((research, idx) => (
                         <ResearchFileField
                             key={research.id}
-                            idx={research.id}
-                            addResearchData={addResearchData}
+                            id={research.id}
                             user={user}
-                            handleRemoveResearch={handleRemoveResearch}
                             researchFile={research}
                         />
                     ))
@@ -128,34 +104,14 @@ function EditResearchFiles({ user, addResearchFiles, researchFilesData, toggleSh
                     Array.from({ length: fieldsNum }).map((field, idx) => (
                         <ResearchFileField
                             key={researchFiles.length + idx + 1}
-                            idx={researchFiles.length + idx + 1}
-                            addResearchData={addResearchData}
+                            // idx={researchFiles.length + idx + 1}
                             user={user}
-                            handleRemoveResearch={handleRemoveResearch}
                         />
                     ))
                 }
-                {/* <Button
-                    onClick={increaseFields}
-                    style={{ marginTop: 20 }}
-                    type='button'>إضافة بحث آخر</Button> */}
-
                 <p style={{ color: errors.err_1 ? "red" : "green" }}>{`يجب ان تمتلك ${promotionPointsScale} نقاط ترقية على لأقل`}</p>
                 <p style={{ color: errors.err_2 ? "red" : "green" }}>أكثر من %60</p>
                 <p style={{ color: errors.err_3 ? "red" : "green" }}>أكثر من %70</p>
-
-                {/* {errors.files && <div style={{ paddingTop: 10 }}>
-                    <Label basic color='red' pointing="right">
-                        {errors.files}
-                    </Label>
-                </div>} */}
-                {/* <Button
-                    onClick={() => handleShowCreateForm()}
-                    style={{ width: 92, marginTop: 30, marginRight: 20 }}
-                    type='button'>إلغاء</Button>
-                <Button
-                    style={{ width: 92, marginTop: 20, backgroundColor: "#098D9C", color: "#fff" }} primary
-                    type='submit'>حفظ</Button> */}
             </Form>
             <Button
                 onClick={() => toggleShowResearchFiles()}

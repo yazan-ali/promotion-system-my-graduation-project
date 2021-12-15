@@ -105,10 +105,10 @@ function PromotionRequest({ promotionRequest, handleAlert, user }) {
                                         }
                                     </div>
                                 }
-
+                                <label style={{ display: "block", marginRight: 5, padding: "15px 0" }}>ملفات المشرفين</label>
                                 {
                                     promotionRequest.administrative_files.map(file => (
-                                        <p style={{ marginTop: 15 }} className="file" key={file.uploadId}>{file.name}</p>
+                                        <p className="file" key={file.uploadId}>{file.name}</p>
                                     ))
                                 }
                             </div>

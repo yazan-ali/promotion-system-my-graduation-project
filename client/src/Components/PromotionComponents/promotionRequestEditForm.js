@@ -11,7 +11,6 @@ import { setPromotionRequest } from "../../state/actions/promotionRequestActions
 
 function PromotionRequestEditForm({ handleToggleEditForm, handleAlert, user }) {
 
-
     const promotionRequest = useSelector((state) => state.promotionRequest);
     const files = promotionRequest.user_files
     const dispatch = useDispatch();
@@ -20,9 +19,6 @@ function PromotionRequestEditForm({ handleToggleEditForm, handleAlert, user }) {
     const [showResearchFiles, setShowResearchFiles] = useState(false);
     const [canSubmit, setCanSubmit] = useState(true);
 
-    const addResearchFiles = (researchFiles) => {
-        // setFiles({ ...files, researchFiles })
-    }
 
     const toggleShowResearchFiles = () => {
         setShowResearchFiles(prev => !prev)
@@ -73,9 +69,7 @@ function PromotionRequestEditForm({ handleToggleEditForm, handleAlert, user }) {
         <div className="promotion-request-form">
             <div style={{ display: showResearchFiles ? "" : "none" }}>
                 <EditResearchFiles
-                    addResearchFiles={addResearchFiles}
                     user={user}
-                    researchFilesData={files.researchFiles}
                     toggleShowResearchFiles={toggleShowResearchFiles}
                     checkIfCanSubmit={checkIfCanSubmit}
                     promotionType={promotionRequest.promotion_type}
@@ -135,7 +129,7 @@ function PromotionRequestEditForm({ handleToggleEditForm, handleAlert, user }) {
                             <p>الأبحاث</p>
                             {
                                 files.researchFiles.map(research => (
-                                    <p className="file">{research.file.name}</p>
+                                    research.file && <p className="file">{research.file.name}</p>
                                 ))
                             }
                             <Button

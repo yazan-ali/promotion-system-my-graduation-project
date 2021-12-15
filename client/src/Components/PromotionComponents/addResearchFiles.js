@@ -128,7 +128,7 @@ function AddResearchFiles({ user, addResearchFiles, researchFilesData, toggleSho
                 {
                     Array.from({ length: fieldsNum }).map((field, idx) => (
                         <ResearchFileField
-                            idx={idx + 1}
+                            id={idx + 1}
                             addResearchData={addResearchData}
                             user={user}
                             handleRemoveResearch={handleRemoveResearch}

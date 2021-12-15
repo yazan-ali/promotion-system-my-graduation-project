@@ -4,7 +4,7 @@ import { Button } from 'semantic-ui-react';
 import { useDispatch, useSelector } from "react-redux";
 import { setUserFiles, removeUserFile } from "../../state/actions/promotionRequestActions";
 
-function FileUpload({ label, fileUpload, removeFile, fileData, doNotShowFile, n, canEdit }) {
+function FileUpload({ label, fileUpload, removeFile, fileData, doNotShowFile, n, canEdit, administrativeFile, user }) {
 
     const dispatch = useDispatch();
 
@@ -26,6 +26,7 @@ function FileUpload({ label, fileUpload, removeFile, fileData, doNotShowFile, n,
         if (!doNotShowFile) {
             setFile(newFile);
         }
+
         if (fileUpload) {
             fileUpload(newFile, n)
         } else {

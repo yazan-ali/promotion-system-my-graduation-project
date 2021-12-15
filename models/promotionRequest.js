@@ -42,7 +42,7 @@ const promototionRequestSchema = new mongoose.Schema({
     },
     administrative_files: {
         type: {},
-        default: []
+        default: {}
     },
     start_date: {
         type: Date
