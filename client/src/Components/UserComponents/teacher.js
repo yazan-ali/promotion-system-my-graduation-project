@@ -13,11 +13,7 @@ function Teacher(props) {
 
     const { user } = useContext(AuthContext);
 
-
-    // const [teacher, setTeacher] = useState(null);
-    // const [showPromotionRequest, setShowPromotionRequest] = useState(false);
     const [showButtons, setShowButtons] = useState(true);
-    // const showButtonCondition = teacher.promotionRequest && teacher.promotionRequest.current_phase_number === user.administrativeRank
 
     const teacherID = props.match.params.id
 
@@ -33,14 +29,9 @@ function Teacher(props) {
             then(res => {
                 if (res.data.success) {
                     dispatch(setTeacherData(res.data.result))
-                    // setTeacher(res.data.result)
                 }
             })
     }, [])
-
-    // const handleTogglePromotionRequest = (id) => {
-    //     setShowPromotionRequest(prev => !prev)
-    // }
 
     const handleShowButtons = () => {
         setShowButtons(false)

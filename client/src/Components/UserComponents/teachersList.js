@@ -30,10 +30,10 @@ import React from 'react';
 import Info from './info';
 import { Divider } from 'semantic-ui-react';
 
-function TeachersList({ teachers, user, handleReject, handleApprove }) {
+function TeachersList({ teachers, user }) {
     return (
         <>
-            <Divider style={{ marginBottom: -5 }} horizontal>أعضاء الهيئة التدريسية</Divider>
+            {/* <Divider style={{ marginBottom: -5 }} horizontal>أعضاء الهيئة التدريسية</Divider> */}
             <div className="teachers-list">
                 {
                     teachers.map(teacher => (
@@ -42,8 +42,6 @@ function TeachersList({ teachers, user, handleReject, handleApprove }) {
                             teacher={teacher}
                             user={user}
                             cssStyle={true}
-                        // handleReject={handleReject}
-                        // handleApprove={handleApprove}
                         />
                     ))
                 }

@@ -38,3 +38,31 @@ export const removeMember = (id) => {
         payload: id,
     };
 }
+
+export const setPromotionRequestsForMember = (promotionRequestsList) => {
+    return {
+        type: "SET_PROMOTION_REQUESTES_FOR_MEMBER",
+        payload: promotionRequestsList
+    }
+}
+
+export const setCommitteePromotionRequest = (promotionRequest) => {
+    return {
+        type: "SET_COMMITTEE_PROMOTION_REQUESTE",
+        payload: promotionRequest
+    }
+}
+
+export const addMemberRejectionReason = (payload) => {
+    return {
+        type: "ADD_MEMBER_REJECT_REASON",
+        payload: payload,
+    };
+}
+
+export const removeMemberRejectionReason = (id) => {
+    return {
+        type: "REMOVE_MEMBER_REJECT_REASON",
+        payload: id,
+    };
+}

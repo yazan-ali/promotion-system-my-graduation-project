@@ -86,5 +86,9 @@ const is_research_specialty = [
     { key: 'no', value: false, text: 'لا' },
 ]
 
+const memberDecision = {
+    "approved": "تم الموافقة على الطلب",
+    "rejected": "لم يتم الموافقة على الطلب"
+}
 
-export { rankOptions, collegeOptions, sectionOptions, ranks, research_types, is_research_specialty }
+export { rankOptions, collegeOptions, sectionOptions, ranks, research_types, is_research_specialty, memberDecision }

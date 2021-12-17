@@ -1,10 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { PickerOverlay } from 'filestack-react';
 import { Button } from 'semantic-ui-react';
 import { useDispatch, useSelector } from "react-redux";
 import { setUserFiles, removeUserFile } from "../../state/actions/promotionRequestActions";
 
-function FileUpload({ label, fileUpload, removeFile, fileData, doNotShowFile, n, canEdit, administrativeFile, user }) {
+function FileUpload({ label, fileUpload, removeFile, fileData, doNotShowFile, n, canEdit }) {
 
     const dispatch = useDispatch();
 
@@ -55,7 +55,12 @@ function FileUpload({ label, fileUpload, removeFile, fileData, doNotShowFile, n,
                             apikey="AYjtgfnMtSSCeojaAOQcnz"
                             onSuccess={(res) => setShowFilePicker(false)}
                             onUploadDone={(res) => handelFileUpolad(res)}
-                            pickerOptions={{ fromSources: ["local_file_system", "googledrive"] }}
+                            onError={(error) => console.log(error)}
+                            buttonText={'Pick File'}
+                            pickerOptions={
+                                { onClose: () => alert("close") },
+                                { fromSources: ["local_file_system", "googledrive"] }
+                            }
                         />
                     )
                 }
@@ -86,58 +91,4 @@ function FileUpload({ label, fileUpload, removeFile, fileData, doNotShowFile, n,
     )
 }
 
-
 export default FileUpload;
-
-// import React, { useState } from 'react';
-// import { PickerOverlay } from 'filestack-react';
-// import { Button } from 'semantic-ui-react';
-
-// function FileUpload({ fileUpload, label }) {
-
-//     const [showFilePicker, setShowFilePicker] = useState(false);
-
-
-//     const handelShowFilePicker = () => {
-//         setShowFilePicker(true)
-//     }
-
-//     const handelFileUpolad = (res) => {
-//         const file = res.filesUploaded[0]
-//         const newFile = {
-//             url: file.url,
-//             name: file.filename,
-//             uploadId: file.uploadId,
-//             label: label
-//         }
-//         // setFile(newFile);
-//         fileUpload(newFile);
-//     }
-
-//     const handelFileSubmit = (evt) => {
-//         evt.preventDefault();
-//     }
-
-//     return (
-//         <div>
-//             <div className="file-upload-root">
-//                 <form onSubmit={handelFileSubmit}>
-//                     {
-//                         showFilePicker && (
-//                             <PickerOverlay
-//                                 apikey="AYjtgfnMtSSCeojaAOQcnz"
-//                                 onSuccess={(res) => setShowFilePicker(false)}
-//                                 onUploadDone={(res) => handelFileUpolad(res)}
-//                                 pickerOptions={{ fromSources: ["local_file_system", "googledrive"] }}
-//                             />
-//                         )
-//                     }
-//                 </form>
-//             </div>
-//             <Button type='button' onClick={handelShowFilePicker}>إضافة ملف</Button>
-//         </div >
-//     )
-// }
-
-
-// export default FileUpload;

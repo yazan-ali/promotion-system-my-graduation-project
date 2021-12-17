@@ -42,6 +42,41 @@ export const PromotionCommitteeReducer = (state = { promotionCommittee: null, te
                 teachers: newTeachers,
                 members: newMembers
             }
+        case "SET_PROMOTION_REQUESTES_FOR_MEMBER":
+            return { ...state, promotionRequestsList: action.payload }
+        case "SET_COMMITTEE_PROMOTION_REQUESTE":
+            return { ...state, promotionRequest: action.payload }
+        case "ADD_MEMBER_REJECT_REASON":
+            const members = state.promotionRequest.members.map(member => {
+                if (member._id === action.payload.member_id) {
+                    return { ...member, rejectionReasons: [...member.rejectionReasons, action.payload.rejection_reason] }
+                } else {
+                    return member
+                }
+            })
+            return {
+                ...state,
+                promotionRequest: {
+                    ...state.promotionRequest,
+                    members: members
+                }
+            }
+        case "REMOVE_MEMBER_REJECT_REASON":
+            const updatedMembers = state.promotionRequest.members.map(member => {
+                if (member._id === action.payload.member_id) {
+                    const updatedRejectReason = member.rejectionReasons.filter(reason => reason.id !== action.payload.reason_id)
+                    return { ...member, rejectionReasons: updatedRejectReason }
+                } else {
+                    return member
+                }
+            })
+            return {
+                ...state,
+                promotionRequest: {
+                    ...state.promotionRequest,
+                    members: updatedMembers
+                }
+            }
         default:
             return state
     }

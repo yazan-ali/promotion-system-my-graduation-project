@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Button, Form, Label } from 'semantic-ui-react';
 import FileUpload from './fileUpload';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
-import Accordion from './accordion';
+import RejectionReasons from './rejectionReasons';
 import EditResearchFiles from './editResearchFiles';
 import { useDispatch, useSelector } from "react-redux";
 import { setPromotionRequest } from "../../state/actions/promotionRequestActions";
@@ -68,12 +68,15 @@ function PromotionRequestEditForm({ handleToggleEditForm, handleAlert, user }) {
     return (
         <div className="promotion-request-form">
             <div style={{ display: showResearchFiles ? "" : "none" }}>
-                <EditResearchFiles
-                    user={user}
-                    toggleShowResearchFiles={toggleShowResearchFiles}
-                    checkIfCanSubmit={checkIfCanSubmit}
-                    promotionType={promotionRequest.promotion_type}
-                />
+                {
+                    promotionRequest.promotion_type !== "تثبيت أستاذ مساعد" &&
+                    <EditResearchFiles
+                        user={user}
+                        toggleShowResearchFiles={toggleShowResearchFiles}
+                        checkIfCanSubmit={checkIfCanSubmit}
+                        promotionType={promotionRequest.promotion_type}
+                    />
+                }
             </div>
             <div style={{ display: showResearchFiles ? "none" : "" }}>
                 <Form onSubmit={handleSubmit}>
@@ -139,7 +142,7 @@ function PromotionRequestEditForm({ handleToggleEditForm, handleAlert, user }) {
                     )}
                     {
                         promotionRequest.rejectionReasons.length > 0 &&
-                        < Accordion items={promotionRequest.rejectionReasons} />
+                        < RejectionReasons reasons={promotionRequest.rejectionReasons} />
                     }
 
                     <Button

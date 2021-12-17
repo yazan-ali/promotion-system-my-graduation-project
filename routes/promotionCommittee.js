@@ -32,7 +32,9 @@ router.get("/promotionCommittee", async (req, res) => {
 router.get("/promotionCommittee/:id", async (req, res) => {
 
     try {
-        const promotionCommittee = await PromotionCommittee.findOne({ promotion_request_id: req.params.id });
+        const promotionCommittee = await PromotionCommittee.findOne({ promotion_request_id: req.params.id }).
+            populate("promotion_request")
+
         if (promotionCommittee) {
             res.json({
                 success: true,
@@ -52,24 +54,11 @@ router.get("/promotionCommittee/:id", async (req, res) => {
 });
 
 // get promotions for specific member
-router.get("promotionCommittee/:member_id", async (req, res) => {
+router.get("/promotionCommittee/promotionRequests/:member_id", async (req, res) => {
     try {
         const promotionRequests = await PromotionCommittee.find({
-            $or: [
-                {
-                    'member_1.id': req.params.member_id
-                },
-                {
-                    'member_2.id': req.params.member_id
-                },
-                {
-                    'member_3.id': req.params.member_id
-                },
-                {
-                    'member_4.id': req.params.member_id
-                }
-            ]
-        })
+            'members._id': req.params.member_id
+        }).populate("promotion_request")
 
         if (promotionRequests) {
             res.json({
@@ -222,5 +211,87 @@ router.get("/teachers/:college", async (req, res) => {
     }
 })
 
+
+// approve promotion request
+router.put("/promotionCommittee/:id/approve", async (req, res) => {
+
+    try {
+
+        const user = checkAuth(req, res);
+        const promotionCommittee = await PromotionCommittee.findOne({ _id: req.params.id });
+
+        if (promotionCommittee) {
+            // if (user && user.administrativeRank > 0) {
+            const updatedMembers = promotionCommittee.members.map(member => {
+                if (member._id === user.id) {
+                    return { ...member, memberDecision: "approved", rejectionReasons: [] }
+                } else {
+                    return member
+                }
+            })
+
+            promotionCommittee.members = updatedMembers
+            promotionCommittee.save();
+
+            res.json({
+                success: true,
+                message: "تمت العملية بنجاح"
+            });
+            //     }
+        } else {
+            res.json({
+                success: false,
+                message: "حدث خطأ ما"
+            });
+            throw new Error("Promotion request not found")
+        }
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
+
+// approve promotion request
+router.put("/promotionCommittee/:id/rejection", async (req, res) => {
+
+    try {
+
+        const user = checkAuth(req, res);
+        const promotionCommittee = await PromotionCommittee.findOne({ _id: req.params.id });
+
+        if (promotionCommittee) {
+            // if (user && user.administrativeRank > 0) {
+            const updatedMembers = promotionCommittee.members.map(member => {
+                if (member._id === user.id) {
+                    return {
+                        ...member,
+                        memberDecision: "rejected",
+                        rejectionReasons: req.body.rejectionReasons
+                    }
+                } else {
+                    return member
+                }
+            })
+
+            promotionCommittee.members = updatedMembers
+            promotionCommittee.save();
+
+            res.json({
+                success: true,
+                message: "تمت العملية بنجاح"
+            });
+            //     }
+        } else {
+            res.json({
+                success: false,
+                message: "حدث خطأ ما"
+            });
+            throw new Error("Promotion request not found")
+        }
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
 
 module.exports = router;

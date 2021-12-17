@@ -20,6 +20,25 @@ export const TeacherDataReducer = (state = null, action) => {
                 administrative_files: currentFiles
             }
             return { ...state, promotionRequest: updatedPromotionRequest }
+        case "ADD_REJECT_REASON":
+            return {
+                ...state,
+                promotionRequest: {
+                    ...state.promotionRequest,
+                    rejectionReasons: [...state.promotionRequest.rejectionReasons, action.payload]
+                }
+            }
+        case "REMOVE_REJECT_REASON":
+            const updatedRejectReason = state.promotionRequest.rejectionReasons.filter(
+                reason => reason.id !== action.payload
+            )
+            return {
+                ...state,
+                promotionRequest: {
+                    ...state.promotionRequest,
+                    rejectionReasons: updatedRejectReason
+                }
+            }
         default:
             return state
     }

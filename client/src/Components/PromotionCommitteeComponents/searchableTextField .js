@@ -6,13 +6,6 @@ import axios from 'axios';
 function SearchableTextField({ placeholder, optionsList }) {
 
     const [value, setValue] = useState("");
-    // const [options, setOptions] = useState(optionsList);
-
-    // useEffect(() => {
-    //     if (optionsList) {
-    //         setOptions(filterOptions(optionsList))
-    //     }
-    // }, [value])
 
     let options
 
@@ -23,12 +16,6 @@ function SearchableTextField({ placeholder, optionsList }) {
     const handleInputChange = (evt) => {
         setValue(evt.target.value);
     }
-
-    // const filterOptions = (options) => {
-    //     const filteredOptions = options.filter(option => option.full_name.toLowerCase().includes(value.toLowerCase()))
-    //     return filteredOptions
-    //     setOptions(filteredOptions)
-    // }
 
     return (
         <Form className="searchable-text-field">

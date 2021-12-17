@@ -104,7 +104,6 @@ function EditResearchFiles({ user, toggleShowResearchFiles, checkIfCanSubmit, pr
                     Array.from({ length: fieldsNum }).map((field, idx) => (
                         <ResearchFileField
                             key={researchFiles.length + idx + 1}
-                            // idx={researchFiles.length + idx + 1}
                             user={user}
                         />
                     ))

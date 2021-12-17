@@ -1,12 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from 'semantic-ui-react';
 import axios from 'axios';
+import MemberApproveButton from './memberApproveButton'
+import MemberRejectionButton from './memberRejectionButton'
+import RejectionReasons from '../PromotionComponents/rejectionReasons'
+import Member from './member';
 import { useDispatch } from "react-redux";
 import { setPromotionCommittee, setTeachers, clearSelectedTeachers, removeMember, setMembers } from "../../state/actions/promotionCommitteeActions";
 
-function PromotionCommitteeMembers({ members, promotionCommitteeID, showEditForm, canRemove }) {
+function PromotionCommitteeMembers({ members, promotionCommitteeID, showEditForm, user, canRemove }) {
 
     const dispatch = useDispatch();
+
+    // const [showRejectionReasonsForm, setShowRejectionReasonsForm] = useState(false);
+    // const [showButtons, setShowButtons] = useState(false);
+
+    // const showForm = () => {
+    //     setShowRejectionReasonsForm(prev => !prev)
+    // }
+
+    // const handleShowButtons = () => {
+    //     setShowButtons(prev => !prev)
+    // }
 
     const deleteCommittee = () => {
 
@@ -25,17 +40,16 @@ function PromotionCommitteeMembers({ members, promotionCommitteeID, showEditForm
         <div className="promotion-committee-members">
             {
                 members.map(member => (
-                    <div key={member._id} className="promotion-committee-member">
-                        <p>الأسم : {member.full_name}</p>
-                        <p>الرقم الوظيفي : {member.teacher_id}</p>
-                        <p>التخصص :  {member.section}</p>
-                        <p>الرتبة : {member.rank}</p>
-                        {canRemove && <span onClick={() => dispatch(removeMember(member._id))}>X</span>}
-                    </div>
+                    <Member
+                        member={member}
+                        promotionCommitteeID={promotionCommitteeID}
+                        canRemove={canRemove}
+                        user={user}
+                    />
                 ))
             }
             {
-                promotionCommitteeID && (
+                promotionCommitteeID && user.administrativeRank == 2 && (
                     <>
                         <Button
                             style={{ backgroundColor: "#D1162C", color: "#fff", marginTop: 20 }}
@@ -53,7 +67,7 @@ function PromotionCommitteeMembers({ members, promotionCommitteeID, showEditForm
                     </>
                 )
             }
-        </div>
+        </div >
     )
 }
 

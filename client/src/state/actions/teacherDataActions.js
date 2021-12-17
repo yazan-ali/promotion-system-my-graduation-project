@@ -18,3 +18,17 @@ export const removeAdministrativeFile = (file_num) => {
         payload: file_num,
     };
 }
+
+export const addRejectionReason = (reason) => {
+    return {
+        type: "ADD_REJECT_REASON",
+        payload: reason,
+    };
+}
+
+export const removeRejectionReason = (id) => {
+    return {
+        type: "REMOVE_REJECT_REASON",
+        payload: id,
+    };
+}
