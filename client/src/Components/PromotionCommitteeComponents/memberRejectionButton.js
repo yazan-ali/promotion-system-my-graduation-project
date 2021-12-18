@@ -1,8 +1,12 @@
 import React from 'react';
 import { Button } from 'semantic-ui-react';
 import axios from 'axios';
+import { useDispatch, useSelector } from "react-redux";
+import { memberReject } from "../../state/actions/promotionCommitteeActions"
 
-function MemberRejectionButton({ promotionCommitteeID, handleShowButtons, rejectionReasons }) {
+function MemberRejectionButton({ promotionCommitteeID, handleShowButtons, rejectionReasons, memberID }) {
+
+    const dispatch = useDispatch();
 
     const reject = () => {
         // axios.put(`/promotionCommittee/${promotionCommitteeID}/rejection`, { rejectionReasons })
@@ -10,6 +14,7 @@ function MemberRejectionButton({ promotionCommitteeID, handleShowButtons, reject
             .then(res => {
                 if (res.data.success) {
                     handleShowButtons()
+                    dispatch(memberReject(memberID))
                 }
             })
     }

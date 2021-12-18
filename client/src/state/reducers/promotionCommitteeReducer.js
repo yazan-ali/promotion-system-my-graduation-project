@@ -1,4 +1,5 @@
 export const PromotionCommitteeReducer = (state = { promotionCommittee: null, teachers: [], members: [] }, action) => {
+    let updatedMembers
     switch (action.type) {
         case "SET_PROMOTION_COMMITTEE":
             return { ...state, promotionCommittee: action.payload }
@@ -62,10 +63,40 @@ export const PromotionCommitteeReducer = (state = { promotionCommittee: null, te
                 }
             }
         case "REMOVE_MEMBER_REJECT_REASON":
-            const updatedMembers = state.promotionRequest.members.map(member => {
+            updatedMembers = state.promotionRequest.members.map(member => {
                 if (member._id === action.payload.member_id) {
                     const updatedRejectReason = member.rejectionReasons.filter(reason => reason.id !== action.payload.reason_id)
                     return { ...member, rejectionReasons: updatedRejectReason }
+                } else {
+                    return member
+                }
+            })
+            return {
+                ...state,
+                promotionRequest: {
+                    ...state.promotionRequest,
+                    members: updatedMembers
+                }
+            }
+        case "MEMBER_APPROVE":
+            updatedMembers = state.promotionRequest.members.map(member => {
+                if (member._id === action.payload) {
+                    return { ...member, memberDecision: "approved", rejectionReasons: [] }
+                } else {
+                    return member
+                }
+            })
+            return {
+                ...state,
+                promotionRequest: {
+                    ...state.promotionRequest,
+                    members: updatedMembers
+                }
+            }
+        case "MEMBER_REJECT":
+            updatedMembers = state.promotionRequest.members.map(member => {
+                if (member._id === action.payload) {
+                    return { ...member, memberDecision: "rejected" }
                 } else {
                     return member
                 }

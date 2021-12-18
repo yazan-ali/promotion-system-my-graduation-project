@@ -64,6 +64,7 @@ function Member({ member, promotionCommitteeID, canRemove, user }) {
                                         promotionCommitteeID={promotionCommitteeID}
                                         handleShowButtons={handleShowButtons}
                                         rejectionReasons={member.rejectionReasons}
+                                        memberID={member._id}
                                     />
                                 ) : (
                                     <Button style={{ backgroundColor: "#D1162C", color: "#fff" }} onClick={showForm}>
@@ -74,6 +75,7 @@ function Member({ member, promotionCommitteeID, canRemove, user }) {
                             <MemberApproveButton
                                 promotionCommitteeID={promotionCommitteeID}
                                 handleShowButtons={handleShowButtons}
+                                memberID={member._id}
                             />
                         </>
                     )}

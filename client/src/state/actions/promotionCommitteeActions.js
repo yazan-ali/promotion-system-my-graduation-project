@@ -60,9 +60,23 @@ export const addMemberRejectionReason = (payload) => {
     };
 }
 
-export const removeMemberRejectionReason = (id) => {
+export const removeMemberRejectionReason = (payload) => {
     return {
         type: "REMOVE_MEMBER_REJECT_REASON",
+        payload: payload,
+    };
+}
+
+export const memberApprove = (id) => {
+    return {
+        type: "MEMBER_APPROVE",
+        payload: id,
+    };
+}
+
+export const memberReject = (id) => {
+    return {
+        type: "MEMBER_REJECT",
         payload: id,
     };
 }

@@ -1,8 +1,12 @@
 import React from 'react';
 import { Button } from 'semantic-ui-react';
 import axios from 'axios';
+import { memberApprove } from "../../state/actions/promotionCommitteeActions"
+import { useDispatch, useSelector } from "react-redux";
 
-function MemberApproveButton({ promotionCommitteeID, handleShowButtons }) {
+function MemberApproveButton({ promotionCommitteeID, handleShowButtons, memberID }) {
+
+    const dispatch = useDispatch();
 
     const approve = () => {
         // axios.put(`/promotionRequests/${promotionCommitteeID}/approve`)
@@ -10,6 +14,7 @@ function MemberApproveButton({ promotionCommitteeID, handleShowButtons }) {
             .then(res => {
                 if (res.data.success) {
                     handleShowButtons()
+                    dispatch(memberApprove(memberID))
                 }
             })
     }
