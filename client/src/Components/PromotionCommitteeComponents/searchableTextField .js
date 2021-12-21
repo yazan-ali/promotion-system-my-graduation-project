@@ -3,7 +3,7 @@ import { Button, Form, } from 'semantic-ui-react';
 import SearchOption from './searchOption';
 import axios from 'axios';
 
-function SearchableTextField({ placeholder, optionsList }) {
+function SearchableTextField({ placeholder, optionsList, selectOption }) {
 
     const [value, setValue] = useState("");
 
@@ -22,12 +22,13 @@ function SearchableTextField({ placeholder, optionsList }) {
             <Form.Field>
                 <input placeholder={placeholder} name="member" value={value} onChange={handleInputChange} />
             </Form.Field>
-            <div className="options-list">
+            <div style={{ height: selectOption && 110 }} className="options-list">
                 {
                     options && options.map(option => (
                         <SearchOption
                             key={option._id}
                             option={option}
+                            selectOption={selectOption}
                         />
                     ))
                 }

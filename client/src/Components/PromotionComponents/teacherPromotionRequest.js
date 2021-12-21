@@ -57,7 +57,7 @@ function TeacherPromotionRequest({ handleShowButtons, user, showButtons }) {
         <div className="promotion-request-card">
             <div>
                 <div style={{ display: "flex", flexDirection: "row-reverse", justifyContent: "space-between" }}>
-                    <p>{promotionRequest.created_by.full_name}</p>
+                    {/* <p>{promotionRequest.created_by.full_name}</p> */}
                     <p>{moment(promotionRequest.created_at).fromNow()}</p>
                 </div>
                 <p>{promotionRequest.promotion_request_status}</p>

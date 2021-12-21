@@ -3,7 +3,7 @@ import { Checkbox } from 'semantic-ui-react';
 import { useDispatch, useSelector } from "react-redux";
 import { setMember, removeMember } from "../../state/actions/promotionCommitteeActions";
 
-function SearchOption({ option }) {
+function SearchOption({ option, selectOption }) {
 
 
     const dispatch = useDispatch();
@@ -23,8 +23,10 @@ function SearchOption({ option }) {
     }
 
     return (
-        <div className="search-option">
-            <Checkbox checked={option.checked} value={option} onChange={handleChange} />
+        <div style={{ justifyContent: selectOption && "end" }}
+            onClick={selectOption ? () => selectOption(option) : null}
+            className="search-option">
+            {!selectOption && <Checkbox checked={option.checked} value={option} onChange={handleChange} />}
             <div>
                 <p>{option.full_name}</p>
                 <p>{option.section}</p>

@@ -31,7 +31,7 @@ function PromotionRequest({ promotionRequest, handleAlert, user, promotionCommit
                     <div className="promotion-request-card">
                         <div>
                             <div className="promotion-request-card-header">
-                                <p>{promotionRequest.created_by.full_name}</p>
+                                {/* <p>{promotionRequest.created_by.full_name}</p> */}
                                 {
                                     promotionRequest.current_phase_number > 0 && !promotionCommitteeID && (
                                         <p>

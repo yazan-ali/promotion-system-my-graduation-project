@@ -20,6 +20,7 @@ function generateToken(user) {
         promotion_points: user.promotion_points,
         administrativeRank: user.administrativeRank,
         promotionRequest: user.promotionRequest,
+        isAdmin: user.isAdmin
     }, process.env.TOKEN_SECRETE, { expiresIn: "1h" }
     )
 }
@@ -90,11 +91,6 @@ router.post("/register", async (req, res) => {
 
         const user = await User.findOne({ teacher_id: req.body.teacher_id });
         if (user) {
-            // throw new UserInputError("Username is taken", {
-            //     errors: {
-            //         username: "This username is taken"
-            //     }
-            // });
             res.json({
                 auth: false,
                 message: "هذا المستخدم موجود بالفعل"
@@ -114,7 +110,8 @@ router.post("/register", async (req, res) => {
             section: req.body.section,
             year: req.body.year,
             promotion_points: req.body.promotion_points,
-            administrativeRank: req.body.administrativeRank
+            administrativeRank: req.body.administrativeRank,
+            isAdmin: req.body.isAdmin
         });
         const result = await newUser.save();
 
@@ -159,10 +156,6 @@ router.post("/login", async (req, res) => {
             // });
             const match = await bcrypt.compare(req.body.password, user.password);
             if (!match) {
-                // errors.general = "Wrong credantials";
-                // throw new UserInputError("Wrong credantials", {
-                //     errors: errors
-                // });
                 res.json({
                     auth: false,
                     message: "اسم المستخدم أو كلمة المرور غير صحيحة"
@@ -192,6 +185,84 @@ router.post("/login", async (req, res) => {
         //     success: false,
         //     message: "An error occurred"
         // });
+        console.log(err)
+    }
+})
+
+// get all teachers
+router.get("/teachers", async (req, res) => {
+
+    try {
+
+        // const teachers = await User.find({ isAdmin: false })
+        const teachers = await User.find({})
+        res.json({
+            success: true,
+            result: teachers
+        })
+    } catch (err) {
+        res.json({
+            success: false,
+            message: "حدث خطأ ما"
+        })
+        console.log(err);
+    }
+})
+
+//get specific administrative
+router.get("/administrative/:college/:section/:administrativeRank", async (req, res) => {
+
+    try {
+        let administrative
+
+        if (req.params.section === "none") {
+            administrative = await User.findOne({
+                college: req.params.college,
+                administrativeRank: req.params.administrativeRank
+            })
+        } else {
+            administrative = await User.findOne({
+                college: req.params.college,
+                section: req.params.section,
+                administrativeRank: req.params.administrativeRank
+            })
+        }
+
+        if (administrative) {
+            res.json({
+                success: true,
+                result: administrative,
+            })
+        } else {
+            res.json({
+                success: false,
+                message: "لم يتم العثور على المستخدم"
+            })
+        }
+
+    } catch (err) {
+        console.log(err)
+    }
+})
+
+//update administrative
+router.put("/administrative", async (req, res) => {
+
+    try {
+        await User.findByIdAndUpdate(req.body.new_administrative_id, { administrativeRank: req.body.administrativeRank })
+        if (req.body.prev_administrative_id) {
+            await User.findByIdAndUpdate(req.body.prev_administrative_id, { administrativeRank: 0 })
+        }
+
+        res.json({
+            success: true,
+        })
+
+    } catch (err) {
+        res.json({
+            success: false,
+            message: "حدث خطأ ما"
+        })
         console.log(err)
     }
 })

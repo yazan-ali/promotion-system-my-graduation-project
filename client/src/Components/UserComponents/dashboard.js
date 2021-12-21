@@ -9,13 +9,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { setTeachers } from "../../state/actions/teachersActions";
 import { setPromotionRequestsForMember } from "../../state/actions/promotionCommitteeActions"
 import Tabs from '../tabs';
+import AdministrativeRanksUpdate from './administrativeRanksUpdate';
 
 
 function Dashboard() {
 
     const { user } = useContext(AuthContext);
 
-    const teachers = useSelector((state) => state.teachersList);
+    const teachers = useSelector((state) => state.teachers.teachersList);
     const promotionRequestsList = useSelector((state) => state.promotionCommittee.promotionRequestsList);
     const dispatch = useDispatch();
 
@@ -44,14 +45,8 @@ function Dashboard() {
 
     return (
         <main className="dashboard-root">
-            <section className="dashboard">
+            {/* <section className="dashboard">
                 {user && <TeacherInfoCard teacherData={user} />}
-                {/* {user.administrativeRank > 0 &&
-                    <TeachersList
-                        teachers={teachers}
-                        user={user}
-                    />
-                } */}
                 <Tabs
                     TeachersList={
                         user.administrativeRank > 0 ?
@@ -67,7 +62,8 @@ function Dashboard() {
                         /> : null
                     }
                 />
-            </section>
+            </section> */}
+            <AdministrativeRanksUpdate />
         </main>
     )
 }

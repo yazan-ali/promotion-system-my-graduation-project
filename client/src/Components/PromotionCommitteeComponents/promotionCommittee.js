@@ -16,12 +16,12 @@ function PromotionCommittee({ user, promotionRequest }) {
 
     const [isEditing, setIsEditing] = useState(false)
 
-    useEffect(() => {
+    useEffect(async () => {
 
         let members = null;
         let teachers = [];
 
-        axios.get(`http://localhost:5000/promotionCommittee/${promotionRequest._id}`).
+        await axios.get(`http://localhost:5000/promotionCommittee/${promotionRequest._id}`).
             then(res => {
                 if (res.data.success) {
                     setPromotionCommittee(res.data.result)
@@ -35,7 +35,7 @@ function PromotionCommittee({ user, promotionRequest }) {
             then(res => {
                 if (res.data.success) {
                     teachers = res.data.result
-                    if (members) {
+                    if (members !== null) {
                         teachers = teachers.map(teacher => {
                             if (members.some(member => member._id === teacher._id)) {
                                 return { ...teacher, checked: true }
@@ -117,10 +117,12 @@ function PromotionCommittee({ user, promotionRequest }) {
                                 )
                             )
                         }
-                        <SearchableTextField
-                            placeholder="اسم عضو هيئة التدريس"
-                            optionsList={teachersList}
-                        />
+                        <div style={{ width: "50%", marginTop: "2rem" }}>
+                            <SearchableTextField
+                                placeholder="اسم عضو هيئة التدريس"
+                                optionsList={teachersList}
+                            />
+                        </div>
                     </>
                 )
             }
