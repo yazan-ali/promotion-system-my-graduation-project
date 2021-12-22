@@ -117,6 +117,10 @@
     margin-right: -2px;
 }
 
+.tabs{
+    min-width: 80%;
+}
+
 .tabs .ui.attached.tabular.menu{
     display: flex;
     justify-content: flex-end;

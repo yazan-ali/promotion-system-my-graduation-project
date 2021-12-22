@@ -5,7 +5,7 @@ import { setTeachers, setCollegeAdministratives, setTeachersSearchList } from ".
 import SearchableTextField from '../PromotionCommitteeComponents/searchableTextField ';
 import axios from 'axios';
 
-function AdministrativeInfo({ rank, college, section }) {
+function Administrative({ rank, college, section }) {
 
     const searchList = useSelector((state) => state.teachers.teachersSearchList);
     const dispatch = useDispatch();
@@ -15,7 +15,7 @@ function AdministrativeInfo({ rank, college, section }) {
     const [showSearchField, setShowSearchField] = useState(true)
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/administrative/${college}/${section ? section : "none"}/${rank}`).
+        axios.get(`http://localhost:5000/administrative/${college ? college : "none"}/${section ? section : "none"}/${rank}`).
             then(res => {
                 if (res.data.success) {
                     setCurrentAdministrative(res.data.result);
@@ -27,7 +27,7 @@ function AdministrativeInfo({ rank, college, section }) {
                     setShowSearchField(true)
                 }
             })
-    }, [college])
+    }, [college, rank])
 
     const SelectNewAdministrative = (teacher) => {
         setNewAdministrative(teacher)
@@ -50,7 +50,6 @@ function AdministrativeInfo({ rank, college, section }) {
         axios.put("http://localhost:5000/administrative", data)
             .then(res => {
                 if (res.data.success) {
-                    toggleSearchField()
                     setCurrentAdministrative(newAdministrative)
                     setNewAdministrative(null)
                 }
@@ -61,6 +60,9 @@ function AdministrativeInfo({ rank, college, section }) {
         <div className="administrative-info">
             {rank === 1 && <h3 style={{ textAlign: "center" }}>رئيس قسم {section}</h3>}
             {rank === 2 && <h3 style={{ textAlign: "center" }}>عميد كلية {college}</h3>}
+            {rank === 3 && <h3 style={{ textAlign: "center" }}>لجنة أمناء السر</h3>}
+            {rank === 4 && <h3 style={{ textAlign: "center" }}>لجنة التعين والترقية</h3>}
+            {rank === 5 && <h3 style={{ textAlign: "center" }}>رئاسة الجامعة</h3>}
             <div style={{ display: "flex", justifyContent: "space-between", flexDirection: "row-reverse" }}>
                 <div style={{
                     width: currentAdministrative || newAdministrative && "50%",
@@ -100,4 +102,4 @@ function AdministrativeInfo({ rank, college, section }) {
 }
 
 
-export default AdministrativeInfo;
+export default Administrative;

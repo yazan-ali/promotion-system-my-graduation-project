@@ -48,19 +48,21 @@ function Dashboard() {
             {/* <section className="dashboard">
                 {user && <TeacherInfoCard teacherData={user} />}
                 <Tabs
-                    TeachersList={
+                    tab1={
                         user.administrativeRank > 0 ?
                             <TeachersList
                                 teachers={teachers}
                                 user={user}
                             /> : null
                     }
-                    PromotionCommitteePromotions={
+                    tab1_label={"طلبات الترقية"}
+                    tab2={
                         promotionRequestsList && promotionRequestsList.length > 0 ? <PromotionCommitteePromotions
                             promotionRequestsList={promotionRequestsList}
                             user={user}
                         /> : null
                     }
+                    tab2_label={"أعضاء الهيئة التدريسية"}
                 />
             </section> */}
             <AdministrativeRanksUpdate />

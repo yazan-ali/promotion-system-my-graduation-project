@@ -11,3 +11,15 @@
   font-weight: 600;
   scroll-behavior: smooth;
 }
+
+h1, h2, h3, h4, h5, h6{
+  font-family: "Cairo";
+}
+
+button{
+  font-family: "Cairo" !important;
+}
+
+.select{
+    text-align: end !important;
+}

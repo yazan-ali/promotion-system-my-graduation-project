@@ -214,8 +214,12 @@ router.get("/administrative/:college/:section/:administrativeRank", async (req, 
 
     try {
         let administrative
-
-        if (req.params.section === "none") {
+        if (req.params.college === "none") {
+            administrative = await User.findOne({
+                administrativeRank: req.params.administrativeRank
+            })
+        }
+        else if (req.params.section === "none") {
             administrative = await User.findOne({
                 college: req.params.college,
                 administrativeRank: req.params.administrativeRank
