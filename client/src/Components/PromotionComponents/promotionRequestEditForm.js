@@ -18,7 +18,7 @@ function PromotionRequestEditForm({ handleToggleEditForm, handleAlert, user }) {
     const [errors, setErrors] = useState({});
     const [showResearchFiles, setShowResearchFiles] = useState(false);
     const [canSubmit, setCanSubmit] = useState(true);
-
+    const [isLoading, setIsLoading] = useState(false);
 
     const toggleShowResearchFiles = () => {
         setShowResearchFiles(prev => !prev)
@@ -28,7 +28,7 @@ function PromotionRequestEditForm({ handleToggleEditForm, handleAlert, user }) {
         setCanSubmit(val)
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
 
         if (!canSubmit) return;
 
@@ -40,8 +40,10 @@ function PromotionRequestEditForm({ handleToggleEditForm, handleAlert, user }) {
             rejectionReasons: []
         }
 
-        // axios.put(`/promotionRequests/${promotionRequest._id}`, updatedPromotionRequest)
-        axios.put(`http://localhost:5000/promotionRequests/${promotionRequest._id}`, updatedPromotionRequest)
+        setIsLoading(true)
+
+        //await axios.put(`/promotionRequests/${promotionRequest._id}`, updatedPromotionRequest)
+        await axios.put(`http://localhost:5000/promotionRequests/${promotionRequest._id}`, updatedPromotionRequest)
             .then(res => {
                 if (res.data.success) {
                     dispatch(setPromotionRequest({ ...promotionRequest, ...updatedPromotionRequest }));
@@ -63,6 +65,8 @@ function PromotionRequestEditForm({ handleToggleEditForm, handleAlert, user }) {
                 }
                 handleAlert(alert)
             });
+
+        setIsLoading(false)
     }
 
     return (
@@ -150,6 +154,8 @@ function PromotionRequestEditForm({ handleToggleEditForm, handleAlert, user }) {
                         style={{ width: 92, marginTop: 30, marginRight: 20 }}
                         type='button'>إلغاء</Button>
                     <Button
+                        loading={isLoading}
+                        disabled={isLoading}
                         style={{ width: 92, marginTop: 30, backgroundColor: "#098D9C", color: "#fff" }}
                         type='submit'>حفظ</Button>
                 </Form>

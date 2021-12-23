@@ -15,7 +15,7 @@ function AdministrativeRanksUpdate() {
     const dispatch = useDispatch();
 
     const [college, setCollege] = useState("");
-    const [sections, setSections] = useState([]);
+    const [sections, setSections] = useState("");
     const [wiseAdministrativesRanks, setWiseAdministrativesRanks] = useState("")
 
     useEffect(() => {
@@ -26,10 +26,6 @@ function AdministrativeRanksUpdate() {
                 }
             })
     }, [])
-
-    useEffect(() => {
-        fileterCollegeTeachers()
-    }, [college])
 
     const handleSelectCollege = (evt, data) => {
         setCollege(data.value)
@@ -47,19 +43,12 @@ function AdministrativeRanksUpdate() {
         dispatch(setTeachersSearchList(teachers.teachersList))
     }
 
-    const fileterCollegeTeachers = () => {
-        const collegeAdministratives = teachers.teachersList.filter(teacher =>
-            teacher.college === college && teacher.administrativeRank < 3 && teacher.administrativeRank > 0
-        )
-        dispatch(setCollegeAdministratives(collegeAdministratives))
-    }
-
-
     return (
         <div className="administrative-ranks-update">
             <Tabs
                 tab1={
                     <div className='administrative-root'>
+                        <h2 style={{ paddingBottom: 20 }}>تعديل عميد أو رئيس قسم</h2>
                         <Select
                             className="select"
                             placeholder='اختر الكلية'
@@ -76,6 +65,7 @@ function AdministrativeRanksUpdate() {
                 tab1_label={"العمادة و رؤساء الاقسام"}
                 tab2={
                     <div className='administrative-root'>
+                        <h2 style={{ paddingBottom: 20 }}>تعديل المشرفين</h2>
                         <Select
                             className="select"
                             placeholder='اختر'
@@ -86,6 +76,7 @@ function AdministrativeRanksUpdate() {
                     </div>
                 }
                 tab2_label={"الرئاسة"}
+                activeTab={1}
             />
         </div>
     )

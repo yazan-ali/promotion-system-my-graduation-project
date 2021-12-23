@@ -8,6 +8,7 @@ import { Redirect } from 'react-router-dom';
 import PromotionCommittee from '../PromotionCommitteeComponents/promotionCommittee';
 import { useDispatch, useSelector } from "react-redux";
 import { setTeacherData } from "../../state/actions/teacherDataActions";
+import Loader from '../loader'
 
 function Teacher(props) {
 
@@ -46,7 +47,9 @@ function Teacher(props) {
     }
 
     if (!teacher) {
-        return <h1>Loading...</h1>
+        return <div className="loader">
+            <Loader color={"gray"} size={6} />
+        </div>
     } else {
 
         return (

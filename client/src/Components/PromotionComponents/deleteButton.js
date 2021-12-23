@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from 'semantic-ui-react';
 import axios from 'axios';
 import { useDispatch, useSelector } from "react-redux";
@@ -8,15 +8,21 @@ function DeleteButton({ id, handleAlert }) {
 
     const dispatch = useDispatch();
 
-    useEffect(() => {
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(async () => {
         const token = localStorage.getItem("jwtToken");
         axios.defaults.headers.common['Authorization'] = token ? `Bearer ${token}` : ""
     }, [])
 
-    const handleDelete = () => {
+
+    const handleDelete = async () => {
         let alert;
-        // axios.delete(`/promotionRequests/${id}`)
-        axios.delete(`http://localhost:5000/promotionRequests/${id}`)
+
+        setIsLoading(true)
+
+        // await axios.delete(`/promotionRequests/${id}`)
+        await axios.delete(`http://localhost:5000/promotionRequests/${id}`)
             .then(res => {
                 if (res.data.success) {
                     dispatch(setPromotionRequest(null));
@@ -32,10 +38,17 @@ function DeleteButton({ id, handleAlert }) {
                 }
                 handleAlert(alert)
             })
+
+        setIsLoading(false)
+
     }
 
     return (
-        <Button style={{ backgroundColor: "#D1162C", color: "#fff" }} onClick={handleDelete}>
+        <Button
+            loading={isLoading}
+            disabled={isLoading}
+            style={{ backgroundColor: "#D1162C", color: "#fff" }}
+            onClick={handleDelete}>
             Delete
         </Button>
     )

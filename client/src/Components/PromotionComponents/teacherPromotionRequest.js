@@ -19,6 +19,7 @@ function TeacherPromotionRequest({ handleShowButtons, user, showButtons }) {
 
     const [showSaveBtn, setShowSaveBtn] = useState(false);
     const [showRejectionReasonsForm, setShowRejectionReasonsForm] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const administrativeRankCondition = (user.administrativeRank > 0 && user.administrativeRank === promotionRequest.current_phase_number);
 
@@ -40,17 +41,22 @@ function TeacherPromotionRequest({ handleShowButtons, user, showButtons }) {
         setShowRejectionReasonsForm(true);
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const administrative_files = {
             administrative_files: files
         }
-        axios.put(`http://localhost:5000/promotionRequests/administrative/${promotionRequest._id}`, administrative_files)
+
+        setIsLoading(true)
+
+        await axios.put(`http://localhost:5000/promotionRequests/administrative/${promotionRequest._id}`, administrative_files)
             // axios.put(`/promotionRequests/administrative/${promotionRequest._id}`, administrative_files)
             .then(res => {
                 if (res.data.success) {
                     setShowSaveBtn(false);
                 }
             });
+
+        setIsLoading(false)
     }
 
     return (
@@ -226,6 +232,8 @@ function TeacherPromotionRequest({ handleShowButtons, user, showButtons }) {
                 {
                     showSaveBtn &&
                     <Button
+                        loading={isLoading}
+                        disabled={isLoading}
                         type="button"
                         style={{ backgroundColor: "#098D9C", color: "#fff", marginTop: 20 }}
                         onClick={handleSubmit}>

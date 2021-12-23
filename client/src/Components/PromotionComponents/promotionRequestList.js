@@ -8,6 +8,7 @@ import { Label } from 'semantic-ui-react'
 import Snackbar from '../snackbar';
 import { useDispatch, useSelector } from "react-redux";
 import { setPromotionRequest } from "../../state/actions/promotionRequestActions";
+import Loader from '../loader';
 
 function PromotionRequestList({ user }) {
 
@@ -16,20 +17,28 @@ function PromotionRequestList({ user }) {
     const [alert, setAlert] = useState({});
     const [showSnackbar, setShowSnackbar] = useState(false);
     const [promotionType, setPromotionType] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
     const promotionRequest = useSelector((state) => state.promotionRequest);
     const dispatch = useDispatch();
 
-    useEffect(() => {
+    useEffect(async () => {
+
+        setIsLoading(true)
+
         if (user) {
-            // axios.get(`/promotionRequests/${user.id}`).
-            axios.get(`http://localhost:5000/promotionRequests/${user.id}`).
+
+            //await axios.get(`/promotionRequests/${user.id}`).
+            await axios.get(`http://localhost:5000/promotionRequests/${user.id}`).
                 then(res => {
                     if (res.data.success) {
                         dispatch(setPromotionRequest(res.data.result));
                     }
                 })
         }
+
+        setIsLoading(false)
+
     }, []);
 
 
@@ -46,6 +55,10 @@ function PromotionRequestList({ user }) {
         setAlert(alert)
         setShowSnackbar(true);
     }
+
+    if (isLoading) return (
+        <Loader color={"#fff"} size={4} />
+    )
 
     return (
         <div className="promotion-request-root">

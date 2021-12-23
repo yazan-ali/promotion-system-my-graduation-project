@@ -9,6 +9,7 @@ import PromotionRequest from '../PromotionComponents/promotionRequest';
 import PromotionCommitteeMembers from './promotionCommitteeMembers';
 import { useDispatch, useSelector } from "react-redux";
 import { setCommitteePromotionRequest } from "../../state/actions/promotionCommitteeActions";
+import Loader from '../loader';
 
 function CommitteePromotionRequest(props) {
 
@@ -39,7 +40,9 @@ function CommitteePromotionRequest(props) {
     }
 
     if (!promotionRequest) {
-        return <h1>Loading...</h1>
+        return <div className="loader">
+            <Loader color={"gray"} size={6} />
+        </div>
     } else {
 
         return (

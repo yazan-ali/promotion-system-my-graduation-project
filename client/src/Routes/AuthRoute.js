@@ -26,4 +26,5 @@ const DashboardRoute = ({ component: Component, ...rest }) => {
     )
 }
 
+
 export { AuthRoute, DashboardRoute };

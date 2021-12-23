@@ -18,6 +18,7 @@ function PromotionRequestCreateForm({ handleShowCreateForm, handleAlert, user, p
     const [errors, setErrors] = useState({});
     const [showResearchFiles, setShowResearchFiles] = useState(false);
     const [canSubmit, setCanSubmit] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
 
     const dispatch = useDispatch();
@@ -72,7 +73,7 @@ function PromotionRequestCreateForm({ handleShowCreateForm, handleAlert, user, p
         setCanSubmit(val)
     }
 
-    const handleSubmit = (evt) => {
+    const handleSubmit = async () => {
         if (dateErr !== null) return;
 
         let alert;
@@ -83,8 +84,11 @@ function PromotionRequestCreateForm({ handleShowCreateForm, handleAlert, user, p
             end_date: endDate,
             promotion_type: promotionType,
         }
-        // axios.post("/promotionRequests", newPromtionRequest)
-        axios.post("http://localhost:5000/promotionRequests", newPromtionRequest)
+
+        setIsLoading(true)
+
+        // await axios.post("/promotionRequests", newPromtionRequest)
+        await axios.post("http://localhost:5000/promotionRequests", newPromtionRequest)
             .then(res => {
                 if (res.data.success) {
                     alert = {
@@ -104,6 +108,8 @@ function PromotionRequestCreateForm({ handleShowCreateForm, handleAlert, user, p
                 }
                 handleAlert(alert)
             });
+
+        setIsLoading(false)
     }
 
     return (
@@ -230,6 +236,8 @@ function PromotionRequestCreateForm({ handleShowCreateForm, handleAlert, user, p
                         style={{ width: 92, marginTop: 30, marginRight: 20 }}
                         type='button'>إلغاء</Button>
                     <Button
+                        loading={isLoading}
+                        disabled={isLoading}
                         style={{ width: 92, marginTop: 20, backgroundColor: "#098D9C", color: "#fff" }} primary
                         type='submit'>حفظ</Button>
                 </Form>

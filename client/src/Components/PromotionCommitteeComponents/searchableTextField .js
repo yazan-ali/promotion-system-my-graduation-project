@@ -22,7 +22,7 @@ function SearchableTextField({ placeholder, optionsList, selectOption }) {
             <Form.Field>
                 <input placeholder={placeholder} name="member" value={value} onChange={handleInputChange} />
             </Form.Field>
-            <div style={{ height: selectOption && 110 }} className="options-list">
+            <div style={{ height: selectOption && 230 }} className="options-list">
                 {
                     options && options.map(option => (
                         <SearchOption

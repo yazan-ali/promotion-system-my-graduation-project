@@ -46,7 +46,7 @@ const userSchema = new mongoose.Schema({
         ref: "Promotion Request"
     },
     isAdmin: {
-        type: String,
+        type: Boolean,
         required: true,
         default: false,
     }

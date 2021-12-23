@@ -63,7 +63,8 @@ function Register() {
             college: college,
             section: section,
             year: date,
-            administrativeRank: 0
+            administrativeRank: 0,
+            isAdmin: false
         }
         // axios.post("/register", newUser)
         axios.post("http://localhost:5000/register", newUser)

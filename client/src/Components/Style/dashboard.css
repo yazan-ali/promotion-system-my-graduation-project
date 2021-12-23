@@ -121,6 +121,10 @@
     min-width: 80%;
 }
 
+.tabs .ui.attached:not(.message)+.ui.attached.segment:not(.top){
+    min-height: 300px;
+}
+
 .tabs .ui.attached.tabular.menu{
     display: flex;
     justify-content: flex-end;
