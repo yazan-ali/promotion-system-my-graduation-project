@@ -13,8 +13,8 @@ function PromotionCommittee({ user, promotionRequest }) {
     const teachersList = useSelector((state) => state.promotionCommittee.teachers);
     const members = useSelector((state) => state.promotionCommittee.members);
     const dispatch = useDispatch();
-
     const [isEditing, setIsEditing] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(async () => {
 
@@ -52,30 +52,39 @@ function PromotionCommittee({ user, promotionRequest }) {
             })
     }, [])
 
-    const updatePromotionRequestToCommittee = () => {
+    const updatePromotionRequestToCommittee = async () => {
 
-        axios.put(`/promotionCommittee/${promotionCommittee._id}`, { members: members })
-            // axios.put(`http://localhost:5000/promotionCommittee/${promotionCommittee._id}`, { members: members })
+        setIsLoading(true)
+
+        await axios.put(`/promotionCommittee/${promotionCommittee._id}`, { members: members })
+            //await axios.put(`http://localhost:5000/promotionCommittee/${promotionCommittee._id}`, { members: members })
             .then(res => {
                 if (res.data.success) {
                     toggleEditForm()
                 }
             });
+
+        setIsLoading(false)
     }
 
-    const sendPromotionRequestToCommittee = () => {
+    const sendPromotionRequestToCommittee = async () => {
 
         const newPromotionCommittee = {
             members: members,
             promotion_request: promotionRequest
         }
-        axios.post("/promotionCommittee", newPromotionCommittee)
-            // axios.post("http://localhost:5000/promotionCommittee", newPromotionCommittee)
+
+        setIsLoading(true)
+
+        await axios.post("/promotionCommittee", newPromotionCommittee)
+            //await axios.post("http://localhost:5000/promotionCommittee", newPromotionCommittee)
             .then(res => {
                 if (res.data.success) {
                     dispatch(setPromotionCommittee(res.data.result))
                 }
             });
+
+        setIsLoading(false)
     }
 
     const toggleEditForm = () => {
@@ -103,6 +112,8 @@ function PromotionCommittee({ user, promotionRequest }) {
                             (
                                 isEditing ? (
                                     <Button
+                                        loading={isLoading}
+                                        disabled={isLoading}
                                         style={{ backgroundColor: "#1FBDC7", color: "#fff", marginTop: 20 }}
                                         primary
                                         onClick={updatePromotionRequestToCommittee}
@@ -111,6 +122,8 @@ function PromotionCommittee({ user, promotionRequest }) {
                                     </Button>
                                 ) : (
                                     <Button
+                                        loading={isLoading}
+                                        disabled={isLoading}
                                         style={{ backgroundColor: "#1FBDC7", color: "#fff", marginTop: 20 }}
                                         primary
                                         onClick={sendPromotionRequestToCommittee}

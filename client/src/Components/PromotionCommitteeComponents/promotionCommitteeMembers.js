@@ -12,8 +12,11 @@ function PromotionCommitteeMembers({ members, promotionCommitteeID, showEditForm
 
     const dispatch = useDispatch();
 
+    const [isLoading, setIsLoading] = useState(false);
 
-    const deleteCommittee = () => {
+    const deleteCommittee = async () => {
+
+        setIsLoading(true)
 
         axios.delete(`/promotionCommittee/${promotionCommitteeID}`)
             // axios.delete(`http://localhost:5000/promotionCommittee/${promotionCommitteeID}`)
@@ -24,6 +27,8 @@ function PromotionCommitteeMembers({ members, promotionCommitteeID, showEditForm
                     dispatch(setMembers([]))
                 }
             });
+
+        setIsLoading(true)
     }
 
     return (
@@ -42,6 +47,8 @@ function PromotionCommitteeMembers({ members, promotionCommitteeID, showEditForm
                 promotionCommitteeID && user.administrativeRank == 2 && (
                     <>
                         <Button
+                            loading={isLoading}
+                            disabled={isLoading}
                             style={{ backgroundColor: "#D1162C", color: "#fff", marginTop: 20 }}
                             onClick={deleteCommittee}
                         >
