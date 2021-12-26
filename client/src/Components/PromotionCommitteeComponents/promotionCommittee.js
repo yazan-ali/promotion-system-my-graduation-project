@@ -21,7 +21,8 @@ function PromotionCommittee({ user, promotionRequest }) {
         let members = null;
         let teachers = [];
 
-        await axios.get(`http://localhost:5000/promotionCommittee/${promotionRequest._id}`).
+        await axios.get(`/promotionCommittee/${promotionRequest._id}`).
+            // await axios.get(`http://localhost:5000/promotionCommittee/${promotionRequest._id}`).
             then(res => {
                 if (res.data.success) {
                     setPromotionCommittee(res.data.result)
@@ -31,7 +32,8 @@ function PromotionCommittee({ user, promotionRequest }) {
                 }
             })
 
-        axios.get(`http://localhost:5000/teachers/${user.college}`).
+        axios.get(`/teachers/${user.college}`).
+            // axios.get(`http://localhost:5000/teachers/${user.college}`).
             then(res => {
                 if (res.data.success) {
                     teachers = res.data.result

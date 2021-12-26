@@ -22,6 +22,7 @@ function Register() {
     const [err, setErr] = useState("");
     const context = useContext(AuthContext);
     const [alert, setAlert] = useState(null);
+    const [isLoading, setIsLoading] = useState(false)
 
 
     const handleSelectRank = (evt, data) => {
@@ -54,7 +55,7 @@ function Register() {
         setDate(data.value)
     }
 
-    const handleRegister = () => {
+    const handleRegister = async () => {
         const newUser = {
             full_name: values.full_name,
             teacher_id: values.teacher_id,
@@ -66,8 +67,11 @@ function Register() {
             administrativeRank: 0,
             isAdmin: false
         }
-        // axios.post("/register", newUser)
-        axios.post("http://localhost:5000/register", newUser)
+
+        setIsLoading(true)
+
+        await axios.post("/register", newUser)
+            // await axios.post("http://localhost:5000/register", newUser)
             .then(res => {
                 if (res.data.auth) {
                     context.login(res.data.result);
@@ -76,6 +80,8 @@ function Register() {
                     document.getElementById("alert").scrollIntoView({ behavior: 'smooth', block: "end" });
                 }
             });
+
+        setIsLoading(false)
     }
 
     return (
@@ -94,7 +100,7 @@ function Register() {
                     )
                 }
             </div>
-            <Form onSubmit={handleRegister}>
+            <Form loading={isLoading} onSubmit={handleRegister}>
                 <Form.Field>
                     <label>الإسم الكامل</label>
                     <input placeholder='الإسم الكامل' name="full_name" value={values.full_name} onChange={setValues} />

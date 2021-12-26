@@ -12,21 +12,11 @@ function PromotionCommitteeMembers({ members, promotionCommitteeID, showEditForm
 
     const dispatch = useDispatch();
 
-    // const [showRejectionReasonsForm, setShowRejectionReasonsForm] = useState(false);
-    // const [showButtons, setShowButtons] = useState(false);
-
-    // const showForm = () => {
-    //     setShowRejectionReasonsForm(prev => !prev)
-    // }
-
-    // const handleShowButtons = () => {
-    //     setShowButtons(prev => !prev)
-    // }
 
     const deleteCommittee = () => {
 
-        // axios.post(`/promotionCommittee/${promotionCommitteeID}`)
-        axios.delete(`http://localhost:5000/promotionCommittee/${promotionCommitteeID}`)
+        axios.delete(`/promotionCommittee/${promotionCommitteeID}`)
+            // axios.delete(`http://localhost:5000/promotionCommittee/${promotionCommitteeID}`)
             .then(res => {
                 if (res.data.success) {
                     dispatch(setPromotionCommittee(null))

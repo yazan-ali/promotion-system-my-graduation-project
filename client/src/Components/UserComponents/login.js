@@ -13,15 +13,19 @@ function Login() {
     const [values, setValues] = useForm({});
     const context = useContext(AuthContext);
     const [alert, setAlert] = useState(null);
+    const [isLoading, setIsLoading] = useState(false)
 
-    const handleLogin = () => {
+    const handleLogin = async () => {
 
         const loginInfo = {
             username: values.username,
             password: values.password,
         }
-        // axios.post("/login", loginInfo)
-        axios.post("http://localhost:5000/login", loginInfo)
+
+        setIsLoading(true)
+
+        await axios.post("/login", loginInfo)
+            // await axios.post("http://localhost:5000/login", loginInfo)
             .then(res => {
                 if (res.data.auth) {
                     context.login(res.data.result);
@@ -30,6 +34,8 @@ function Login() {
                     setAlert(res.data.message);
                 }
             });
+
+        setIsLoading(false)
     }
 
     return (
@@ -46,7 +52,7 @@ function Login() {
                     />
                 )
             }
-            <Form onSubmit={handleLogin}>
+            <Form loading={isLoading} onSubmit={handleLogin}>
                 <Form.Field>
                     <label>اسم المستخدم</label>
                     <input placeholder='اسم المستخدم' name="username" value={values.username} onChange={setValues} />

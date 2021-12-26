@@ -14,8 +14,8 @@ function MemberApproveButton({ promotionCommitteeID, handleShowButtons, memberID
 
         setIsLoading(true)
 
-        //await axios.put(`/promotionRequests/${promotionCommitteeID}/approve`)
-        await axios.put(`http://localhost:5000/promotionCommittee/${promotionCommitteeID}/approve`)
+        await axios.put(`/promotionCommittee/${promotionCommitteeID}/approve`)
+            // await axios.put(`http://localhost:5000/promotionCommittee/${promotionCommitteeID}/approve`)
             .then(res => {
                 if (res.data.success) {
                     handleShowButtons()

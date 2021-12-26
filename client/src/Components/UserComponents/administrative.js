@@ -15,7 +15,8 @@ function Administrative({ rank, college, section }) {
     const [showSearchField, setShowSearchField] = useState(true)
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/administrative/${college ? college : "none"}/${section ? section : "none"}/${rank}`).
+        axios.get(`/administrative/${college ? college : "none"}/${section ? section : "none"}/${rank}`).
+            // axios.get(`http://localhost:5000/administrative/${college ? college : "none"}/${section ? section : "none"}/${rank}`).
             then(res => {
                 if (res.data.success) {
                     setCurrentAdministrative(res.data.result);
