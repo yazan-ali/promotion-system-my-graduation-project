@@ -47,8 +47,8 @@ function Administrative({ rank, college, section }) {
             administrativeRank: rank,
         }
 
-        // axios.post("/register", newUser)
-        axios.put("http://localhost:5000/administrative", data)
+        axios.put("/administrative", data)
+            // axios.put("http://localhost:5000/administrative", data)
             .then(res => {
                 if (res.data.success) {
                     setCurrentAdministrative(newAdministrative)
