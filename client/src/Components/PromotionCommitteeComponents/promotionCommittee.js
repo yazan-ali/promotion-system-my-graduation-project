@@ -54,7 +54,8 @@ function PromotionCommittee({ user, promotionRequest }) {
 
     const updatePromotionRequestToCommittee = () => {
 
-        axios.put(`http://localhost:5000/promotionCommittee/${promotionCommittee._id}`, { members: members })
+        axios.put(`/promotionCommittee/${promotionCommittee._id}`, { members: members })
+            // axios.put(`http://localhost:5000/promotionCommittee/${promotionCommittee._id}`, { members: members })
             .then(res => {
                 if (res.data.success) {
                     toggleEditForm()
@@ -68,8 +69,8 @@ function PromotionCommittee({ user, promotionRequest }) {
             members: members,
             promotion_request: promotionRequest
         }
-        // axios.post("/promotionCommittee", newPromotionCommittee)
-        axios.post("http://localhost:5000/promotionCommittee", newPromotionCommittee)
+        axios.post("/promotionCommittee", newPromotionCommittee)
+            // axios.post("http://localhost:5000/promotionCommittee", newPromotionCommittee)
             .then(res => {
                 if (res.data.success) {
                     dispatch(setPromotionCommittee(res.data.result))
