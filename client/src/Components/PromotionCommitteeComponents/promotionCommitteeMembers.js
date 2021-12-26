@@ -28,7 +28,7 @@ function PromotionCommitteeMembers({ members, promotionCommitteeID, showEditForm
                 }
             });
 
-        setIsLoading(true)
+        setIsLoading(false)
     }
 
     return (
