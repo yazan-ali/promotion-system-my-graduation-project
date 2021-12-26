@@ -13,10 +13,14 @@ function Administrative({ rank, college, section }) {
     const [currentAdministrative, setCurrentAdministrative] = useState(null)
     const [newAdministrative, setNewAdministrative] = useState(null)
     const [showSearchField, setShowSearchField] = useState(true)
+    const [isLoading, setIsLoading] = useState(false)
 
-    useEffect(() => {
-        axios.get(`/administrative/${college ? college : "none"}/${section ? section : "none"}/${rank}`).
-            // axios.get(`http://localhost:5000/administrative/${college ? college : "none"}/${section ? section : "none"}/${rank}`).
+    useEffect(async () => {
+
+        setIsLoading(true)
+
+        //await axios.get(`/administrative/${college ? college : "none"}/${section ? section : "none"}/${rank}`).
+        await axios.get(`http://localhost:5000/administrative/${college ? college : "none"}/${section ? section : "none"}/${rank}`).
             then(res => {
                 if (res.data.success) {
                     setCurrentAdministrative(res.data.result);
@@ -28,6 +32,9 @@ function Administrative({ rank, college, section }) {
                     setShowSearchField(true)
                 }
             })
+
+        setIsLoading(false)
+
     }, [college, rank])
 
     const SelectNewAdministrative = (teacher) => {
@@ -39,7 +46,7 @@ function Administrative({ rank, college, section }) {
         setShowSearchField(prev => !prev)
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
 
         const data = {
             prev_administrative_id: currentAdministrative ? currentAdministrative._id : null,
@@ -47,14 +54,19 @@ function Administrative({ rank, college, section }) {
             administrativeRank: rank,
         }
 
-        axios.put("/administrative", data)
-            // axios.put("http://localhost:5000/administrative", data)
+        setIsLoading(true)
+
+        //await axios.put("/administrative", data)
+        await axios.put("http://localhost:5000/administrative", data)
             .then(res => {
                 if (res.data.success) {
                     setCurrentAdministrative(newAdministrative)
                     setNewAdministrative(null)
                 }
             });
+
+        setIsLoading(false)
+
     }
 
     return (
