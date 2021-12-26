@@ -108,7 +108,14 @@ function Administrative({ rank, college, section }) {
                 <Button onClick={toggleSearchField} style={{ backgroundColor: "#098D9C" }} primary>
                     {`${showSearchField ? "إلغاء" : "تغيير"}`}
                 </Button>
-                {newAdministrative && <Button onClick={handleSubmit} style={{ backgroundColor: "#098D9C" }} primary>حفظ</Button>}
+                {newAdministrative &&
+                    <Button
+                        loading={isLoading}
+                        disabled={isLoading}
+                        onClick={handleSubmit}
+                        style={{ backgroundColor: "#098D9C" }}
+                        primary>حفظ
+                    </Button>}
             </div>
         </div>
     )
