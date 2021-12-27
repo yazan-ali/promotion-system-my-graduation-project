@@ -57,7 +57,7 @@ function PromotionCommittee({ user, promotionRequest }) {
         setIsLoading(true)
 
         await axios.put(`/promotionCommittee/${promotionCommittee._id}`, { members: members })
-            //await axios.put(`http://localhost:5000/promotionCommittee/${promotionCommittee._id}`, { members: members })
+            // await axios.put(`http://localhost:5000/promotionCommittee/${promotionCommittee._id}`, { members: members })
             .then(res => {
                 if (res.data.success) {
                     toggleEditForm()
@@ -77,7 +77,7 @@ function PromotionCommittee({ user, promotionRequest }) {
         setIsLoading(true)
 
         await axios.post("/promotionCommittee", newPromotionCommittee)
-            //await axios.post("http://localhost:5000/promotionCommittee", newPromotionCommittee)
+            // await axios.post("http://localhost:5000/promotionCommittee", newPromotionCommittee)
             .then(res => {
                 if (res.data.success) {
                     dispatch(setPromotionCommittee(res.data.result))
@@ -133,7 +133,7 @@ function PromotionCommittee({ user, promotionRequest }) {
                                 )
                             )
                         }
-                        <div style={{ width: "50%", marginTop: "2rem" }}>
+                        <div className="searchable-textField-container">
                             <SearchableTextField
                                 placeholder="اسم عضو هيئة التدريس"
                                 optionsList={teachersList}

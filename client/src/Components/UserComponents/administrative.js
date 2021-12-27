@@ -19,8 +19,8 @@ function Administrative({ rank, college, section }) {
 
         setIsLoading(true)
 
-        await axios.get(`/administrative/${college ? college : "none"}/${section ? section : "none"}/${rank}`).
-            // await axios.get(`http://localhost:5000/administrative/${college ? college : "none"}/${section ? section : "none"}/${rank}`).
+        // await axios.get(`/administrative/${college ? college : "none"}/${section ? section : "none"}/${rank}`).
+        await axios.get(`http://localhost:5000/administrative/${college ? college : "none"}/${section ? section : "none"}/${rank}`).
             then(res => {
                 if (res.data.success) {
                     setCurrentAdministrative(res.data.result);
@@ -56,8 +56,8 @@ function Administrative({ rank, college, section }) {
 
         setIsLoading(true)
 
-        await axios.put("/administrative", data)
-            // await axios.put("http://localhost:5000/administrative", data)
+        // await axios.put("/administrative", data)
+        await axios.put("http://localhost:5000/administrative", data)
             .then(res => {
                 if (res.data.success) {
                     setCurrentAdministrative(newAdministrative)
@@ -76,7 +76,7 @@ function Administrative({ rank, college, section }) {
             {rank === 3 && <h3 style={{ textAlign: "center" }}>لجنة أمناء السر</h3>}
             {rank === 4 && <h3 style={{ textAlign: "center" }}>لجنة التعين والترقية</h3>}
             {rank === 5 && <h3 style={{ textAlign: "center" }}>رئاسة الجامعة</h3>}
-            <div style={{ display: "flex", justifyContent: "space-between", flexDirection: "row-reverse" }}>
+            <div style={{ display: "flex", flexDirection: "column" }}>
                 <div style={{
                     width: currentAdministrative || newAdministrative && "50%",
                     display: "flex",
@@ -94,7 +94,7 @@ function Administrative({ rank, college, section }) {
                         </>
                     }
                 </div>
-                {showSearchField && <div style={{ width: currentAdministrative || newAdministrative ? "70%" : "100%" }}>
+                {showSearchField && <div style={{ width: "100%", marginTop: "2rem" }}>
                     <SearchableTextField
                         optionsList={searchList}
                         placeholder={"اسم المستخدم"}
