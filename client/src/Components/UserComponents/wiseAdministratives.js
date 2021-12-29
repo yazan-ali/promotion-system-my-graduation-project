@@ -7,7 +7,7 @@ function WiseAdministratives({ selectedRank }) {
         <div className="college-administrative">
             {
                 selectedRank && <Administrative
-                    rank={selectedRank === "لجنة أمناء السر" ? 3 : selectedRank === "لجنة التعين والترقية" ? 4 : 5}
+                    rank={selectedRank === "أمانة سر المجالس" ? 3 : selectedRank === "لجنة التعين والترقية" ? 4 : 5}
                 />
             }
         </div>

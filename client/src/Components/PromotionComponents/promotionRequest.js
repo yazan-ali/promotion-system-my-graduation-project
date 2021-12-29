@@ -12,7 +12,9 @@ function PromotionRequest({ promotionRequest, handleAlert, user, promotionCommit
 
     const [toggleEditForm, setToggleEditForm] = useState(false);
 
-    const editCondition = (user.id === promotionRequest.created_by.id && promotionRequest.current_phase_number === 0);
+    const editCondition = (user.id === promotionRequest.created_by.id
+        && promotionRequest.current_phase_number === 0
+        && promotionRequest.process_level_number === 1);
 
     const handleToggleEditForm = () => {
         setToggleEditForm(prevState => !prevState);
@@ -33,7 +35,7 @@ function PromotionRequest({ promotionRequest, handleAlert, user, promotionCommit
                             <div className="promotion-request-card-header">
                                 {
                                     promotionRequest.current_phase_number > 0 && !promotionCommitteeID && (
-                                        <p>
+                                        <p style={{ color: "green" }}>
                                             {`يتم مراجعة طلبك من قبل ${ranks[promotionRequest.current_phase_number]}`}
                                         </p>
                                     )

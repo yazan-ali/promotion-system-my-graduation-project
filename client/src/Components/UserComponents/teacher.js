@@ -8,7 +8,8 @@ import { Redirect } from 'react-router-dom';
 import PromotionCommittee from '../PromotionCommitteeComponents/promotionCommittee';
 import { useDispatch, useSelector } from "react-redux";
 import { setTeacherData } from "../../state/actions/teacherDataActions";
-import Loader from '../loader'
+import Loader from '../loader';
+import EmailSend from "../PromotionComponents/emailSend"
 
 function Teacher(props) {
 
@@ -26,8 +27,8 @@ function Teacher(props) {
         const token = localStorage.getItem("jwtToken");
         axios.defaults.headers.common['Authorization'] = token ? `Bearer ${token}` : ""
 
-        // axios.get(`http://localhost:5000/teacher/${teacherID}`).
-        axios.get(`/teacher/${teacherID}`).
+        axios.get(`http://localhost:5000/teacher/${teacherID}`).
+            // axios.get(`/teacher/${teacherID}`).
             then(res => {
                 if (res.data.success) {
                     dispatch(setTeacherData(res.data.result))
@@ -76,6 +77,14 @@ function Teacher(props) {
                         user={user}
                         promotionRequest={teacher.promotionRequest}
                     />}
+
+                {/* {user.administrativeRank == 2 && */}
+                <EmailSend
+                    user={user}
+                    // files={Object.entries(teacher.promotionRequest.user_files)}
+                    user_files={teacher.promotionRequest.user_files}
+                />
+                {/* } */}
             </div>
         )
     }

@@ -10,7 +10,7 @@ function ApproveButton({ id, handleShowButtons }) {
 
         setIsLoading(true)
 
-        //await axios.put(`/promotionRequests/${id}/approve`)
+        // await axios.put(`/promotionRequests/${id}/approve`)
         await axios.put(`http://localhost:5000/promotionRequests/${id}/approve`)
             .then(res => {
                 if (res.data.success) {

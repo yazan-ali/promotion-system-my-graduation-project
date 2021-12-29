@@ -3,7 +3,6 @@ import React from 'react'
 function AdministrativeFilesList({ administrative_files }) {
     return (
         <div className="files-list">
-            <label>ملفات المشرفين</label>
             {
                 administrative_files?.file_1 && (
                     <div>

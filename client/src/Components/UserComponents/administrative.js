@@ -20,8 +20,8 @@ function Administrative({ rank, college, section }) {
 
         setIsLoading(true)
 
-        await axios.get(`/administrative/${college ? college : "none"}/${section ? section : "none"}/${rank}`).
-            // await axios.get(`http://localhost:5000/administrative/${college ? college : "none"}/${section ? section : "none"}/${rank}`).
+        // await axios.get(`/administrative/${college ? college : "none"}/${section ? section : "none"}/${rank}`).
+        await axios.get(`http://localhost:5000/administrative/${college ? college : "none"}/${section ? section : "none"}/${rank}`).
             then(res => {
                 if (res.data.success) {
                     setCurrentAdministrative(res.data.result);
@@ -78,9 +78,9 @@ function Administrative({ rank, college, section }) {
                 <>
                     {rank === 1 && <h3 style={{ textAlign: "center" }}>رئيس قسم {section}</h3>}
                     {rank === 2 && <h3 style={{ textAlign: "center" }}>عميد كلية {college}</h3>}
-                    {rank === 3 && <h3 style={{ textAlign: "center" }}>لجنة أمناء السر</h3>}
-                    {rank === 4 && <h3 style={{ textAlign: "center" }}>لجنة التعين والترقية</h3>}
-                    {rank === 5 && <h3 style={{ textAlign: "center" }}>رئاسة الجامعة</h3>}
+                    {rank === 3 && <h3 style={{ textAlign: "center" }}>رئاسة الجامعة</h3>}
+                    {rank === 4 && <h3 style={{ textAlign: "center" }}>أمانة سر المجالس</h3>}
+                    {rank === 5 && <h3 style={{ textAlign: "center" }}>لجنة التعين والترقية</h3>}
                     <div style={{ display: "flex", flexDirection: "column" }}>
                         <div style={{
                             width: currentAdministrative || newAdministrative && "50%",

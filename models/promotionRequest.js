@@ -65,6 +65,10 @@ const promototionRequestSchema = new mongoose.Schema({
         type: Number,
         require: true,
     },
+    process_level_number: {
+        type: Number,
+        require: true,
+    },
     rejected: {
         type: Boolean,
         require: true,

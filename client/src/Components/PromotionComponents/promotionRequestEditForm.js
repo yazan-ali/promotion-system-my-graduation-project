@@ -42,8 +42,8 @@ function PromotionRequestEditForm({ handleToggleEditForm, handleAlert, user }) {
 
         setIsLoading(true)
 
-        await axios.put(`/promotionRequests/${promotionRequest._id}`, updatedPromotionRequest)
-            // await axios.put(`http://localhost:5000/promotionRequests/${promotionRequest._id}`, updatedPromotionRequest)
+        // await axios.put(`/promotionRequests/${promotionRequest._id}`, updatedPromotionRequest)
+        await axios.put(`http://localhost:5000/promotionRequests/${promotionRequest._id}`, updatedPromotionRequest)
             .then(res => {
                 if (res.data.success) {
                     dispatch(setPromotionRequest({ ...promotionRequest, ...updatedPromotionRequest }));

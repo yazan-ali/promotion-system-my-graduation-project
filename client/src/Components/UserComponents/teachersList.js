@@ -33,7 +33,6 @@ import { Divider } from 'semantic-ui-react';
 function TeachersList({ teachers, user }) {
     return (
         <>
-            {/* <Divider style={{ marginBottom: -5 }} horizontal>أعضاء الهيئة التدريسية</Divider> */}
             <div className="teachers-list">
                 {
                     teachers.map(teacher => (

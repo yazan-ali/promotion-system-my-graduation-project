@@ -27,8 +27,8 @@ function Dashboard() {
 
         setIsLoading(true)
 
-        axios.get(`/user/${user.college}/${user.section}`).
-            // await axios.get(`http://localhost:5000/user/${user.college}/${user.section}`).
+        // axios.get(`/user/${user.college}/${user.section}`).
+        await axios.get(`http://localhost:5000/user/${user.college}/${user.section}`).
             then(res => {
                 if (res.data.success) {
                     if (res.data.teachers) {
@@ -37,8 +37,8 @@ function Dashboard() {
                 }
             })
 
-        await axios.get(`/promotionCommittee/promotionRequests/${user.id}`).
-            // await axios.get(`http://localhost:5000/promotionCommittee/promotionRequests/${user.id}`).
+        // await axios.get(`/promotionCommittee/promotionRequests/${user.id}`).
+        await axios.get(`http://localhost:5000/promotionCommittee/promotionRequests/${user.id}`).
             then(res => {
                 if (res.data.success) {
                     dispatch(setPromotionRequestsForMember(res.data.result));
@@ -64,7 +64,7 @@ function Dashboard() {
                             user={user}
                         /> : null
                     }
-                    tab1_label={"طلبات الترقية"}
+                    tab1_label={"طلبات الترقية من مجلس التعيين و الترقية / الكلية"}
                     isLoading={isLoading}
                     tab2={
                         user.administrativeRank > 0 ?

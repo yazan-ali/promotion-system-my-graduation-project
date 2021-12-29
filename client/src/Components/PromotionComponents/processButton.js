@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { Button } from 'semantic-ui-react';
 import axios from 'axios';
+import { ranks } from "../../constants"
 
-function RejectionButton({ id, handleShowButtons, rejectionReasons }) {
+function Process({ id, handleShowButtons, administrativeRank }) {
 
     const [isLoading, setIsLoading] = useState(false);
 
-    const reject = async () => {
+    const approve = async () => {
 
         setIsLoading(true)
 
-        // await axios.put(`/promotionRequests/${id}/rejection`, { rejectionReasons })
-        await axios.put(`http://localhost:5000/promotionRequests/${id}/rejection`, { rejectionReasons })
+        // await axios.put(`/promotionRequests/${id}/process_2`)
+        await axios.put(`http://localhost:5000/promotionRequests/${id}/process_2`)
             .then(res => {
                 if (res.data.success) {
                     handleShowButtons()
@@ -25,11 +26,12 @@ function RejectionButton({ id, handleShowButtons, rejectionReasons }) {
         <Button
             loading={isLoading}
             disabled={isLoading}
-            style={{ backgroundColor: "#D1162C", color: "#fff" }}
-            onClick={rejectionReasons.length > 0 && reject}>
-            رفض
+            style={{ backgroundColor: "#098D9C" }}
+            primary
+            onClick={approve}>
+            إرسال الطلب إلى {ranks[administrativeRank - 1]}
         </Button>
     )
 }
 
-export default RejectionButton;
+export default Process;

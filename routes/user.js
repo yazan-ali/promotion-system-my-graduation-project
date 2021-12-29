@@ -56,11 +56,15 @@ router.get("/user/:college/:section", async (req, res) => {
                 teachers = await User.find({
                     college: req.params.college,
                     section: req.params.section,
+                    isAdmin: false
                 }).populate("promotionRequest")
             } else if (user.administrativeRank === 2) {
-                teachers = await User.find({ college: req.params.college }).populate("promotionRequest")
+                teachers = await User.find({
+                    college: req.params.college,
+                    isAdmin: false
+                }).populate("promotionRequest")
             } else if (user.administrativeRank > 2) {
-                teachers = await User.find({}).populate("promotionRequest")
+                teachers = await User.find({ isAdmin: false }).populate("promotionRequest")
             }
             res.json({
                 success: true,
@@ -195,7 +199,7 @@ router.get("/teachers", async (req, res) => {
     try {
 
         // const teachers = await User.find({ isAdmin: false })
-        const teachers = await User.find({})
+        const teachers = await User.find({ isAdmin: false })
         res.json({
             success: true,
             result: teachers
