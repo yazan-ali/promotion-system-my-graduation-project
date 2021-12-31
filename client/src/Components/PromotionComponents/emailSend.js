@@ -1,46 +1,62 @@
 import React, { useState, useEffect } from 'react';
 import EmailSender from '../emailSender'
-import FileUpload from '../../Components/PromotionComponents/fileUpload'
+import UserFilesList from './userFilesList'
+import "../Style/emailSender.css"
 
-function EmailSend({ user_files }) {
+function EmailSend({ user_files, promotionRequestID }) {
 
-    const [files, setFiles] = useState([])
     const [selectedFiles, setSelectedFiles] = useState([])
+    const [uploadedFiles, setUploadedFiles] = useState([])
 
     useEffect(() => {
-        const newFiles = []
-        for (const file in user_files) {
-            if (file === "researchFiles") {
-                user_files[file].map(researchFile => {
-                    newFiles.push(researchFile.file)
+
+        let files = []
+        for (let file in user_files) {
+            if (file === "researchFiles" && user_files[file]) {
+                user_files[file].map(file => {
+                    files.push({
+                        filename: file.file.name,
+                        path: file.file.url
+                    })
                 })
-            } else {
-                newFiles.push(user_files[file])
+            } else if (user_files[file]) {
+                files.push({
+                    filename: user_files[file].name,
+                    path: user_files[file].url
+                })
             }
         }
-        setFiles(newFiles)
+
+        setSelectedFiles(files)
+
     }, [])
 
-
-    const selectFile = (file) => {
-        const selectedFile = {
+    const fileUpload = (file) => {
+        const uploadedFile = {
             filename: file.name,
             path: file.url
         }
-        setSelectedFiles([...selectedFiles, selectedFile])
+        setUploadedFiles([...uploadedFiles, uploadedFile])
+    }
+
+    const unselectFile = (path) => {
+        const filteredFiles = uploadedFiles.filter(file => file.path !== path)
+        setUploadedFiles(filteredFiles)
     }
 
     return (
-        <div style={{ marginTop: 100 }}>
-            {
-                files.map(file => (
-                    <p className="file" key={file.path} onClick={() => selectFile(file)}>{file.name}</p>
-                ))
-            }
-            <FileUpload
-                fileUpload={selectFile}
+        <div className="email-sender">
+            <h2>إرسال طلب الترقية إلى المحكمين</h2>
+            <div className="files">
+
+            </div>
+            <EmailSender
+                emailAttachment={selectedFiles}
+                uploadedFiles={uploadedFiles}
+                promotionRequestID={promotionRequestID}
+                unselectFile={unselectFile}
+                fileUpload={fileUpload}
             />
-            <EmailSender emailAttachment={selectedFiles} />
         </div>
     )
 }

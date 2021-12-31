@@ -27,8 +27,8 @@ function Teacher(props) {
         const token = localStorage.getItem("jwtToken");
         axios.defaults.headers.common['Authorization'] = token ? `Bearer ${token}` : ""
 
-        axios.get(`http://localhost:5000/teacher/${teacherID}`).
-            // axios.get(`/teacher/${teacherID}`).
+        // axios.get(`http://localhost:5000/teacher/${teacherID}`).
+        axios.get(`/teacher/${teacherID}`).
             then(res => {
                 if (res.data.success) {
                     dispatch(setTeacherData(res.data.result))
@@ -50,7 +50,7 @@ function Teacher(props) {
 
     if (!teacher) {
         return <div className="loader">
-            <Loader color={"gray"} size={6} />
+            <Loader color={"gray"} size={"huge"} />
         </div>
     } else {
 
@@ -78,13 +78,16 @@ function Teacher(props) {
                         promotionRequest={teacher.promotionRequest}
                     />}
 
-                {/* {user.administrativeRank == 2 && */}
-                <EmailSend
-                    user={user}
-                    // files={Object.entries(teacher.promotionRequest.user_files)}
-                    user_files={teacher.promotionRequest.user_files}
-                />
-                {/* } */}
+                {user.administrativeRank == 5 &&
+                    <EmailSend
+                        user_files={{
+                            file_5: teacher.promotionRequest.user_files.file_5,
+                            file_6: teacher.promotionRequest.user_files.file_6,
+                            researchFiles: teacher.promotionRequest.user_files.researchFiles
+                        }}
+                        promotionRequestID={teacher.promotionRequest._id}
+                    />
+                }
             </div>
         )
     }

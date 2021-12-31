@@ -1,12 +1,18 @@
 import React from 'react';
+import { Loader } from 'semantic-ui-react'
 
-function Loader({ color, size }) {
+function Loading({ color, size, inverted }) {
     return (
-        <div style={{ width: "100%", color: color }}>
-            <i className={`fas fa-${size}x fa-circle-notch fa-spin`}></i>
-            <h3>Loading...</h3>
-        </div>
+        <Loader
+            style={{ color: color }}
+            active
+            inline='centered'
+            size={size}
+            inverted={inverted}
+        >
+            Loading
+        </Loader>
     )
 }
 
-export default Loader;
+export default Loading;

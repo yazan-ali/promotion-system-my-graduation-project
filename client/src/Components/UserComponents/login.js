@@ -24,8 +24,8 @@ function Login() {
 
         setIsLoading(true)
 
-        // await axios.post("/login", loginInfo)
-        await axios.post("http://localhost:5000/login", loginInfo)
+        await axios.post("/login", loginInfo)
+            // await axios.post("http://localhost:5000/login", loginInfo)
             .then(res => {
                 if (res.data.auth) {
                     context.login(res.data.result);
@@ -55,11 +55,11 @@ function Login() {
             <Form loading={isLoading} onSubmit={handleLogin}>
                 <Form.Field>
                     <label>اسم المستخدم</label>
-                    <input placeholder='اسم المستخدم' name="username" value={values.username} onChange={setValues} />
+                    <input required placeholder='اسم المستخدم' name="username" value={values.username} onChange={setValues} />
                 </Form.Field>
                 <Form.Field>
                     <label>كلمة السر</label>
-                    <input type="password" placeholder='كلمة السر' name="password" value={values.password} onChange={setValues} />
+                    <input type="password" required placeholder='كلمة السر' name="password" value={values.password} onChange={setValues} />
                 </Form.Field>
                 <div className="login-buttons" >
                     <Link to="/register">إنشاء حساب جديد</Link>

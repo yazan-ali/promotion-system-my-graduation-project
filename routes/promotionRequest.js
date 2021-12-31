@@ -340,7 +340,7 @@ router.put("/promotionRequests/:id/rejection", async (req, res) => {
 });
 
 // process 2
-router.put("/promotionRequests/:id/process_2", async (req, res) => {
+router.put("/promotionRequests/:id/process_2_approve", async (req, res) => {
 
     try {
 
@@ -375,42 +375,7 @@ router.put("/promotionRequests/:id/process_2", async (req, res) => {
     }
 });
 
-// sync function main() {
-
-//     let transporter = nodemailer.createTransport({
-//         service: 'gmail',
-//         auth: {
-//             user: "yazan1abuali@gmail.com",
-//             pass: "naruto154ali",
-//         },
-//     });
-
-//     let info = await transporter.sendMail({
-//         from: 'yazan1abuali@gmail.com',
-//         to: "yazanabuali2000@gmail.com",
-//         subject: "Hello ✔",
-//         text: "Hello world?",
-//         html: "<b>Hello world???</b>",
-//         attachments: [
-//             {
-//                 filename: 'test.pdf',
-//                 path: 'https://cdn.filestackcontent.com/HG2bguhQkWEuc2jxFELw'
-//             },
-//         ]
-//     });
-
-//     console.log("Message sent: %s", info.messageId);
-//     // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-
-//     // Preview only available when sending through an Ethereal account
-//     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-//     // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
-// }
-
-// main().catch(console.error);
-
-// send research file by email
-router.post("/send-email", async (req, res) => {
+router.post("/send-email/:id", async (req, res) => {
 
     try {
         let transporter = nodemailer.createTransport({
@@ -421,14 +386,44 @@ router.post("/send-email", async (req, res) => {
             },
         });
 
-        let info = await transporter.sendMail({
+        const mailList = [];
+        for (let mail in req.body.mailList) {
+            if (req.body.mailList[mail] === "") return
+            mailList.push(req.body.mailList[mail])
+        }
+
+        const mailOption = {
             from: req.body.from,
-            to: req.body.to,
+            to: mailList,
             subject: req.body.subject,
             text: req.body.body,
             attachments: [
                 ...req.body.attachments
             ]
+        }
+
+        transporter.sendMail(mailOption, async (err, info) => {
+            if (err) {
+                res.json({
+                    success: false,
+                    message: "حدث خطأ ما"
+                });
+                throw new Error("An error occurred")
+            } else {
+                try {
+                    const promotionRequest = await PromotionRequset.findOne({ _id: req.params.id });
+                    promotionRequest.process_level_number = 2;
+                    promotionRequest.sent_to = [...promotionRequest.sent_to, ...mailList];
+                    await promotionRequest.save();
+
+                    res.json({
+                        success: true,
+                        message: "تم إرسال البريد بنجاح"
+                    });
+                } catch (err) {
+                    console.log(err)
+                }
+            }
         });
     } catch (err) {
         console.log(err)

@@ -1,21 +1,19 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Button, Form, Select, TextArea } from 'semantic-ui-react';
+import { Button, Form, TextArea } from 'semantic-ui-react';
+import FileUpload from '../Components/PromotionComponents/fileUpload'
 
-function EmailSender({ emailAttachment }) {
+function EmailSender({ emailAttachment, uploadedFiles, unselectFile, fileUpload, promotionRequestID }) {
 
     const [from, setFrom] = useState("");
-    const [emails, setEmails] = useState("");
+    const [emails, setEmails] = useState({});
     const [subject, setSubject] = useState("");
     const [body, setBody] = useState("");
     const [numOfEmails, setNumOfEmails] = useState(1);
+    const [isLoading, setIsLoading] = useState(false);
 
     const increaseInputFields = () => {
         setNumOfEmails(prev => prev + 1);
-    }
-
-    const decreaseInputFields = () => {
-        setNumOfEmails(prev => prev - 1);
     }
 
     const handleFromChange = (evt) => {
@@ -23,8 +21,7 @@ function EmailSender({ emailAttachment }) {
     }
 
     const addNewEmail = (evt) => {
-        // setEmails([...emails, { [evt.target.name]: evt.target.value }])
-        setEmails(evt.target.value);
+        setEmails({ ...emails, [evt.target.name]: evt.target.value })
     }
 
     const handleSubjectChange = (evt) => {
@@ -39,91 +36,127 @@ function EmailSender({ emailAttachment }) {
     const handelSendEmail = async (evt) => {
         evt.preventDefault();
 
+        setIsLoading(true);
+
         const email = {
             from,
-            to: emails,
+            mailList: emails,
             subject,
             body,
-            attachments: emailAttachment
+            attachments: [...emailAttachment, ...uploadedFiles]
         }
 
-        await axios.post("http://localhost:5000/send-email", email)
+        // await axios.post(`http://localhost:5000/send-email/${promotionRequestID}`, email)
+        await axios.post(`/send-email/${promotionRequestID}`, email)
             .then(res => {
-                // if (res.data.success) {
-                //     alert = {
-                //         message: res.data.message,
-                //         type: "success"
-                //     };
-                //     dispatch(setPromotionRequest(res.data.result));
-                // } else {
-                //     if (Object.keys(res.data.errors).length > 0) {
-                //         setErrors(res.data.errors)
-                //         return
-                //     }
-                //     alert = {
-                //         message: res.data.message,
-                //         type: "fail"
-                //     }
-                // }
+                if (res.data.success) {
+                    console.log(res.data)
+                    // alert = {
+                    //     message: res.data.message,
+                    //     type: "success"
+                    // };
+                    // dispatch(setPromotionRequest(res.data.result));
+                } else {
+                    // if (Object.keys(res.data.errors).length > 0) {
+                    //     setErrors(res.data.errors)
+                    //     return
+                    // }
+                    // alert = {
+                    //     message: res.data.message,
+                    //     type: "fail"
+                    // }
+                }
                 // handleAlert(alert)
             });
 
-        // setIsLoading(false)
+        setIsLoading(false)
     }
 
     return (
-        <div>
+        <div className="email-form">
+            <h3>إرسال بريد إلكتروني</h3>
             <Form onSubmit={handelSendEmail}>
                 <Form.Field>
                     <label>من</label>
                     <input
-                        placeholder='البريد الإلكتروني الخاص بك'
+                        type="email"
                         value={from}
                         onChange={handleFromChange}
                         required
                     />
                 </Form.Field>
                 <label>إلى</label>
-                <Form>
+                <div style={{ marginTop: 5 }}>
                     {
                         Array.from({ length: numOfEmails }).map((_, idx) => (
                             <Form.Field>
-                                {/* <input type="email"
-                                    placeholder='البريد الإلكتروني المرسل له'
-                                    value={emails[`email_${idx}`]}
+                                <input
+                                    type="email"
+                                    value={emails[`email_${idx + 1}`]}
                                     name={`email_${idx + 1}`}
-                                    onChange={addNewEmail}
-                                    required
-                                /> */}
-                                <input type="email"
-                                    placeholder='البريد الإلكتروني المرسل له'
-                                    value={emails}
                                     onChange={addNewEmail}
                                     required
                                 />
                             </Form.Field>
                         ))
                     }
-                    <Form.Field>
-                        <label>الموضوع</label>
-                        <input
-                            placeholder='الموضوع'
-                            value={subject}
-                            onChange={handleSubjectChange}
-                            required
-                        />
-                    </Form.Field>
-                    <TextArea
-                        placeholder='الرسالة'
-                        value={body}
-                        onChange={handleBodyChange}
+                </div>
+                <Button
+                    onClick={increaseInputFields}
+                    type="button"
+                    style={{ margin: "10px 0" }}
+                >+</Button>
+                <Form.Field>
+                    <label>الموضوع</label>
+                    <input
+                        value={subject}
+                        onChange={handleSubjectChange}
                         required
                     />
-                </Form>
-                <button onClick={increaseInputFields} type="button">+</button>
-                <button onClick={decreaseInputFields} type="button">-</button>
-                {/* <input type="file" /> */}
-                <button type="submit">Send</button>
+                </Form.Field>
+                <TextArea
+                    placeholder='الرسالة'
+                    value={body}
+                    onChange={handleBodyChange}
+                    required
+                />
+
+                {emailAttachment.length > 0 && <div style={{ padding: "30px 0" }}>
+                    <p>الملفات المرفقة</p>
+                    {
+                        emailAttachment.map(file => (
+                            <p style={{ cursor: "default" }} className="file" key={file.path}>
+                                {file.filename}
+                            </p>
+                        ))
+                    }
+                    {
+                        uploadedFiles.map(file => (
+                            <p style={{ cursor: "default" }} className="file" key={file.path}>
+                                <span>{file.filename}</span>
+                                <span
+                                    style={{ cursor: 'pointer' }}
+                                    onClick={() => unselectFile(file.path)}>
+                                    <i className="fas fa-trash-alt"></i>
+                                </span>
+                            </p>
+                        ))
+                    }
+                </div>}
+
+                <FileUpload
+                    fileUpload={fileUpload}
+                    doNotShowFile={true}
+                />
+
+                <Button
+                    loading={isLoading}
+                    disabled={isLoading}
+                    type="submit"
+                    style={{ backgroundColor: "#098D9C", color: "#fff", marginTop: 20 }}
+                >
+                    إرسال
+                </Button>
             </Form>
         </div>
     )

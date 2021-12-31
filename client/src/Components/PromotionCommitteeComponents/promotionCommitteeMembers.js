@@ -18,8 +18,8 @@ function PromotionCommitteeMembers({ members, promotionCommitteeID, showEditForm
 
         setIsLoading(true)
 
-        // axios.delete(`/promotionCommittee/${promotionCommitteeID}`)
-        axios.delete(`http://localhost:5000/promotionCommittee/${promotionCommitteeID}`)
+        axios.delete(`/promotionCommittee/${promotionCommitteeID}`)
+            // axios.delete(`http://localhost:5000/promotionCommittee/${promotionCommitteeID}`)
             .then(res => {
                 if (res.data.success) {
                     dispatch(setPromotionCommittee(null))

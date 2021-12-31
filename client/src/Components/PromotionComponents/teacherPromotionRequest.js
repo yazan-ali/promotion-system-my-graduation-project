@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../Style/promotionRequest.css';
 import { Button, Form } from 'semantic-ui-react'
 import ApproveButton from './approveButton';
-import Process from './processButton';
+import ProcessTowApproveButton from './processTowApproveButton';
 import RejectionButton from './rejectionButton';
 import axios from 'axios';
 import FileUpload from './fileUpload';
@@ -49,8 +49,8 @@ function TeacherPromotionRequest({ handleShowButtons, user, showButtons }) {
 
         setIsLoading(true)
 
-        await axios.put(`http://localhost:5000/promotionRequests/administrative/${promotionRequest._id}`, administrative_files)
-            // axios.put(`/promotionRequests/administrative/${promotionRequest._id}`, administrative_files)
+        // await axios.put(`http://localhost:5000/promotionRequests/administrative/${promotionRequest._id}`, administrative_files)
+        axios.put(`/promotionRequests/administrative/${promotionRequest._id}`, administrative_files)
             .then(res => {
                 if (res.data.success) {
                     setShowSaveBtn(false);
@@ -64,9 +64,8 @@ function TeacherPromotionRequest({ handleShowButtons, user, showButtons }) {
         <div className="promotion-request-card">
             <div>
                 <div style={{ display: "flex", flexDirection: "row-reverse", justifyContent: "space-between" }}>
-                    <p>{moment(promotionRequest.created_at).fromNow()}</p>
+                    <p>{moment(promotionRequest.updated_at).fromNow()}</p>
                 </div>
-                <p>{promotionRequest.promotion_request_status}</p>
 
                 <UserFilesList user_files={promotionRequest.user_files} />
 
@@ -247,6 +246,21 @@ function TeacherPromotionRequest({ handleShowButtons, user, showButtons }) {
                 isAdministrative={true}
             />
 
+            {
+                promotionRequest.process_level_number === 2 && promotionRequest.sent_to.length > 0 && promotionRequest.current_phase_number === 5 && (
+                    <div style={{ color: "green" }}>
+                        <h4>: تم إرسال الطلب عبر البريد الإلكتروني إلى</h4>
+                        <ul style={{ direction: "rtl", textAlign: "start" }}>
+                            {
+                                promotionRequest.sent_to.map((mail, idx) => (
+                                    <li key={idx}>{mail}</li>
+                                ))
+                            }
+                        </ul>
+                    </div>
+                )
+            }
+
             <div className="btns-container">
                 {
                     administrativeRankCondition && showButtons && (
@@ -272,7 +286,7 @@ function TeacherPromotionRequest({ handleShowButtons, user, showButtons }) {
                                         />
                                     </>
                                 ) : (
-                                    <Process
+                                    <ProcessTowApproveButton
                                         id={promotionRequest._id}
                                         handleShowButtons={handleShowButtons}
                                         administrativeRank={user.administrativeRank}

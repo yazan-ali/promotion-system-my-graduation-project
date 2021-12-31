@@ -20,8 +20,8 @@ function Administrative({ rank, college, section }) {
 
         setIsLoading(true)
 
-        // await axios.get(`/administrative/${college ? college : "none"}/${section ? section : "none"}/${rank}`).
-        await axios.get(`http://localhost:5000/administrative/${college ? college : "none"}/${section ? section : "none"}/${rank}`).
+        await axios.get(`/administrative/${college ? college : "none"}/${section ? section : "none"}/${rank}`).
+            // await axios.get(`http://localhost:5000/administrative/${college ? college : "none"}/${section ? section : "none"}/${rank}`).
             then(res => {
                 if (res.data.success) {
                     setCurrentAdministrative(res.data.result);
@@ -57,8 +57,8 @@ function Administrative({ rank, college, section }) {
 
         setIsLoading(true)
 
-        // await axios.put("/administrative", data)
-        await axios.put("http://localhost:5000/administrative", data)
+        await axios.put("/administrative", data)
+            // await axios.put("http://localhost:5000/administrative", data)
             .then(res => {
                 if (res.data.success) {
                     setCurrentAdministrative(newAdministrative)
@@ -73,7 +73,7 @@ function Administrative({ rank, college, section }) {
     return (
         <div className="administrative-info">
             {isLoading ? (
-                <Loader color={"gray"} size={2} />
+                <Loader color={"gray"} size={"medium"} />
             ) : (
                 <>
                     {rank === 1 && <h3 style={{ textAlign: "center" }}>رئيس قسم {section}</h3>}

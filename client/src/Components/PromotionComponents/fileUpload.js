@@ -70,7 +70,7 @@ function FileUpload({ label, fileUpload, removeFile, fileData, doNotShowFile, n,
                 {
                     file ? (
                         <p className="file" key={file.uploadId}>
-                            <span>{file.name}</span>
+                            <a href={file.url}>{file.name}</a>
                             {
                                 canEdit && (
                                     <span

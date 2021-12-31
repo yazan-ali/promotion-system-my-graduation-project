@@ -1,68 +1,132 @@
 import React from 'react';
 
 function UserFilesList({ user_files }) {
+
     return (
         <div className="files-list">
             {
                 user_files?.file_1 && (
                     <div>
-                        <label style={{ display: "block", marginRight: 5, padding: "15px 0" }}>{user_files.file_1.label}</label>
-                        <p className="file">{user_files.file_1.name}</p>
+                        <label className="file-label">{user_files.file_1.label}</label>
+                        <p className="file">
+                            <a
+                                href={user_files.file_1.url}>
+                                {user_files.file_1.name}
+                            </a>
+                        </p>
                     </div>
                 )
             }
             {
                 user_files?.file_2 && (
                     <div>
-                        <label style={{ display: "block", marginRight: 5, padding: "15px 0" }}>{user_files.file_2.label}</label>
-                        <p className="file">{user_files.file_2.name}</p>
+                        <label className="file-label">{user_files.file_2.label}</label>
+                        <p className="file">
+                            <a
+                                href={user_files.file_2.url}>
+                                {user_files.file_2.name}
+                            </a>
+                        </p>
                     </div>
                 )
             }
             {
                 user_files?.file_3 && (
                     <div>
-                        <label style={{ display: "block", marginRight: 5, padding: "15px 0" }}>{user_files.file_3.label}</label>
-                        <p className="file">{user_files.file_3.name}</p>
+                        <label className="file-label">{user_files.file_3.label}</label>
+                        <p className="file">
+                            <a
+                                href={user_files.file_3.url}>
+                                {user_files.file_3.name}
+                            </a>
+                        </p>
                     </div>
                 )
             }
             {
                 user_files?.file_4 && (
                     <div>
-                        <label style={{ display: "block", marginRight: 5, padding: "15px 0" }}>{user_files.file_4.label}</label>
-                        <p className="file">{user_files.file_4.name}</p>
+                        <label className="file-label">{user_files.file_4.label}</label>
+                        <p className="file">
+                            <a
+                                href={user_files.file_4.url}>
+                                {user_files.file_4.name}
+                            </a>
+                        </p>
                     </div>
                 )
             }
             {
                 user_files?.file_5 && (
                     <div>
-                        <label style={{ display: "block", marginRight: 5, padding: "15px 0" }}>{user_files.file_5.label}</label>
-                        <p className="file">{user_files.file_5.name}</p>
+                        <label className="file-label">{user_files.file_5.label}</label>
+                        <p className="file">
+                            <a
+                                href={user_files.file_5.url}>
+                                {user_files.file_5.name}
+                            </a>
+                        </p>
                     </div>
                 )
             }
             {
                 user_files?.file_6 && (
                     <div>
-                        <label style={{ display: "block", marginRight: 5, padding: "15px 0" }}>{user_files.file_6.label}</label>
-                        <p className="file">{user_files.file_6.name}</p>
+                        <label className="file-label">{user_files.file_6.label}</label>
+                        <p className="file">
+                            <a
+                                href={user_files.file_6.url}>
+                                {user_files.file_6.name}
+                            </a>
+                        </p>
+                    </div>
+                )
+            }
+            {
+                user_files?.file_7 && (
+                    <div>
+                        <label className="file-label">{user_files.file_7.label}</label>
+                        <p className="file">
+                            <a
+                                href={user_files.file_7.url}>
+                                {user_files.file_7.name}
+                            </a>
+                        </p>
+                    </div>
+                )
+            }
+            {
+                user_files?.file_8 && (
+                    <div>
+                        <label className="file-label">{user_files.file_8.label}</label>
+                        <p className="file">
+                            <a
+                                href={user_files.file_8.url}>
+                                {user_files.file_8.name}
+                            </a>
+                        </p>
                     </div>
                 )
             }
             {
                 user_files?.researchFiles &&
                 <div>
-                    <label style={{ display: "block", marginRight: 5, padding: "15px 0" }}>الأبحاث</label>
+                    <label className="file-label">الأبحاث</label>
                     {
                         user_files.researchFiles.map(file => (
-                            <p className="file" key={file.file.uploadId}>{file.file.name}</p>
+                            file && (
+                                <p
+                                    className="file" key={file.file.uploadId}>
+                                    <a href={file.file.url}>
+                                        {file.file.name}
+                                    </a>
+                                </p>
+                            )
                         ))
                     }
                 </div>
             }
-        </div>
+        </div >
     )
 }
 

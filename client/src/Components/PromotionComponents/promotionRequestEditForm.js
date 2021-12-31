@@ -42,8 +42,8 @@ function PromotionRequestEditForm({ handleToggleEditForm, handleAlert, user }) {
 
         setIsLoading(true)
 
-        // await axios.put(`/promotionRequests/${promotionRequest._id}`, updatedPromotionRequest)
-        await axios.put(`http://localhost:5000/promotionRequests/${promotionRequest._id}`, updatedPromotionRequest)
+        await axios.put(`/promotionRequests/${promotionRequest._id}`, updatedPromotionRequest)
+            // await axios.put(`http://localhost:5000/promotionRequests/${promotionRequest._id}`, updatedPromotionRequest)
             .then(res => {
                 if (res.data.success) {
                     dispatch(setPromotionRequest({ ...promotionRequest, ...updatedPromotionRequest }));
@@ -79,6 +79,8 @@ function PromotionRequestEditForm({ handleToggleEditForm, handleAlert, user }) {
                         toggleShowResearchFiles={toggleShowResearchFiles}
                         checkIfCanSubmit={checkIfCanSubmit}
                         promotionType={promotionRequest.promotion_type}
+                        files={files}
+                        administrative_years_files={[files.file_7, files.file_8]}
                     />
                 }
             </div>
@@ -144,6 +146,29 @@ function PromotionRequestEditForm({ handleToggleEditForm, handleAlert, user }) {
                                 type='button'>تعديل</Button>
                         </div>
                     )}
+
+                    {
+                        files?.file_7 && (
+                            <div>
+                                <label className="file-label">{files.file_7.label}</label>
+                                <p className="file">
+                                    {files.file_7.name}
+                                </p>
+                            </div>
+                        )
+                    }
+
+                    {
+                        files?.file_8 && (
+                            <div>
+                                <label className="file-label">{files.file_8.label}</label>
+                                <p className="file">
+                                    {files.file_8.name}
+                                </p>
+                            </div>
+                        )
+                    }
+
                     {
                         promotionRequest.rejectionReasons.length > 0 &&
                         < RejectionReasons reasons={promotionRequest.rejectionReasons} />

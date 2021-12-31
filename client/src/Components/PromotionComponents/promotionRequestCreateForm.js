@@ -53,7 +53,9 @@ function PromotionRequestCreateForm({ handleShowCreateForm, handleAlert, user, p
     }
 
     const handleRemoveFile = (n) => {
-        delete files[`file_${n}`]
+        const fileList = { ...files }
+        delete fileList[`file_${n}`]
+        setFiles({ ...fileList })
     }
 
 
@@ -74,7 +76,8 @@ function PromotionRequestCreateForm({ handleShowCreateForm, handleAlert, user, p
     }
 
     const handleSubmit = async () => {
-        if (dateErr !== null) return;
+
+        if (dateErr !== null || !canSubmit) return;
 
         let alert;
 
@@ -87,8 +90,8 @@ function PromotionRequestCreateForm({ handleShowCreateForm, handleAlert, user, p
 
         setIsLoading(true)
 
-        // await axios.post("/promotionRequests", newPromtionRequest)
-        await axios.post("http://localhost:5000/promotionRequests", newPromtionRequest)
+        await axios.post("/promotionRequests", newPromtionRequest)
+            // await axios.post("http://localhost:5000/promotionRequests", newPromtionRequest)
             .then(res => {
                 if (res.data.success) {
                     alert = {
@@ -118,9 +121,12 @@ function PromotionRequestCreateForm({ handleShowCreateForm, handleAlert, user, p
                 <AddResearchFiles
                     addResearchFiles={addResearchFiles}
                     user={user}
+                    fileUpload={fileUpload}
+                    removeFile={handleRemoveFile}
                     toggleShowResearchFiles={toggleShowResearchFiles}
                     checkIfCanSubmit={checkIfCanSubmit}
                     promotionType={promotionType}
+                    administrative_years_files={[files.file_7, files.file_8]}
                 />
             </div>
             <div style={{ display: showResearchFiles ? "none" : "" }}>
@@ -226,6 +232,29 @@ function PromotionRequestCreateForm({ handleShowCreateForm, handleAlert, user, p
                                 type='button'>أضافة أبحاث</Button>
                         </Form.Field>
                     )}
+
+                    {
+                        files?.file_7 && (
+                            <div>
+                                <label className="file-label">{files.file_7.label}</label>
+                                <p className="file">
+                                    {files.file_7.name}
+                                </p>
+                            </div>
+                        )
+                    }
+
+                    {
+                        files?.file_8 && (
+                            <div>
+                                <label className="file-label">{files.file_8.label}</label>
+                                <p className="file">
+                                    {files.file_8.name}
+                                </p>
+                            </div>
+                        )
+                    }
+
                     {errors.files && <div style={{ paddingTop: 10 }}>
                         <Label basic color='red' pointing="right">
                             {errors.files}

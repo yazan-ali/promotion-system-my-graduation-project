@@ -69,6 +69,10 @@ const promototionRequestSchema = new mongoose.Schema({
         type: Number,
         require: true,
     },
+    sent_to: {
+        type: [],
+        default: []
+    },
     rejected: {
         type: Boolean,
         require: true,

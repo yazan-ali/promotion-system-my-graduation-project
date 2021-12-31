@@ -28,8 +28,8 @@ function PromotionRequestList({ user }) {
 
         if (user) {
 
-            // await axios.get(`/promotionRequests/${user.id}`).
-            await axios.get(`http://localhost:5000/promotionRequests/${user.id}`).
+            await axios.get(`/promotionRequests/${user.id}`).
+                // await axios.get(`http://localhost:5000/promotionRequests/${user.id}`).
                 then(res => {
                     if (res.data.success) {
                         dispatch(setPromotionRequest(res.data.result));
@@ -57,7 +57,7 @@ function PromotionRequestList({ user }) {
     }
 
     if (isLoading) return (
-        <Loader color={"#fff"} size={4} />
+        <Loader color={"#fff"} size={"huge"} inverted={true} />
     )
 
     return (

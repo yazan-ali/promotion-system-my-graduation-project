@@ -42,8 +42,12 @@ function PromotionRequest({ promotionRequest, handleAlert, user, promotionCommit
                                 }
                             </div>
                             <p>{promotionRequest.promotion_request_status}</p>
-                            <UserFilesList user_files={promotionRequest.user_files} />
-                            <AdministrativeFilesList administrative_files={promotionRequest.administrative_files} />
+                            <div style={{ maxHeight: 420, overflow: "auto" }}>
+                                <div style={{ width: "98%" }}>
+                                    <UserFilesList user_files={promotionRequest.user_files} />
+                                    <AdministrativeFilesList administrative_files={promotionRequest.administrative_files} />
+                                </div>
+                            </div>
                             {
                                 promotionRequest.rejectionReasons.length > 0 &&
                                 < RejectionReasons reasons={promotionRequest.rejectionReasons} />

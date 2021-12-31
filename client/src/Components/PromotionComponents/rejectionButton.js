@@ -10,8 +10,8 @@ function RejectionButton({ id, handleShowButtons, rejectionReasons }) {
 
         setIsLoading(true)
 
-        // await axios.put(`/promotionRequests/${id}/rejection`, { rejectionReasons })
-        await axios.put(`http://localhost:5000/promotionRequests/${id}/rejection`, { rejectionReasons })
+        await axios.put(`/promotionRequests/${id}/rejection`, { rejectionReasons })
+            // await axios.put(`http://localhost:5000/promotionRequests/${id}/rejection`, { rejectionReasons })
             .then(res => {
                 if (res.data.success) {
                     handleShowButtons()
