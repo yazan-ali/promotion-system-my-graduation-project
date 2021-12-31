@@ -380,6 +380,7 @@ router.post("/send-email/:id", async (req, res) => {
     try {
         let transporter = nodemailer.createTransport({
             service: 'gmail',
+            port: 465,
             auth: {
                 user: "yazan1abuali@gmail.com",
                 pass: "naruto154ali",
