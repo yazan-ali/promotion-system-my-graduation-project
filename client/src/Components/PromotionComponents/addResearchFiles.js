@@ -182,7 +182,6 @@ function AddResearchFiles({
     return (
         <div>
             <h3 style={{ textAlign: 'center' }}>حساب نقاط الترقية</h3>
-            {console.log(researchFiles)}
             <Form style={{ marginTop: 20 }}>
                 {
                     Array.from({ length: fieldsNum }).map((field, idx) => (

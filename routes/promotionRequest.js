@@ -407,8 +407,7 @@ router.post("/send-email/:id", async (req, res) => {
             if (err) {
                 res.json({
                     success: false,
-                    // message: "حدث خطأ ما"
-                    message: err
+                    message: "حدث خطأ ما"
                 });
                 throw new Error("An error occurred")
             } else {
