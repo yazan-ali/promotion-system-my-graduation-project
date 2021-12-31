@@ -50,7 +50,6 @@ function EmailSender({ emailAttachment, uploadedFiles, unselectFile, fileUpload,
         await axios.post(`/send-email/${promotionRequestID}`, email)
             .then(res => {
                 if (res.data.success) {
-                    console.log(res.data)
                     // alert = {
                     //     message: res.data.message,
                     //     type: "success"
@@ -67,6 +66,7 @@ function EmailSender({ emailAttachment, uploadedFiles, unselectFile, fileUpload,
                     // }
                 }
                 // handleAlert(alert)
+                console.log(res.data)
             });
 
         setIsLoading(false)
