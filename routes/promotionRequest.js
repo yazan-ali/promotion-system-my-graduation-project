@@ -405,6 +405,7 @@ router.post("/send-email/:id", async (req, res) => {
 
         transporter.sendMail(mailOption, async (err, info) => {
             if (err) {
+                console.log(err)
                 res.json({
                     success: false,
                     message: "حدث خطأ ما"
