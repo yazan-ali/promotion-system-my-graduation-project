@@ -201,13 +201,13 @@ function TeacherPromotionRequest({ handleShowButtons, user, showButtons }) {
                 }
 
                 {
-                    user.administrativeRank === 3 && promotionRequest.process_level_number === 2 ? (
+                    user.administrativeRank === 5 && promotionRequest.process_level_number === 2 ? (
                         <FileUpload
                             label={files?.file_6 ? files.file_6.label : "قرار المحكمين"}
                             fileUpload={fileUpload}
                             removeFile={handleRemoveFile}
                             fileData={files?.file_6 && files.file_6}
-                            canEdit={user.administrativeRank === 3 && promotionRequest.process_level_number === 2}
+                            canEdit={user.administrativeRank === 5 && promotionRequest.process_level_number === 2}
                             n={6}
                             administrativeFile={true}
                             user={user}
