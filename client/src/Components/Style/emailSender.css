@@ -34,3 +34,12 @@
 .email-form h3{
     text-align: center
 }
+
+@media only screen and (max-width: 900px) {
+    .email-sender{
+        width: 100%;
+    }
+    .email-form{
+        width: 100%;
+    }
+}

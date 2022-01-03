@@ -62,21 +62,6 @@
    padding: 20px 0;
 }
 
-.promotion-request-card-header{
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: space-between;    
-}
-
-.promotion-request-card-header p{
-    max-width: 48%;
-}
-
-.promotion-request-card-header p:nth-child(2){
-    color:green;
-    text-align: start;
-}
-
 .accordion{
     padding: 0.8rem 0;
     color: #794b02;

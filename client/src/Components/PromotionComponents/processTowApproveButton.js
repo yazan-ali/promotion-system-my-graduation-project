@@ -11,8 +11,8 @@ function ProcessTowApproveButton({ id, handleShowButtons, administrativeRank }) 
 
         setIsLoading(true)
 
-        // await axios.put(`/promotionRequests/${id}/process_2_approve`)
-        await axios.put(`http://localhost:5000/promotionRequests/${id}/process_2_approve`)
+        await axios.put(`/promotionRequests/${id}/process_2_approve`)
+            // await axios.put(`http://localhost:5000/promotionRequests/${id}/process_2_approve`)
             .then(res => {
                 if (res.data.success) {
                     handleShowButtons()

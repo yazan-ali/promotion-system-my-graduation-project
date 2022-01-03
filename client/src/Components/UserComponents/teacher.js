@@ -27,8 +27,8 @@ function Teacher(props) {
         const token = localStorage.getItem("jwtToken");
         axios.defaults.headers.common['Authorization'] = token ? `Bearer ${token}` : ""
 
-        axios.get(`http://localhost:5000/teacher/${teacherID}`).
-            // axios.get(`/teacher/${teacherID}`).
+        // axios.get(`http://localhost:5000/teacher/${teacherID}`).
+        axios.get(`/teacher/${teacherID}`).
             then(res => {
                 if (res.data.success) {
                     dispatch(setTeacherData(res.data.result))

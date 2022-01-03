@@ -57,8 +57,8 @@ function Administrative({ rank, college, section }) {
 
         setIsLoading(true)
 
-        // await axios.put("/administrative", data)
-        await axios.put("http://localhost:5000/administrative", data)
+        await axios.put("/administrative", data)
+            // await axios.put("http://localhost:5000/administrative", data)
             .then(res => {
                 if (res.data.success) {
                     setCurrentAdministrative(newAdministrative)
