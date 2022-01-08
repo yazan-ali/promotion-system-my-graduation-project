@@ -10,9 +10,9 @@ function Info({ teacher, user, cssStyle, promotionRequestID }) {
         <div className={`${cssStyle ? "info" : "info-font-size"}`}>
             <p>الإسم : {teacher.full_name}</p>
             <p>الرقم الوظيفي : {teacher.teacher_id}</p>
-            <p>الرتبة : {teacher.rank}</p>
-            <p>الكلية : {teacher.college}</p>
-            <p>القسم :  {teacher.section}</p>
+            {teacher.rank && <p>الرتبة : {teacher.rank}</p>}
+            {teacher.college && <p>الكلية : {teacher.college}</p>}
+            {teacher.section && <p>القسم :  {teacher.section}</p>}
             {showButtonCondition && cssStyle &&
                 <a href={`/promotion-request/${teacher._id}`}>عرض طلب الترقية</a>
             }

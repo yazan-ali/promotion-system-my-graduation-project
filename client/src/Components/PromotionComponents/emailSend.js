@@ -10,7 +10,10 @@ function EmailSend({ user_files, promotionRequestID }) {
 
     useEffect(() => {
 
+        document.getElementById("email-form").scrollIntoView({ behavior: 'smooth', block: "start" });
+
         let files = []
+
         for (let file in user_files) {
             if (file === "researchFiles" && user_files[file]) {
                 user_files[file].map(file => {
@@ -45,7 +48,7 @@ function EmailSend({ user_files, promotionRequestID }) {
     }
 
     return (
-        <div className="email-sender">
+        <div className="email-sender" id="email-form">
             <h2>إرسال طلب الترقية إلى المحكمين</h2>
             <div className="files">
 

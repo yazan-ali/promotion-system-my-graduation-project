@@ -12,15 +12,17 @@
 }
 
 .promotion-request-card .btns-container{
-    margin-top: auto;
+    margin-top: 1.5rem;
 }
 
 .promotion-request-form{
-    width: 100%;
+    width: 40%;
+    margin-top: 3rem;
     background-color: #fff;
     text-align: end;
     padding: 1rem;
     border-radius: 10px;
+    transition: 0.2s ease-in-out;
     box-shadow: 2px 2px 10px rgba(0, 105, 112, 0.5);
 }
 
@@ -84,6 +86,15 @@
 
 .select{
     text-align: end;
+}
+
+.promotion-request-root .link-buttons{
+    background-color: #fff;
+    color: #1FBDC7;
+    padding: 1rem;
+    width: 220px;
+    border-radius: 7px;
+    font-weight: 600;
 }
 
 @media only screen and (max-width: 900px) {

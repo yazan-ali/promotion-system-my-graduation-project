@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const PromotionRequset = require("../models/promotionRequest");
+const PromotionCommittee = require("../models/promotionCommittee");
 const User = require("../models/user");
 const checkAuth = require("../util/checkAuth");
 const { validateCreatePromotionRequestInput, validateUpdatePromotionRequestInput } = require("../util/validators");
@@ -19,9 +20,9 @@ router.get("/promotionRequests", async (req, res) => {
         } else {
             res.json({
                 success: false,
-                message: "An error occurred"
+                message: "حدث خطأ ما"
             })
-            throw new Error("An error occurred")
+            throw new Error("حدث خطأ ما")
         }
     }
     catch (err) {
@@ -82,9 +83,9 @@ router.get("/promotionRequests/:college/:section/:current_phase_number", async (
         } else {
             res.json({
                 success: false,
-                message: "An error occurred"
+                message: "حدث خطأ ما"
             })
-            throw new Error("An error occurred")
+            throw new Error("حدث خطأ ما")
         }
     }
     catch (err) {
@@ -180,11 +181,6 @@ router.put("/promotionRequests/:id", async (req, res) => {
                     rejected: false,
                     current_phase_number: promotionRequest.current_phase_number + 1,
                     updated_at: new Date()
-
-                    // current_phase_number: promotionRequest.current_phase_number === 0 ?
-                    //     promotionRequest.current_phase_number + 1
-                    //     :
-                    //     promotionRequest.current_phase_number
                 }
                 await PromotionRequset.findByIdAndUpdate(req.params.id, updatedPromotionRequest);
                 res.json({
@@ -201,6 +197,10 @@ router.put("/promotionRequests/:id", async (req, res) => {
         }
     }
     catch (err) {
+        res.json({
+            success: false,
+            message: "حدث خطأ ما"
+        })
         console.log(err);
     }
 });
@@ -248,6 +248,9 @@ router.delete("/promotionRequests/:id", async (req, res) => {
         if (promotionRequest) {
             if (user.id === promotionRequest.created_by.id) {
                 await PromotionRequset.findByIdAndDelete(req.params.id);
+
+                await PromotionCommittee.findOne({ promotion_request_id: req.params.id }).deleteOne()
+
                 res.json({
                     message: "تم حذف طلبك بنجاح",
                     success: true
@@ -276,13 +279,22 @@ router.put("/promotionRequests/:id/approve", async (req, res) => {
         if (promotionRequest) {
             if (user && user.administrativeRank > 0) {
                 const updatedPromotionRequest = {
-                    current_phase_number: promotionRequest.current_phase_number + 1,
+                    // current_phase_number: promotionRequest.current_phase_number + 1,
+                    current_phase_number: promotionRequest.current_phase_number === 3 &&
+                        promotionRequest.process_level_number === 1 ?
+                        promotionRequest.current_phase_number + 2
+                        :
+                        promotionRequest.current_phase_number + 1,
+
                     rejected: false,
                     rejectionReasons: [],
                     updated_at: new Date()
                 }
 
                 await PromotionRequset.findByIdAndUpdate(req.params.id, updatedPromotionRequest);
+                if (promotionRequest.current_phase_number === 2) {
+                    await PromotionCommittee.findOne({ promotion_request_id: req.params.id }).deleteOne()
+                }
                 res.json({
                     success: true,
                     message: "تمت العملية بنجاح"
@@ -312,15 +324,23 @@ router.put("/promotionRequests/:id/rejection", async (req, res) => {
         if (promotionRequest) {
             if (user && user.administrativeRank > 0) {
                 const updatedPromotionRequest = {
-                    current_phase_number: promotionRequest.current_phase_number > 0 ?
-                        promotionRequest.current_phase_number - 1
+                    current_phase_number: promotionRequest.current_phase_number === 5 &&
+                        promotionRequest.process_level_number === 1 ?
+                        promotionRequest.current_phase_number - 2
                         :
-                        promotionRequest.current_phase_number,
+                        promotionRequest.current_phase_number - 1,
+
                     rejectionReasons: req.body.rejectionReasons,
                     rejected: true,
                     updated_at: new Date()
                 }
+
                 await PromotionRequset.findByIdAndUpdate(req.params.id, updatedPromotionRequest);
+
+                if (promotionRequest.current_phase_number === 2) {
+                    await PromotionCommittee.findOne({ promotion_request_id: req.params.id }).deleteOne()
+                }
+
                 res.json({
                     success: true,
                     message: "تمت العملية بنجاح"
@@ -350,10 +370,17 @@ router.put("/promotionRequests/:id/process_2_approve", async (req, res) => {
         if (promotionRequest) {
             if (user && user.administrativeRank > 0) {
                 const updatedPromotionRequest = {
-                    current_phase_number: promotionRequest.current_phase_number > 0 ?
-                        promotionRequest.current_phase_number - 1
+                    // current_phase_number: promotionRequest.current_phase_number > 0 ?
+                    //     promotionRequest.current_phase_number - 1
+                    //     :
+                    //     promotionRequest.current_phase_number,
+
+                    current_phase_number: promotionRequest.current_phase_number === 6 &&
+                        promotionRequest.process_level_number === 2 ?
+                        promotionRequest.current_phase_number - 2
                         :
-                        promotionRequest.current_phase_number,
+                        promotionRequest.current_phase_number - 1,
+
                     updated_at: new Date()
                 }
                 await PromotionRequset.findByIdAndUpdate(req.params.id, updatedPromotionRequest);
@@ -394,7 +421,6 @@ router.post("/send-email/:id", async (req, res) => {
         }
 
         const mailOption = {
-            from: req.body.from,
             to: mailList,
             subject: req.body.subject,
             text: req.body.body,
@@ -410,7 +436,7 @@ router.post("/send-email/:id", async (req, res) => {
                     success: false,
                     message: "حدث خطأ ما"
                 });
-                throw new Error("An error occurred")
+                throw new Error("حدث خطأ ما")
             } else {
                 try {
                     const promotionRequest = await PromotionRequset.findOne({ _id: req.params.id });

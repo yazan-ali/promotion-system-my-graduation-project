@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Form, Label, Select, Divider } from 'semantic-ui-react';
+import { Button, Form, Label, Select, Divider, Table } from 'semantic-ui-react';
 import FileUpload from './fileUpload';
 import { research_types, is_research_specialty } from '../../constants';
 import uuid from 'uuid/dist/v4';
@@ -82,12 +82,67 @@ function ResearchFileField({ id, addResearchData, handleRemoveResearch, research
     }
 
     return (
-        <>
-            <hr />
-            <Form>
-                <div style={{ display: "flex", flexDirection: "row-reverse", flexWrap: "wrap", gap: "1rem" }}>
+        <Table.Row textAlign='right'>
+            <Table.Cell>
+                <i style={{ marginRight: 35, cursor: 'pointer', color: "gray" }} onClick={removeResearch} className="fas fa-minus-circle"></i>
+            </Table.Cell>
+            <Table.Cell>
+                <Form>
                     <Form.Field>
-                        <label>ملف البحث</label>
+                        <Select
+                            style={{ textAlign: 'end' }}
+                            placeholder='هل كان البحث في تخصصك الدقيق'
+                            options={is_research_specialty}
+                            value={isResearchSpecialty}
+                            onChange={handleSelectIsResearchSpecialty}
+                        />
+                    </Form.Field>
+                </Form>
+            </Table.Cell>
+            <Table.Cell>
+                {
+                    researchData && researchData.researchType === "غير منفرد" && (
+                        <Form>
+                            <Form.Field>
+                                <input
+                                    style={{ width: 120 }}
+                                    value={researcherRank}
+                                    placeholder='ترتيب الباحث'
+                                    onChange={handleResearcherRankChange}
+                                />
+                            </Form.Field>
+                        </Form>
+                    )
+                }
+            </Table.Cell>
+            <Table.Cell>
+                <Form>
+                    <Form.Field>
+                        <Select
+                            style={{ textAlign: 'end' }}
+                            placeholder='منفرد'
+                            options={research_types}
+                            value={researchType}
+                            onChange={handleSelectResearchType}
+                        />
+                    </Form.Field>
+                </Form>
+            </Table.Cell>
+            <Table.Cell>
+                <Form>
+                    <Form.Field>
+                        <input
+                            value={researchPoints}
+                            style={{ width: 100 }}
+                            placeholder='عدد نقاط البحث'
+                            onChange={handleResearchPointesChange}
+                        />
+                    </Form.Field>
+                </Form>
+            </Table.Cell>
+            <Table.Cell>
+                <Form>
+                    <Form.Field>
                         {researchData && researchData.file ? (
                             <p className="file">
                                 <span>{researchData.file.name}</span>
@@ -100,52 +155,9 @@ function ResearchFileField({ id, addResearchData, handleRemoveResearch, research
                         )
                         }
                     </Form.Field>
-                    <Form.Field>
-                        <label>عدد نقاط البحث</label>
-                        <input
-                            value={researchPoints}
-                            style={{ width: 100 }}
-                            placeholder='عدد نقاط البحث'
-                            onChange={handleResearchPointesChange}
-                        />
-                    </Form.Field>
-                    <Form.Field>
-                        <label>الانفرادية في البحث</label>
-                        <Select
-                            style={{ textAlign: 'end' }}
-                            placeholder='منفرد'
-                            options={research_types}
-                            value={researchType}
-                            onChange={handleSelectResearchType}
-                        />
-                    </Form.Field>
-                    {
-                        researchData && researchData.researchType === "غير منفرد" && (
-                            <Form.Field>
-                                <label>ترتيب الباحث</label>
-                                <input
-                                    style={{ width: 120 }}
-                                    value={researcherRank}
-                                    placeholder='ترتيب الباحث'
-                                    onChange={handleResearcherRankChange}
-                                />
-                            </Form.Field>
-                        )
-                    }
-                    <Form.Field>
-                        <label>ضمن التخصص الدقيق</label>
-                        <Select
-                            style={{ textAlign: 'end' }}
-                            placeholder='هل كان البحث في تخصصك الدقيق'
-                            options={is_research_specialty}
-                            value={isResearchSpecialty}
-                            onChange={handleSelectIsResearchSpecialty}
-                        />
-                    </Form.Field>
-                    <i style={{ marginTop: 35, cursor: 'pointer', color: "gray" }} onClick={removeResearch} className="fas fa-minus-circle"></i>
-                </div>
-            </Form>
-        </>
+                </Form>
+            </Table.Cell>
+        </Table.Row>
     )
 }
 

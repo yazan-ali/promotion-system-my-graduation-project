@@ -102,12 +102,12 @@ function Register() {
             </div>
             <Form loading={isLoading} onSubmit={handleRegister}>
                 <Form.Field>
-                    <label>الإسم الكامل</label>
-                    <input placeholder='الإسم الكامل' name="full_name" value={values.full_name} onChange={setValues} />
+                    <label>* الإسم الكامل</label>
+                    <input placeholder='الإسم الكامل' required name="full_name" value={values.full_name} onChange={setValues} />
                 </Form.Field>
                 <Form.Field>
-                    <label>الرقم الوظيفي</label>
-                    <input placeholder='الرقم الوظيفي' name="teacher_id" value={values.teacher_id} onChange={setValues} />
+                    <label>* الرقم الوظيفي</label>
+                    <input placeholder='الرقم الوظيفي' required name="teacher_id" value={values.teacher_id} onChange={setValues} />
                 </Form.Field>
                 <Form.Field>
                     <label>الرتبة</label>
@@ -144,8 +144,8 @@ function Register() {
                     <SemanticDatepicker pointing="top right" onChange={onDateChange} />
                 </Form.Field>
                 <Form.Field>
-                    <label>كلمة السر</label>
-                    <input type="password" placeholder='كلمة السر' name="password" value={values.password} onChange={setValues} />
+                    <label>* كلمة السر</label>
+                    <input type="password" required placeholder='كلمة السر' name="password" value={values.password} onChange={setValues} />
                 </Form.Field>
                 <div className="login-buttons">
                     <Link to="/login">لديك حساب بالفعل ؟</Link>

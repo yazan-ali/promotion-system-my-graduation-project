@@ -5,7 +5,6 @@ import FileUpload from '../Components/PromotionComponents/fileUpload'
 
 function EmailSender({ emailAttachment, uploadedFiles, unselectFile, fileUpload, promotionRequestID }) {
 
-    const [from, setFrom] = useState("");
     const [emails, setEmails] = useState({});
     const [subject, setSubject] = useState("");
     const [body, setBody] = useState("");
@@ -14,10 +13,6 @@ function EmailSender({ emailAttachment, uploadedFiles, unselectFile, fileUpload,
 
     const increaseInputFields = () => {
         setNumOfEmails(prev => prev + 1);
-    }
-
-    const handleFromChange = (evt) => {
-        setFrom(evt.target.value);
     }
 
     const addNewEmail = (evt) => {
@@ -39,7 +34,6 @@ function EmailSender({ emailAttachment, uploadedFiles, unselectFile, fileUpload,
         setIsLoading(true);
 
         const email = {
-            from,
             mailList: emails,
             subject,
             body,
@@ -75,15 +69,6 @@ function EmailSender({ emailAttachment, uploadedFiles, unselectFile, fileUpload,
         <div className="email-form">
             <h3>إرسال بريد إلكتروني</h3>
             <Form onSubmit={handelSendEmail}>
-                <Form.Field>
-                    <label>من</label>
-                    <input
-                        type="email"
-                        value={from}
-                        onChange={handleFromChange}
-                        required
-                    />
-                </Form.Field>
                 <label>إلى</label>
                 <div style={{ marginTop: 5 }}>
                     {
@@ -94,7 +79,7 @@ function EmailSender({ emailAttachment, uploadedFiles, unselectFile, fileUpload,
                                     value={emails[`email_${idx + 1}`]}
                                     name={`email_${idx + 1}`}
                                     onChange={addNewEmail}
-                                    required
+                                    required={idx === 0 ? true : false}
                                 />
                             </Form.Field>
                         ))

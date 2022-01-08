@@ -1,6 +1,5 @@
 import React from 'react';
 import '../Style/dashboard.css';
-import LogoutButton from './logoutButton';
 import PromotionRequestList from '../PromotionComponents/promotionRequestList';
 import { ranks } from '../../constants';
 
@@ -24,9 +23,9 @@ function TeacherInfoCard({ teacherData }) {
                     )
                 }
                 <p>الرقم الوظيفي : {teacherData.teacher_id}</p>
-                <p>الرتبة : {teacherData.rank}</p>
-                <p>الكلية : {teacherData.college}</p>
-                <p>القسم :  {teacherData.section}</p>
+                {teacherData.rank && <p>الرتبة : {teacherData.rank}</p>}
+                {teacherData.college && <p>الكلية : {teacherData.college}</p>}
+                {teacherData.section && <p>القسم :  {teacherData.section}</p>}
             </div>
         </div>
     )

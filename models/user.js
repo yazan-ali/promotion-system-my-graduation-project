@@ -15,26 +15,18 @@ const userSchema = new mongoose.Schema({
     },
     rank: {
         type: String,
-        required: true
     },
     password: {
         type: String,
-        required: true
     },
     college: {
         type: String,
-        require: true,
     },
     section: {
         type: String,
-        require: true,
     },
     year: {
         type: Date,
-        required: true
-    },
-    promotion_points: {
-        type: Number,
     },
     administrativeRank: {
         type: Number,

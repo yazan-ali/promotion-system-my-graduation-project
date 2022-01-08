@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Form, Label, Select } from 'semantic-ui-react';
+import { Button, Form, Label, Select, Table } from 'semantic-ui-react';
 import ResearchFileField from './researchFileField';
 import { useDispatch, useSelector } from "react-redux";
 import { setResearchFiles } from "../../state/actions/promotionRequestActions";
@@ -93,12 +93,32 @@ function EditResearchFiles({ user, toggleShowResearchFiles, checkIfCanSubmit, pr
             }
         })
         if (promotionPointsScale === 8) {
-            result = mainResearcher >= 1;
+            result = mainResearcher >= 1 && checkIfFirstRankResearch(researchFiles);
         } else {
-            result = mainResearcher >= 2;
+            result = mainResearcher >= 2 && checkIfFirstRankResearch(researchFiles);
         }
 
         return result;
+    }
+
+    const checkIfFirstRankResearch = (researchFiles) => {
+        let firstRankResearch = 0;
+        let result = false;
+
+        researchFiles.map(research => {
+            if (research.researchPoints === 3) {
+                firstRankResearch += 1
+            }
+        })
+
+        if (promotionPointsScale === 8) {
+            result = firstRankResearch >= 2;
+        } else {
+            result = firstRankResearch >= 3;
+        }
+
+        return result;
+
     }
 
     const checkIfMore50Pre = (researchFiles) => {
@@ -147,65 +167,78 @@ function EditResearchFiles({ user, toggleShowResearchFiles, checkIfCanSubmit, pr
     return (
         <div>
             <h3 style={{ textAlign: 'center' }}>حساب نقاط الترقية</h3>
-            <Form style={{ marginTop: 20 }}>
-                {
-                    researchFiles.map((research, idx) => (
-                        <ResearchFileField
-                            key={research.id}
-                            id={research.id}
-                            user={user}
-                            researchFile={research}
-                        />
-                    ))
-                }
-                {
-                    Array.from({ length: fieldsNum }).map((field, idx) => (
-                        <ResearchFileField
-                            key={researchFiles.length + idx + 1}
-                            user={user}
-                        />
-                    ))
-                }
+            <Table celled>
+                <Table.Header>
+                    <Table.Row textAlign='right'>
+                        <Table.HeaderCell>حذف</Table.HeaderCell>
+                        <Table.HeaderCell>ضمن التخصص الدقيق</Table.HeaderCell>
+                        <Table.HeaderCell>ترتيب الباحث</Table.HeaderCell>
+                        <Table.HeaderCell>الإنفرادية في البحث</Table.HeaderCell>
+                        <Table.HeaderCell>عدد نقاط البحث</Table.HeaderCell>
+                        <Table.HeaderCell>ملف البحث</Table.HeaderCell>
+                    </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                    {
+                        researchFiles.map((research, idx) => (
+                            <ResearchFileField
+                                key={research.id}
+                                id={research.id}
+                                user={user}
+                                researchFile={research}
+                            />
+                        ))
+                    }
 
-                <FileUpload
-                    label={files.file_7 ? files.file_7.label : "السنة الإدارية الأولى"}
-                    fileData={files.file_7 && files.file_7}
-                    n={7}
-                    canEdit={true}
-                />
+                    {
+                        Array.from({ length: fieldsNum }).map((field, idx) => (
+                            <ResearchFileField
+                                key={researchFiles.length + idx + 1}
+                                user={user}
+                            />
+                        ))
+                    }
+                </Table.Body>
+            </Table>
 
-                <FileUpload
-                    label={files.file_8 ? files.file_8.label : "السنة الإدارية الثانية"}
-                    fileData={files.file_8 && files.file_8}
-                    n={8}
-                    canEdit={true}
-                />
+            <FileUpload
+                label={files.file_7 ? "السنة الإدارية الأولى" : "السنة الإدارية الأولى (إن كنت تمتلك)"}
+                fileData={files.file_7 && files.file_7}
+                n={7}
+                canEdit={true}
+            />
 
-                <p style={{ color: errors.err_1 ? "red" : "green", fontSize: 13 }}>
-                    {`يجب أن تمتلك نقاط ترقية على الأقل ${promotionPointsScale} نقاط `}
-                    <span style={{ color: "gray" }}>{` : عدد النقاط الحالية ${researchPoints}`}</span>
-                </p>
-                <p style={{ color: errors.err_2 ? "red" : "green", fontSize: 13 }}>
-                    يجب أن يكون المتقدم باحثاً رئيساً في انتاج علمي يعادل ({promotionPointsScale / 2}) نقاط على الأقل
-                    <span style={{ color: "gray" }}>{` : عدد النقاط الحالية ${aloneResearchPoints}`}</span>
-                </p>
-                <p style={{ color: errors.err_3 ? "red" : "green", fontSize: 13 }}>
-                    يجب أن يكون ما نسبته 70% على الأقل من الإنتاج العلمي في التخصص الدقيق
-                    <span style={{ color: "gray" }}>{` : النسبة الحالية ${researchSpecialtyPoints / promotionPointsScale}`}</span>
-                </p>
-                {
-                    promotionPointsScale === 8 ?
-                        <p style={{ color: errors.err_4 ? "red" : "green", fontSize: 13 }}>
-                            أن يتضمن الأنتاج العلمي كحد أدنى بحثين منشورين يكون الباحث فيهما باحثاً منفرداً أو ثلاث بحوث منشورة في
-                            مجلات من الفئة الأولى يكون المتقدم باحثاً رئيساً في اثنين منهما على الأقل
-                        </p>
-                        :
-                        <p style={{ color: errors.err_4 ? "red" : "green" }}>
-                            أن يتضمن الأنتاج العلمي كحد أدنى ثلاث بحوث منشورة يكون الباحث فيهما باحثاً منفرداً أو بحثين منشورين في
-                            مجلات من الفئة الأولى يكون المتقدم باحثاً رئيساً في واحد منهما على الأقل
-                        </p>
-                }
-            </Form>
+            <FileUpload
+                label={files.file_8 ? "السنة الإدارية الثانية" : "السنة الإدارية الثانية (إن كنت تمتلك)"}
+                fileData={files.file_8 && files.file_8}
+                n={8}
+                canEdit={true}
+            />
+
+            <p style={{ color: errors.err_1 ? "red" : "green", fontSize: 13 }}>
+                {`يجب أن تمتلك نقاط ترقية على الأقل ${promotionPointsScale} نقاط `}
+                <span style={{ color: "gray" }}>{` : عدد النقاط الحالية ${researchPoints}`}</span>
+            </p>
+            <p style={{ color: errors.err_2 ? "red" : "green", fontSize: 13 }}>
+                يجب أن يكون المتقدم باحثاً رئيساً في انتاج علمي يعادل ({promotionPointsScale / 2}) نقاط على الأقل
+                <span style={{ color: "gray" }}>{` : عدد النقاط الحالية ${aloneResearchPoints}`}</span>
+            </p>
+            <p style={{ color: errors.err_3 ? "red" : "green", fontSize: 13 }}>
+                يجب أن يكون ما نسبته 70% على الأقل من الإنتاج العلمي في التخصص الدقيق
+                <span style={{ color: "gray" }}>{` : النسبة الحالية ${researchSpecialtyPoints / promotionPointsScale}`}</span>
+            </p>
+            {
+                promotionPointsScale === 8 ?
+                    <p style={{ color: errors.err_4 ? "red" : "green", fontSize: 13 }}>
+                        أن يتضمن الأنتاج العلمي كحد أدنى بحثين منشورين يكون الباحث فيهما باحثاً منفرداً أو بحثين منشورين في
+                        مجلات من الفئة الأولى يكون المتقدم باحثاً رئيساً في واحد منهما على الأقل
+                    </p>
+                    :
+                    <p style={{ color: errors.err_4 ? "red" : "green" }}>
+                        أن يتضمن الأنتاج العلمي كحد أدنى ثلاث بحوث منشورة يكون الباحث فيهما باحثاً منفرداً أو ثلاث بحوث منشورة في
+                        مجلات من الفئة الأولى يكون المتقدم باحثاً رئيساً في اثنين منهما على الأقل
+                    </p>
+            }
             <Button
                 onClick={() => toggleShowResearchFiles()}
                 style={{ marginTop: 20, marginRight: 10 }}

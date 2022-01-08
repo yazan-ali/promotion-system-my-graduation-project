@@ -1,15 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import useForm from '../../Hooks/useForm';
 import axios from 'axios';
+import { AuthContext } from '../UserComponents/userContext';
 import { Button, Form, Label } from 'semantic-ui-react';
 import FileUpload from './fileUpload';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import AddResearchFiles from './addResearchFiles';
 import { useDispatch, useSelector } from "react-redux";
+import { Link, Redirect } from 'react-router-dom';
 import { setPromotionRequest } from "../../state/actions/promotionRequestActions";
+import Snackbar from '../snackbar';
 
 
-function PromotionRequestCreateForm({ handleShowCreateForm, handleAlert, user, promotionType }) {
+function PromotionRequestCreateForm(props) {
+
+    const { user } = useContext(AuthContext);
 
     const [files, setFiles] = useState({});
     const [startDate, setStartDate] = useState(null);
@@ -19,16 +24,26 @@ function PromotionRequestCreateForm({ handleShowCreateForm, handleAlert, user, p
     const [showResearchFiles, setShowResearchFiles] = useState(false);
     const [canSubmit, setCanSubmit] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [redirect, setRedirect] = useState(false);
+    const [alert, setAlert] = useState({});
+    const [showSnackbar, setShowSnackbar] = useState(false);
 
+    const promotionType = props.match.params.promotionType
 
     const dispatch = useDispatch();
 
     useEffect(() => {
+        const token = localStorage.getItem("jwtToken");
+        axios.defaults.headers.common['Authorization'] = token ? `Bearer ${token}` : ""
+    }, [])
+
+    useEffect(() => {
+
         if (startDate && endDate) {
             const dateDiff = Math.round((endDate - startDate) / (1000 * 60 * 60 * 24));
             if (promotionType === "تثبيت أستاذ مساعد") {
                 if (dateDiff < 365) {
-                    setDateErr("لتقديم طلب التثبيت يجب أن تمتلك سنة خدمة واحد على الأقل")
+                    setDateErr("لتقديم طلب التثبيت يجب أن تمتلك سنة خدمة واحدة على الأقل")
                 } else {
                     setDateErr(null)
                 }
@@ -75,9 +90,20 @@ function PromotionRequestCreateForm({ handleShowCreateForm, handleAlert, user, p
         setCanSubmit(val)
     }
 
+    const handleAlert = (alert) => {
+        setAlert(alert)
+        setShowSnackbar(true);
+    }
+
+    const closeSnackbar = () => {
+        setShowSnackbar(false);
+    }
+
     const handleSubmit = async () => {
 
-        if (dateErr !== null || !canSubmit) return;
+        if (dateErr !== null) return;
+
+        if (promotionType !== "تثبيت أستاذ مساعد" && !canSubmit) return
 
         let alert;
 
@@ -94,13 +120,10 @@ function PromotionRequestCreateForm({ handleShowCreateForm, handleAlert, user, p
             // await axios.post("http://localhost:5000/promotionRequests", newPromtionRequest)
             .then(res => {
                 if (res.data.success) {
-                    alert = {
-                        message: res.data.message,
-                        type: "success"
-                    };
                     dispatch(setPromotionRequest(res.data.result));
+                    setRedirect(true)
                 } else {
-                    if (Object.keys(res.data.errors).length > 0) {
+                    if (res.data.errors && Object.keys(res.data.errors).length > 0) {
                         setErrors(res.data.errors)
                         return
                     }
@@ -108,15 +131,20 @@ function PromotionRequestCreateForm({ handleShowCreateForm, handleAlert, user, p
                         message: res.data.message,
                         type: "fail"
                     }
+                    handleAlert(alert)
                 }
-                handleAlert(alert)
             });
 
         setIsLoading(false)
     }
 
+    if (!user) {
+        return <Redirect to="/login" />
+    }
+
     return (
-        <div className="promotion-request-form">
+        <div style={{ width: showResearchFiles && "90%" }} className="promotion-request-form">
+            {redirect && <Redirect to="/" />}
             <div style={{ display: showResearchFiles ? "" : "none" }}>
                 <AddResearchFiles
                     addResearchFiles={addResearchFiles}
@@ -236,7 +264,7 @@ function PromotionRequestCreateForm({ handleShowCreateForm, handleAlert, user, p
                     {
                         files?.file_7 && (
                             <div>
-                                <label className="file-label">{files.file_7.label}</label>
+                                <label className="file-label">السنة الإدارية الأولى</label>
                                 <p className="file">
                                     {files.file_7.name}
                                 </p>
@@ -247,7 +275,7 @@ function PromotionRequestCreateForm({ handleShowCreateForm, handleAlert, user, p
                     {
                         files?.file_8 && (
                             <div>
-                                <label className="file-label">{files.file_8.label}</label>
+                                <label className="file-label">السنة الإدارية الأولى</label>
                                 <p className="file">
                                     {files.file_8.name}
                                 </p>
@@ -261,9 +289,10 @@ function PromotionRequestCreateForm({ handleShowCreateForm, handleAlert, user, p
                         </Label>
                     </div>}
                     <Button
-                        onClick={() => handleShowCreateForm()}
                         style={{ width: 92, marginTop: 30, marginRight: 20 }}
-                        type='button'>إلغاء</Button>
+                        type='button'>
+                        <Link style={{ color: "#818181" }} to="/">إلغاء</Link>
+                    </Button>
                     <Button
                         loading={isLoading}
                         disabled={isLoading}
@@ -271,6 +300,17 @@ function PromotionRequestCreateForm({ handleShowCreateForm, handleAlert, user, p
                         type='submit'>حفظ</Button>
                 </Form>
             </div>
+            {
+                showSnackbar && (
+                    <Snackbar
+                        message={alert.message}
+                        type={alert.type}
+                        direction={"bottom"}
+                        duration={5000}
+                        closeSnackbar={closeSnackbar}
+                    />
+                )
+            }
         </div >
     )
 }

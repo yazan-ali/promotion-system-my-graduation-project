@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const PromotionCommittee = require("../models/promotionCommittee");
-const PromotionRequset = require("../models/promotionRequest");
 const User = require("../models/user");
 const checkAuth = require("../util/checkAuth");
 

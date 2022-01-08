@@ -16,6 +16,7 @@ function Teacher(props) {
     const { user } = useContext(AuthContext);
 
     const [showButtons, setShowButtons] = useState(true);
+    const [showEmaileForm, setDhowEmailForm] = useState(false);
 
     const teacherID = props.match.params.id
 
@@ -38,6 +39,14 @@ function Teacher(props) {
 
     const handleShowButtons = () => {
         setShowButtons(false)
+    }
+
+    const handleShowEmailForm = () => {
+        setDhowEmailForm(true)
+        const emailForm = document.getElementById("email-form");
+        if (emailForm) {
+            emailForm.scrollIntoView({ behavior: 'smooth', block: "start" })
+        }
     }
 
     const handleUpdatePromotionRequest = (file_id, teacher_id, updatedPromotionRequest) => {
@@ -66,6 +75,7 @@ function Teacher(props) {
                                         user={user}
                                         showButtons={showButtons}
                                         handleShowButtons={handleShowButtons}
+                                        handleShowEmailForm={handleShowEmailForm}
                                     />
                                 )
                             }
@@ -78,9 +88,10 @@ function Teacher(props) {
                         promotionRequest={teacher.promotionRequest}
                     />}
 
-                {user.administrativeRank == 5 &&
+                {user.administrativeRank == 6 && showEmaileForm &&
                     <EmailSend
                         user_files={{
+                            file_3: teacher.promotionRequest.user_files.file_3,
                             file_5: teacher.promotionRequest.user_files.file_5,
                             file_6: teacher.promotionRequest.user_files.file_6,
                             researchFiles: teacher.promotionRequest.user_files.researchFiles

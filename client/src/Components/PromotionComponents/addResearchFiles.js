@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Form, Label, Select } from 'semantic-ui-react';
+import { Icon, Menu, Table } from 'semantic-ui-react'
 import ResearchFileField from './researchFileField';
 import FileUpload from './fileUpload';
 
 function AddResearchFiles({
-    user,
     addResearchFiles,
     researchFilesData,
     toggleShowResearchFiles,
@@ -114,6 +114,7 @@ function AddResearchFiles({
         return result;
     }
 
+
     const checkMainResearcher = (researchFiles) => {
 
         let mainResearcher = 0;
@@ -127,12 +128,32 @@ function AddResearchFiles({
             }
         })
         if (promotionPointsScale === 8) {
-            result = mainResearcher >= 1;
+            result = mainResearcher >= 1 && checkIfFirstRankResearch(researchFiles);
         } else {
-            result = mainResearcher >= 2;
+            result = mainResearcher >= 2 && checkIfFirstRankResearch(researchFiles);
         }
 
         return result;
+    }
+
+    const checkIfFirstRankResearch = (researchFiles) => {
+        let firstRankResearch = 0;
+        let result = false;
+
+        researchFiles.map(research => {
+            if (research.researchPoints === 3) {
+                firstRankResearch += 1
+            }
+        })
+
+        if (promotionPointsScale === 8) {
+            result = firstRankResearch >= 2;
+        } else {
+            result = firstRankResearch >= 3;
+        }
+
+        return result;
+
     }
 
     const checkIfMore50Pre = (researchFiles) => {
@@ -182,24 +203,38 @@ function AddResearchFiles({
     return (
         <div>
             <h3 style={{ textAlign: 'center' }}>حساب نقاط الترقية</h3>
-            <Form style={{ marginTop: 20 }}>
-                {
-                    Array.from({ length: fieldsNum }).map((field, idx) => (
-                        <ResearchFileField
-                            id={idx + 1}
-                            addResearchData={addResearchData}
-                            user={user}
-                            handleRemoveResearch={handleRemoveResearch}
-                        />
-                    ))
-                }
 
+            <Table celled>
+                <Table.Header>
+                    <Table.Row textAlign='right'>
+                        <Table.HeaderCell>حذف</Table.HeaderCell>
+                        <Table.HeaderCell>ضمن التخصص الدقيق</Table.HeaderCell>
+                        <Table.HeaderCell>ترتيب الباحث</Table.HeaderCell>
+                        <Table.HeaderCell>الإنفرادية في البحث</Table.HeaderCell>
+                        <Table.HeaderCell>عدد نقاط البحث</Table.HeaderCell>
+                        <Table.HeaderCell>ملف البحث</Table.HeaderCell>
+                    </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                    {
+                        Array.from({ length: fieldsNum }).map((field, idx) => (
+                            <ResearchFileField
+                                id={idx + 1}
+                                addResearchData={addResearchData}
+                                handleRemoveResearch={handleRemoveResearch}
+                            />
+                        ))
+                    }
+                </Table.Body>
+            </Table>
+            <div style={{ marginTop: -20 }}>
                 <Button
                     onClick={increaseFields}
                     style={{ marginTop: 20 }}
                     type='button'>إضافة بحث آخر
                 </Button>
-
+            </div>
+            <div style={{ marginTop: 20 }}>
                 <FileUpload
                     label="السنة الإدارية الأولى (إن كنت تمتلك)"
                     n={7}
@@ -215,32 +250,34 @@ function AddResearchFiles({
                     fileUpload={fileUpload}
                     removeFile={removeFile}
                 />
-
-                <p style={{ color: errors.err_1 ? "red" : "green", fontSize: 13 }}>
-                    {`يجب أن تمتلك نقاط ترقية على الأقل ${promotionPointsScale} نقاط `}
-                    <span style={{ color: "gray" }}>{` : عدد النقاط الحالية ${researchPoints}`}</span>
-                </p>
-                <p style={{ color: errors.err_2 ? "red" : "green", fontSize: 13 }}>
-                    يجب أن يكون المتقدم باحثاً رئيساً في انتاج علمي يعادل ({promotionPointsScale / 2}) نقاط على الأقل
-                    <span style={{ color: "gray" }}>{` : عدد النقاط الحالية ${aloneResearchPoints}`}</span>
-                </p>
-                <p style={{ color: errors.err_3 ? "red" : "green", fontSize: 13 }}>
-                    يجب أن يكون ما نسبته 70% على الأقل من الإنتاج العلمي في التخصص الدقيق
-                    <span style={{ color: "gray" }}>{` : النسبة الحالية ${researchSpecialtyPoints / promotionPointsScale}`}</span>
-                </p>
-                {
-                    promotionPointsScale === 8 ?
-                        <p style={{ color: errors.err_4 ? "red" : "green", fontSize: 13 }}>
-                            أن يتضمن الأنتاج العلمي كحد أدنى بحثين منشورين يكون الباحث فيهما باحثاً منفرداً أو ثلاث بحوث منشورة في
-                            مجلات من الفئة الأولى يكون المتقدم باحثاً رئيساً في اثنين منهما على الأقل
-                        </p>
-                        :
-                        <p style={{ color: errors.err_4 ? "red" : "green" }}>
-                            أن يتضمن الأنتاج العلمي كحد أدنى ثلاث بحوث منشورة يكون الباحث فيهما باحثاً منفرداً أو بحثين منشورين في
-                            مجلات من الفئة الأولى يكون المتقدم باحثاً رئيساً في واحد منهما على الأقل
-                        </p>
-                }
-            </Form>
+                <div style={{ marginTop: 30 }}>
+                    <hr />
+                    <p style={{ color: errors.err_1 ? "red" : "green", fontSize: 13, marginTop: 20 }}>
+                        {`يجب أن تمتلك نقاط ترقية على الأقل ${promotionPointsScale} نقاط `}
+                        <span style={{ color: "gray" }}>{` : عدد النقاط الحالية ${researchPoints}`}</span>
+                    </p>
+                    <p style={{ color: errors.err_2 ? "red" : "green", fontSize: 13 }}>
+                        يجب أن يكون المتقدم باحثاً رئيساً في انتاج علمي يعادل ({promotionPointsScale / 2}) نقاط على الأقل
+                        <span style={{ color: "gray" }}>{` : عدد النقاط الحالية ${aloneResearchPoints}`}</span>
+                    </p>
+                    <p style={{ color: errors.err_3 ? "red" : "green", fontSize: 13 }}>
+                        يجب أن يكون ما نسبته 70% على الأقل من الإنتاج العلمي في التخصص الدقيق
+                        <span style={{ color: "gray" }}>{` : النسبة الحالية ${researchSpecialtyPoints / promotionPointsScale}`}</span>
+                    </p>
+                    {
+                        promotionPointsScale === 8 ?
+                            <p style={{ color: errors.err_4 ? "red" : "green", fontSize: 13 }}>
+                                أن يتضمن الأنتاج العلمي كحد أدنى بحثين منشورين يكون الباحث فيهما باحثاً منفرداً أو بحثين منشورين في
+                                مجلات من الفئة الأولى يكون المتقدم باحثاً رئيساً في واحد منهما على الأقل
+                            </p>
+                            :
+                            <p style={{ color: errors.err_4 ? "red" : "green" }}>
+                                أن يتضمن الأنتاج العلمي كحد أدنى ثلاث بحوث منشورة يكون الباحث فيهما باحثاً منفرداً أو ثلاث بحوث منشورة في
+                                مجلات من الفئة الأولى يكون المتقدم باحثاً رئيساً في اثنين منهما على الأقل
+                            </p>
+                    }
+                </div>
+            </div>
             <Button
                 onClick={() => toggleShowResearchFiles()}
                 style={{ marginTop: 20, marginRight: 10 }}

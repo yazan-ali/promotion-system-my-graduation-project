@@ -85,7 +85,7 @@ function UserFilesList({ user_files }) {
             {
                 user_files?.file_7 && (
                     <div>
-                        <label className="file-label">{user_files.file_7.label}</label>
+                        <label className="file-label">السنة الإدارية الأولى</label>
                         <p className="file">
                             <a
                                 href={user_files.file_7.url}>
@@ -98,7 +98,7 @@ function UserFilesList({ user_files }) {
             {
                 user_files?.file_8 && (
                     <div>
-                        <label className="file-label">{user_files.file_8.label}</label>
+                        <label className="file-label">السنة الإدارية الثانية</label>
                         <p className="file">
                             <a
                                 href={user_files.file_8.url}>

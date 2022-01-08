@@ -12,7 +12,7 @@ import UserFilesList from './userFilesList'
 import { useDispatch, useSelector } from "react-redux";
 import { setAdministrativeFile, removeAdministrativeFile, } from "../../state/actions/teacherDataActions";
 
-function TeacherPromotionRequest({ handleShowButtons, user, showButtons }) {
+function TeacherPromotionRequest({ handleShowButtons, user, showButtons, handleShowEmailForm }) {
 
     const promotionRequest = useSelector((state) => state.teacherData.promotionRequest);
     const files = promotionRequest.administrative_files;
@@ -201,18 +201,18 @@ function TeacherPromotionRequest({ handleShowButtons, user, showButtons }) {
                 }
 
                 {
-                    user.administrativeRank === 5 && promotionRequest.process_level_number === 2 ? (
+                    user.administrativeRank === 6 && promotionRequest.process_level_number === 2 ? (
                         <FileUpload
                             label={files?.file_6 ? files.file_6.label : "قرار المحكمين"}
                             fileUpload={fileUpload}
                             removeFile={handleRemoveFile}
                             fileData={files?.file_6 && files.file_6}
-                            canEdit={user.administrativeRank === 5 && promotionRequest.process_level_number === 2}
+                            canEdit={user.administrativeRank === 6 && promotionRequest.process_level_number === 2}
                             n={6}
                             administrativeFile={true}
                             user={user}
                         />
-                    ) : files?.file_6 && (
+                    ) : files?.file_6 && user.administrativeRank > 3 && (
                         <FileUpload
                             label={files?.file_6 ? files?.file_6.label : "قرار المحكمين"}
                             fileUpload={fileUpload}
@@ -220,6 +220,32 @@ function TeacherPromotionRequest({ handleShowButtons, user, showButtons }) {
                             fileData={files?.file_6 && files.file_6}
                             canEdit={false}
                             n={6}
+                            administrativeFile={true}
+                            user={user}
+                        />
+                    )
+                }
+
+                {
+                    user.administrativeRank === 4 && promotionRequest.process_level_number === 2 ? (
+                        <FileUpload
+                            label={files?.file_7 ? files.file_7.label : "قرار مجلس العمداء بخصوص طلب الترقية"}
+                            fileUpload={fileUpload}
+                            removeFile={handleRemoveFile}
+                            fileData={files?.file_7 && files.file_7}
+                            canEdit={user.administrativeRank === 4 && promotionRequest.process_level_number === 2}
+                            n={7}
+                            administrativeFile={true}
+                            user={user}
+                        />
+                    ) : files?.file_7 && (
+                        <FileUpload
+                            label={files?.file_7 ? files?.file_7.label : "قرار مجلس العمداء بخصوص طلب الترقية"}
+                            fileUpload={fileUpload}
+                            removeFile={handleRemoveFile}
+                            fileData={files?.file_7 && files.file_7}
+                            canEdit={false}
+                            n={7}
                             administrativeFile={true}
                             user={user}
                         />
@@ -247,7 +273,7 @@ function TeacherPromotionRequest({ handleShowButtons, user, showButtons }) {
             />
 
             {
-                promotionRequest.process_level_number === 2 && promotionRequest.sent_to.length > 0 && promotionRequest.current_phase_number === 5 && (
+                promotionRequest.process_level_number === 2 && promotionRequest.sent_to.length > 0 && promotionRequest.current_phase_number === 6 && (
                     <div style={{ color: "green" }}>
                         <h4>: تم إرسال الطلب عبر البريد الإلكتروني إلى</h4>
                         <ul style={{ direction: "rtl", textAlign: "start" }}>
@@ -280,18 +306,37 @@ function TeacherPromotionRequest({ handleShowButtons, user, showButtons }) {
                                             </Button>
                                         )
                                         }
-                                        < ApproveButton
-                                            id={promotionRequest._id}
-                                            handleShowButtons={handleShowButtons}
-                                        />
                                     </>
                                 ) : (
-                                    <ProcessTowApproveButton
+                                    <>
+                                        <ProcessTowApproveButton
+                                            id={promotionRequest._id}
+                                            handleShowButtons={handleShowButtons}
+                                            administrativeRank={user.administrativeRank}
+                                            current_phase_number={promotionRequest.current_phase_number}
+                                            process_level_number={promotionRequest.process_level_number}
+                                        />
+                                    </>
+                                )
+                            }
+                            {
+                                user.administrativeRank === 6 ?
+                                    <Button
+                                        style={{ backgroundColor: "#098D9C" }}
+                                        primary
+                                        onClick={handleShowEmailForm}>
+                                        {
+                                            promotionRequest.sent_to.length > 0 ?
+                                                "إرسال بريد إلكتروني أخر"
+                                                :
+                                                "قبول"
+                                        }
+                                    </Button>
+                                    :
+                                    promotionRequest.process_level_number === 1 && < ApproveButton
                                         id={promotionRequest._id}
                                         handleShowButtons={handleShowButtons}
-                                        administrativeRank={user.administrativeRank}
                                     />
-                                )
                             }
                         </div>
                     )
