@@ -21,8 +21,8 @@ function PromotionCommittee({ user, promotionRequest, numOfMembers }) {
         let members = null;
         let teachers = [];
 
-        await axios.get(`/promotionCommittee/${promotionRequest._id}`).
-            // await axios.get(`http://localhost:5000/promotionCommittee/${promotionRequest._id}`).
+        // await axios.get(`/promotionCommittee/${promotionRequest._id}`).
+        await axios.get(`http://localhost:5000/promotionCommittee/${promotionRequest._id}`).
             then(res => {
                 if (res.data.success) {
                     setPromotionCommittee(res.data.result)
@@ -32,8 +32,8 @@ function PromotionCommittee({ user, promotionRequest, numOfMembers }) {
                 }
             })
 
-        axios.get(`/teachers/${numOfMembers === 3 ? user.college : "none"}`).
-            // axios.get(`http://localhost:5000/teachers/${numOfMembers === 3 ? user.college : "none"}`).
+        // axios.get(`/teachers/${numOfMembers === 3 ? user.college : "none"}`).
+        axios.get(`http://localhost:5000/teachers/${numOfMembers === 3 ? user.college : "none"}`).
             then(res => {
                 if (res.data.success) {
                     teachers = res.data.result
@@ -56,8 +56,8 @@ function PromotionCommittee({ user, promotionRequest, numOfMembers }) {
 
         setIsLoading(true)
 
-        await axios.put(`/promotionCommittee/${promotionCommittee._id}`, { members: members })
-            // await axios.put(`http://localhost:5000/promotionCommittee/${promotionCommittee._id}`, { members: members })
+        // await axios.put(`/promotionCommittee/${promotionCommittee._id}`, { members: members })
+        await axios.put(`http://localhost:5000/promotionCommittee/${promotionCommittee._id}`, { members: members })
             .then(res => {
                 if (res.data.success) {
                     toggleEditForm()
@@ -77,8 +77,8 @@ function PromotionCommittee({ user, promotionRequest, numOfMembers }) {
 
         setIsLoading(true)
 
-        await axios.post("/promotionCommittee", newPromotionCommittee)
-            // await axios.post("http://localhost:5000/promotionCommittee", newPromotionCommittee)
+        // await axios.post("/promotionCommittee", newPromotionCommittee)
+        await axios.post("http://localhost:5000/promotionCommittee", newPromotionCommittee)
             .then(res => {
                 if (res.data.success) {
                     dispatch(setPromotionCommittee(res.data.result))

@@ -77,7 +77,6 @@ function PromotionRequest({ promotionRequest, handleAlert, user, promotionCommit
                                         }
 
                                         {promotionRequest.process_level_number === 1 &&
-                                            // <Button style={{ backgroundColor: "#098D9C" }} primary onClick={handleToggleEditForm}>
                                             <Button style={{ backgroundColor: "#098D9C" }} primary>
                                                 <Link style={{ color: "#fff" }} to="/edit">تعديل</Link>
                                             </Button>

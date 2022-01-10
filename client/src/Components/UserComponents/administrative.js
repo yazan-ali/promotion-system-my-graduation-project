@@ -20,8 +20,8 @@ function Administrative({ rank, college, section }) {
 
         setIsLoading(true)
 
-        await axios.get(`/administrative/${college ? college : "none"}/${section ? section : "none"}/${rank}`).
-            // await axios.get(`http://localhost:5000/administrative/${college ? college : "none"}/${section ? section : "none"}/${rank}`).
+        // await axios.get(`/administrative/${college ? college : "none"}/${section ? section : "none"}/${rank}`).
+        await axios.get(`http://localhost:5000/administrative/${college ? college : "none"}/${section ? section : "none"}/${rank}`).
             then(res => {
                 if (res.data.success) {
                     setCurrentAdministrative(res.data.result);

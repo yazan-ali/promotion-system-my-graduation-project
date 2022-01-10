@@ -49,8 +49,8 @@ function TeacherPromotionRequest({ handleShowButtons, user, showButtons, handleS
 
         setIsLoading(true)
 
-        // await axios.put(`http://localhost:5000/promotionRequests/administrative/${promotionRequest._id}`, administrative_files)
-        axios.put(`/promotionRequests/administrative/${promotionRequest._id}`, administrative_files)
+        await axios.put(`http://localhost:5000/promotionRequests/administrative/${promotionRequest._id}`, administrative_files)
+            // axios.put(`/promotionRequests/administrative/${promotionRequest._id}`, administrative_files)
             .then(res => {
                 if (res.data.success) {
                     setShowSaveBtn(false);
