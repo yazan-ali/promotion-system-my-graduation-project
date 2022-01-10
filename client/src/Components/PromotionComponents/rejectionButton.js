@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Button } from 'semantic-ui-react';
 import axios from 'axios';
+import { ranks } from "../../constants"
 
-function RejectionButton({ id, handleShowButtons, rejectionReasons }) {
+function RejectionButton({ id, handleShowButtons, rejectionReasons, administrativeRank, current_phase_number, process_level_number }) {
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -27,7 +28,11 @@ function RejectionButton({ id, handleShowButtons, rejectionReasons }) {
             disabled={isLoading}
             style={{ backgroundColor: "#D1162C", color: "#fff" }}
             onClick={rejectionReasons.length > 0 && reject}>
-            رفض
+            إرسال الطلب إلى {current_phase_number === 6 && process_level_number === 2 ?
+                ranks[4]
+                :
+                ranks[administrativeRank - 1]
+            }
         </Button>
     )
 }

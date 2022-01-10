@@ -299,6 +299,9 @@ function TeacherPromotionRequest({ handleShowButtons, user, showButtons, handleS
                                                 id={promotionRequest._id}
                                                 handleShowButtons={handleShowButtons}
                                                 rejectionReasons={promotionRequest.rejectionReasons}
+                                                administrativeRank={user.administrativeRank}
+                                                current_phase_number={promotionRequest.current_phase_number}
+                                                process_level_number={promotionRequest.process_level_number}
                                             />
                                         ) : (
                                             <Button style={{ backgroundColor: "#D1162C", color: "#fff" }} onClick={showForm}>
