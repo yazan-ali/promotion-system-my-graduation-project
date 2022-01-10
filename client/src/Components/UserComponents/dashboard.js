@@ -91,7 +91,7 @@ function Dashboard() {
                     tab3_label={"أعضاء الهيئة التدريسية"
                     }
 
-                    activeTab={user.administrativeRank ? 2 : promotionRequestsList.length > 0 ? 0 : 1}
+                    activeTab={user.administrativeRank ? 2 : 1}
                     isLoading={isLoading}
                 />
             </section>
