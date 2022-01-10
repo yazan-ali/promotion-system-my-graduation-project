@@ -46,7 +46,7 @@ function Dashboard() {
                 }
             })
 
-        await axios.get(`/promotionCommittee/promotionRequests/${user.id}wise`).
+        await axios.get(`/promotionCommittee/promotionRequests/${user.id}/wise`).
             // await axios.get(`http://localhost:5000/promotionCommittee/promotionRequests/${user.id}/wise`).
             then(res => {
                 if (res.data.success) {
