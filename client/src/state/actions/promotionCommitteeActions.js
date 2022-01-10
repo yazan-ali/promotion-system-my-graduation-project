@@ -46,6 +46,13 @@ export const setPromotionRequestsForMember = (promotionRequestsList) => {
     }
 }
 
+export const setPromotionRequestsForWiseMember = (promotionRequestsList) => {
+    return {
+        type: "SET_PROMOTION_REQUESTES_FOR_Wise_MEMBER",
+        payload: promotionRequestsList
+    }
+}
+
 export const setCommitteePromotionRequest = (promotionRequest) => {
     return {
         type: "SET_COMMITTEE_PROMOTION_REQUESTE",

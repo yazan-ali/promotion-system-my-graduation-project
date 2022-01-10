@@ -1,5 +1,6 @@
 export const PromotionCommitteeReducer = (state = { promotionCommittee: null, teachers: [], members: [] }, action) => {
     let updatedMembers
+    let newTeachers
     switch (action.type) {
         case "SET_PROMOTION_COMMITTEE":
             return { ...state, promotionCommittee: action.payload }
@@ -14,23 +15,21 @@ export const PromotionCommitteeReducer = (state = { promotionCommittee: null, te
             return { ...state, members: action.payload }
         case "SET_MEMBER":
             if (state.members.some(m => m._id === action.payload._id)) return
-            if (state.members.length < 3) {
-                const newTeachers = state.teachers.map(teacher => {
-                    if (teacher._id === action.payload._id) {
-                        return { ...teacher, checked: true }
-                    } else {
-                        return teacher
-                    }
-                })
-                return {
-                    ...state,
-                    teachers: newTeachers,
-                    members: [...state.members, action.payload]
+            newTeachers = state.teachers.map(teacher => {
+                if (teacher._id === action.payload._id) {
+                    return { ...teacher, checked: true }
+                } else {
+                    return teacher
                 }
+            })
+            return {
+                ...state,
+                teachers: newTeachers,
+                members: [...state.members, action.payload]
             }
         case "REMOVE_MEMBER":
             const newMembers = state.members.filter(member => member._id !== action.payload)
-            const newTeachers = state.teachers.map(teacher => {
+            newTeachers = state.teachers.map(teacher => {
                 if (teacher._id === action.payload) {
                     return { ...teacher, checked: false }
                 }
@@ -45,6 +44,8 @@ export const PromotionCommitteeReducer = (state = { promotionCommittee: null, te
             }
         case "SET_PROMOTION_REQUESTES_FOR_MEMBER":
             return { ...state, promotionRequestsList: action.payload }
+        case "SET_PROMOTION_REQUESTES_FOR_Wise_MEMBER":
+            return { ...state, wisePromotionRequestsList: action.payload }
         case "SET_COMMITTEE_PROMOTION_REQUESTE":
             return { ...state, promotionRequest: action.payload }
         case "ADD_MEMBER_REJECT_REASON":

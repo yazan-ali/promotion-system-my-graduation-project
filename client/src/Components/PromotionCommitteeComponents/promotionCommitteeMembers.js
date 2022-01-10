@@ -8,7 +8,7 @@ import Member from './member';
 import { useDispatch } from "react-redux";
 import { setPromotionCommittee, setTeachers, clearSelectedTeachers, removeMember, setMembers } from "../../state/actions/promotionCommitteeActions";
 
-function PromotionCommitteeMembers({ members, promotionCommitteeID, showEditForm, user, canRemove }) {
+function PromotionCommitteeMembers({ members, promotionCommitteeID, showEditForm, user, canRemove, numOfMembers }) {
 
     const dispatch = useDispatch();
 
@@ -32,20 +32,22 @@ function PromotionCommitteeMembers({ members, promotionCommitteeID, showEditForm
     }
 
     return (
-        <div className="promotion-committee-members">
+        <div style={{ width: "100%" }}>
+            <div className="promotion-committee-members">
+                {
+                    members.map(member => (
+                        <Member
+                            member={member}
+                            promotionCommitteeID={promotionCommitteeID}
+                            canRemove={canRemove}
+                            user={user}
+                        />
+                    ))
+                }
+            </div>
             {
-                members.map(member => (
-                    <Member
-                        member={member}
-                        promotionCommitteeID={promotionCommitteeID}
-                        canRemove={canRemove}
-                        user={user}
-                    />
-                ))
-            }
-            {
-                promotionCommitteeID && user.administrativeRank == 2 && (
-                    <>
+                promotionCommitteeID && (user.administrativeRank == 2 || user.administrativeRank === 5) && (
+                    <div>
                         <Button
                             loading={isLoading}
                             disabled={isLoading}
@@ -61,7 +63,7 @@ function PromotionCommitteeMembers({ members, promotionCommitteeID, showEditForm
                         >
                             تعديل اللجنة
                         </Button>
-                    </>
+                    </div>
                 )
             }
         </div >

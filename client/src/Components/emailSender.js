@@ -102,7 +102,6 @@ function EmailSender({ emailAttachment, uploadedFiles, unselectFile, fileUpload,
                     placeholder='الرسالة'
                     value={body}
                     onChange={handleBodyChange}
-                    required
                 />
 
                 {emailAttachment.length > 0 && <div style={{ padding: "30px 0" }}>

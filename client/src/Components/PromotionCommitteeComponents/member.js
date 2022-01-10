@@ -27,8 +27,8 @@ function Member({ member, promotionCommitteeID, canRemove, user }) {
         <div key={member._id} className="promotion-committee-member">
             <p>الأسم : {member.full_name}</p>
             <p>الرقم الوظيفي : {member.teacher_id}</p>
-            <p>التخصص :  {member.section}</p>
-            <p>الرتبة : {member.rank}</p>
+            {member.section && <p>التخصص :  {member.section}</p>}
+            {member.rank && <p>الرتبة : {member.rank}</p>}
             <>
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     {promotionCommitteeID && member._id === user.id &&
@@ -57,7 +57,7 @@ function Member({ member, promotionCommitteeID, canRemove, user }) {
                 />
                 {
                     promotionCommitteeID && user.id === member._id && showButtons && (
-                        <>
+                        <div style={{ display: "flex", gap: "0.5rem" }}>
                             {
                                 showRejectionReasonsForm ? (
                                     <MemberRejectionButton
@@ -77,11 +77,11 @@ function Member({ member, promotionCommitteeID, canRemove, user }) {
                                 handleShowButtons={handleShowButtons}
                                 memberID={member._id}
                             />
-                        </>
+                        </div>
                     )}
             </>
             {canRemove && <Button
-                style={{ backgroundColor: "#D1162C", color: "#fff" }}
+                style={{ backgroundColor: "#D1162C", color: "#fff", marginTop: "auto", width: 100 }}
                 onClick={() => dispatch(removeMember(member._id))}
             >حذف
             </Button>}

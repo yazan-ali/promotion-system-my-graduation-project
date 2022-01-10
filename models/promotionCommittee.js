@@ -11,6 +11,10 @@ const promototionCommitteeSchema = new mongoose.Schema({
     promotion_request: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Promotion Request",
+    },
+    committee_type: {
+        type: String,
+        required: true
     }
 });
 

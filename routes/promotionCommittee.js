@@ -53,10 +53,11 @@ router.get("/promotionCommittee/:id", async (req, res) => {
 });
 
 // get promotions for specific member
-router.get("/promotionCommittee/promotionRequests/:member_id", async (req, res) => {
+router.get("/promotionCommittee/promotionRequests/:member_id/:type", async (req, res) => {
     try {
         const promotionRequests = await PromotionCommittee.find({
-            'members._id': req.params.member_id
+            'members._id': req.params.member_id,
+            committee_type: req.params.type
         }).populate("promotion_request")
 
         if (promotionRequests) {
@@ -87,7 +88,8 @@ router.post("/promotionCommittee", async (req, res) => {
         const newPromotionCommittee = {
             members: req.body.members,
             promotion_request_id: req.body.promotion_request._id,
-            promotion_request: req.body.promotion_request
+            promotion_request: req.body.promotion_request,
+            committee_type: req.body.committee_type
         }
 
         try {
@@ -139,33 +141,6 @@ router.put("/promotionCommittee/:id", async (req, res) => {
     }
 })
 
-// send promtion request to pre-existing committee
-router.put("/promotionCommittee/:id/add", async (req, res) => {
-
-    try {
-        const user = checkAuth(req, res);
-        const promotionCommittee = await PromotionCommittee.findOne({ _id: req.params.id });
-
-        if (user && promotionCommittee) {
-            promotionCommittee.promotion_requests.push(req.body.promotionRequest)
-            await promotionCommittee.save()
-
-            res.json({
-                success: true,
-                message: "تم إرسال الطلب إلى اللجنة بنجاح"
-            });
-        } else {
-            res.json({
-                success: false,
-                message: "حدث خطأ ما"
-            })
-            throw new Error("Promotion committee not found")
-        }
-    } catch (err) {
-        console.log(err);
-    }
-})
-
 // delete promotion committee
 router.delete("/promotionCommittee/:id", async (req, res) => {
     try {
@@ -196,7 +171,13 @@ router.get("/teachers/:college", async (req, res) => {
 
     try {
 
-        const teachers = await User.find({ college: req.params.college }).populate("promotionRequest")
+        let teachers;
+
+        if (req.params.college === "none") {
+            teachers = await User.find({ isAdmin: false }).populate("promotionRequest")
+        } else {
+            teachers = await User.find({ college: req.params.college }).populate("promotionRequest")
+        }
         res.json({
             success: true,
             result: teachers
@@ -250,7 +231,7 @@ router.put("/promotionCommittee/:id/approve", async (req, res) => {
     }
 });
 
-// approve promotion request
+// reject promotion request
 router.put("/promotionCommittee/:id/rejection", async (req, res) => {
 
     try {

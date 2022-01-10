@@ -67,6 +67,9 @@
     padding: 1rem;
     border-radius: 10px;
     width: 32%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 }
 
 .selected-members{

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Button } from 'semantic-ui-react';
 import axios from 'axios';
-import { memberApprove } from "../../state/actions/promotionCommitteeActions"
+import { memberApprove, wiseMemberApprove } from "../../state/actions/promotionCommitteeActions"
 import { useDispatch, useSelector } from "react-redux";
 
-function MemberApproveButton({ promotionCommitteeID, handleShowButtons, memberID }) {
+function MemberApproveButton({ promotionCommitteeID, handleShowButtons, memberID, numOfMembers }) {
 
     const dispatch = useDispatch();
 

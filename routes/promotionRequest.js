@@ -292,7 +292,7 @@ router.put("/promotionRequests/:id/approve", async (req, res) => {
                 }
 
                 await PromotionRequset.findByIdAndUpdate(req.params.id, updatedPromotionRequest);
-                if (promotionRequest.current_phase_number === 2) {
+                if (promotionRequest.current_phase_number === 2 || promotionRequest.current_phase_number === 6) {
                     await PromotionCommittee.findOne({ promotion_request_id: req.params.id }).deleteOne()
                 }
                 res.json({
@@ -337,7 +337,7 @@ router.put("/promotionRequests/:id/rejection", async (req, res) => {
 
                 await PromotionRequset.findByIdAndUpdate(req.params.id, updatedPromotionRequest);
 
-                if (promotionRequest.current_phase_number === 2) {
+                if (promotionRequest.current_phase_number === 2 || promotionRequest.current_phase_number === 6 || promotionRequest.current_phase_number === 5) {
                     await PromotionCommittee.findOne({ promotion_request_id: req.params.id }).deleteOne()
                 }
 
@@ -443,6 +443,8 @@ router.post("/send-email/:id", async (req, res) => {
                     promotionRequest.process_level_number = 2;
                     promotionRequest.sent_to = [...promotionRequest.sent_to, ...mailList];
                     await promotionRequest.save();
+
+                    await PromotionCommittee.findOne({ promotion_request_id: req.params.id }).deleteOne()
 
                     res.json({
                         success: true,

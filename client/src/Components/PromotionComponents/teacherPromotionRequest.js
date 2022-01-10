@@ -336,6 +336,9 @@ function TeacherPromotionRequest({ handleShowButtons, user, showButtons, handleS
                                     promotionRequest.process_level_number === 1 && < ApproveButton
                                         id={promotionRequest._id}
                                         handleShowButtons={handleShowButtons}
+                                        administrativeRank={user.administrativeRank}
+                                        current_phase_number={promotionRequest.current_phase_number}
+                                        process_level_number={promotionRequest.process_level_number}
                                     />
                             }
                         </div>

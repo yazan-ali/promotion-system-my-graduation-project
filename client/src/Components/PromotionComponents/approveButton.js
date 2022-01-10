@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Button } from 'semantic-ui-react';
 import axios from 'axios';
+import { ranks } from "../../constants"
 
-function ApproveButton({ id, handleShowButtons }) {
+function ApproveButton({ id, handleShowButtons, administrativeRank, current_phase_number, process_level_number }) {
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -28,7 +29,11 @@ function ApproveButton({ id, handleShowButtons }) {
             style={{ backgroundColor: "#098D9C" }}
             primary
             onClick={approve}>
-            قبول
+            إرسال الطلب إلى {current_phase_number === 3 && process_level_number === 1 ?
+                ranks[5]
+                :
+                ranks[administrativeRank + 1]
+            }
         </Button>
     )
 }

@@ -82,23 +82,33 @@ function Teacher(props) {
                         </div>
                     </div>
                 </div >
-                {user.administrativeRank == 2 &&
+                {user.administrativeRank === 2 &&
                     <PromotionCommittee
                         user={user}
                         promotionRequest={teacher.promotionRequest}
+                        numOfMembers={3}
                     />}
 
-                {user.administrativeRank == 6 && showEmaileForm &&
+                {user.administrativeRank === 6 && showEmaileForm &&
                     <EmailSend
                         user_files={{
-                            file_3: teacher.promotionRequest.user_files.file_3,
-                            file_5: teacher.promotionRequest.user_files.file_5,
-                            file_6: teacher.promotionRequest.user_files.file_6,
-                            researchFiles: teacher.promotionRequest.user_files.researchFiles
+                            file_3: teacher?.promotionRequest?.user_files?.file_3 && teacher.promotionRequest.user_files.file_3,
+                            file_5: teacher?.promotionRequest?.user_files?.file_5 && teacher.promotionRequest.user_files.file_5,
+                            file_6: teacher?.promotionRequest?.user_files?.file_6 && teacher.promotionRequest.user_files.file_6,
+                            researchFiles: teacher?.promotionRequest?.user_files?.researchFiles &&
+                                teacher.promotionRequest.user_files.researchFiles
                         }}
                         promotionRequestID={teacher.promotionRequest._id}
                     />
                 }
+
+                {(user.administrativeRank === 5 || user.administrativeRank === 6) &&
+                    teacher.promotionRequest.process_level_number === 1 &&
+                    <PromotionCommittee
+                        user={user}
+                        promotionRequest={teacher.promotionRequest}
+                        numOfMembers={5}
+                    />}
             </div>
         )
     }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Tab } from 'semantic-ui-react';
 
-function Tabs({ tab1, tab1_label, tab2, tab2_label, activeTab, isLoading }) {
+function Tabs({ tab1, tab1_label, tab2, tab2_label, tab3, tab3_label, activeTab, isLoading }) {
 
     const [activeIndex, setActiveIndex] = useState(activeTab)
 
@@ -18,6 +18,12 @@ function Tabs({ tab1, tab1_label, tab2, tab2_label, activeTab, isLoading }) {
             menuItem: `${tab2_label}`, render: () =>
                 <Tab.Pane loading={isLoading}>
                     {tab2}
+                </Tab.Pane>
+        },
+        tab3 && {
+            menuItem: `${tab3_label}`, render: () =>
+                <Tab.Pane loading={isLoading}>
+                    {tab3}
                 </Tab.Pane>
         },
     ]

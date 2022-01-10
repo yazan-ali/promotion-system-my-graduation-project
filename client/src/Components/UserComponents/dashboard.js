@@ -7,7 +7,7 @@ import '../Style/dashboard.css';
 import axios from 'axios';
 import { useDispatch, useSelector } from "react-redux";
 import { setTeachers } from "../../state/actions/teachersActions";
-import { setPromotionRequestsForMember } from "../../state/actions/promotionCommitteeActions"
+import { setPromotionRequestsForMember, setPromotionRequestsForWiseMember } from "../../state/actions/promotionCommitteeActions"
 import Tabs from '../tabs';
 import { Redirect } from 'react-router-dom'
 
@@ -19,6 +19,7 @@ function Dashboard() {
 
     const teachers = useSelector((state) => state.teachers.teachersList);
     const promotionRequestsList = useSelector((state) => state.promotionCommittee.promotionRequestsList);
+    const wisePromotionRequestsList = useSelector((state) => state.promotionCommittee.wisePromotionRequestsList);
     const dispatch = useDispatch();
 
     useEffect(async () => {
@@ -38,10 +39,18 @@ function Dashboard() {
             })
 
         await axios.get(`/promotionCommittee/promotionRequests/${user.id}`).
-            // await axios.get(`http://localhost:5000/promotionCommittee/promotionRequests/${user.id}`).
+            // await axios.get(`http://localhost:5000/promotionCommittee/promotionRequests/${user.id}/college`).
             then(res => {
                 if (res.data.success) {
                     dispatch(setPromotionRequestsForMember(res.data.result));
+                }
+            })
+
+        await axios.get(`/promotionCommittee/promotionRequests/${user.id}`).
+            // await axios.get(`http://localhost:5000/promotionCommittee/promotionRequests/${user.id}/wise`).
+            then(res => {
+                if (res.data.success) {
+                    dispatch(setPromotionRequestsForWiseMember(res.data.result));
                 }
             })
 
@@ -65,18 +74,25 @@ function Dashboard() {
                         /> : null
                     }
                     tab1_label={"طلبات الترقية من مجلس التعيين و الترقية / الكلية"}
-                    isLoading={isLoading}
                     tab2={
+                        wisePromotionRequestsList && wisePromotionRequestsList.length > 0 ? <PromotionCommitteePromotions
+                            promotionRequestsList={wisePromotionRequestsList}
+                            user={user}
+                        /> : null
+                    }
+                    tab2_label={"طلبات الترقية من مجلس التعيين و الترقية / رئاسة الجامعة"}
+                    tab3={
                         user.administrativeRank > 0 ?
                             <TeachersList
                                 teachers={teachers}
                                 user={user}
                             /> : null
                     }
-                    tab2_label={"أعضاء الهيئة التدريسية"
+                    tab3_label={"أعضاء الهيئة التدريسية"
                     }
+
+                    activeTab={user.administrativeRank ? 2 : 0}
                     isLoading={isLoading}
-                    activeTab={user.administrativeRank ? 1 : 0}
                 />
             </section>
         </main>

@@ -7,7 +7,7 @@ import { Button } from 'semantic-ui-react';
 import { useDispatch, useSelector } from "react-redux";
 import { setTeachers, setPromotionCommittee, setMembers } from "../../state/actions/promotionCommitteeActions";
 
-function PromotionCommittee({ user, promotionRequest }) {
+function PromotionCommittee({ user, promotionRequest, numOfMembers }) {
 
     const promotionCommittee = useSelector((state) => state.promotionCommittee.promotionCommittee);
     const teachersList = useSelector((state) => state.promotionCommittee.teachers);
@@ -33,7 +33,7 @@ function PromotionCommittee({ user, promotionRequest }) {
             })
 
         axios.get(`/teachers/${user.college}`).
-            // axios.get(`http://localhost:5000/teachers/${user.college}`).
+            // axios.get(`http://localhost:5000/teachers/${numOfMembers === 3 ? user.college : "none"}`).
             then(res => {
                 if (res.data.success) {
                     teachers = res.data.result
@@ -71,7 +71,8 @@ function PromotionCommittee({ user, promotionRequest }) {
 
         const newPromotionCommittee = {
             members: members,
-            promotion_request: promotionRequest
+            promotion_request: promotionRequest,
+            committee_type: numOfMembers === 3 ? "college" : "wise"
         }
 
         setIsLoading(true)
@@ -108,7 +109,7 @@ function PromotionCommittee({ user, promotionRequest }) {
                 ) : (
                     <>
                         <PromotionCommitteeMembers members={members} canRemove={true} />
-                        {members.length === 3 &&
+                        {members.length === numOfMembers &&
                             (
                                 isEditing ? (
                                     <Button
@@ -128,7 +129,13 @@ function PromotionCommittee({ user, promotionRequest }) {
                                         primary
                                         onClick={sendPromotionRequestToCommittee}
                                     >
-                                        إرسال الطلب الى اللجنة
+                                        {
+                                            numOfMembers === 3 ?
+                                                "إرسال الطلب الى اللجنة"
+                                                :
+                                                "تشكيل اللجنة"
+                                        }
+
                                     </Button>
                                 )
                             )
