@@ -28,7 +28,7 @@ function RejectionButton({ id, handleShowButtons, rejectionReasons, administrati
             disabled={isLoading}
             style={{ backgroundColor: "#D1162C", color: "#fff" }}
             onClick={rejectionReasons.length > 0 && reject}>
-            إرسال الطلب إلى {current_phase_number === 6 && process_level_number === 2 ?
+            إعادة الطلب إلى {current_phase_number === 6 && process_level_number === 2 ?
                 ranks[4]
                 :
                 ranks[administrativeRank - 1]

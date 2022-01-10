@@ -32,7 +32,7 @@ function PromotionCommittee({ user, promotionRequest, numOfMembers }) {
                 }
             })
 
-        axios.get(`/teachers/${user.college}`).
+        axios.get(`/teachers/${numOfMembers === 3 ? user.college : "none"}`).
             // axios.get(`http://localhost:5000/teachers/${numOfMembers === 3 ? user.college : "none"}`).
             then(res => {
                 if (res.data.success) {
