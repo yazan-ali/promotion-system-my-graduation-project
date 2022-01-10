@@ -82,7 +82,7 @@ function Teacher(props) {
                         </div>
                     </div>
                 </div >
-                {user.administrativeRank === 2 &&
+                {user.administrativeRank === 2 && teacher.promotionRequest.process_level_number === 1 &&
                     <PromotionCommittee
                         user={user}
                         promotionRequest={teacher.promotionRequest}
