@@ -125,7 +125,6 @@ function PromotionRequestCreateForm(props) {
                 } else {
                     if (res.data.errors && Object.keys(res.data.errors).length > 0) {
                         setErrors(res.data.errors)
-                        return
                     }
                     alert = {
                         message: res.data.message,
