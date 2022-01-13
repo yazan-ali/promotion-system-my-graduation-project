@@ -7,7 +7,8 @@ import { Link } from 'react-router-dom';
 import { ranks } from '../../constants';
 import RejectionReasons from './rejectionReasons';
 import UserFilesList from './userFilesList';
-import AdministrativeFilesList from './administrativeFilesList'
+import AdministrativeFilesList from './administrativeFilesList';
+import Stepper from '../stepper';
 
 function PromotionRequest({ promotionRequest, handleAlert, user, promotionCommitteeID }) {
 
@@ -31,8 +32,13 @@ function PromotionRequest({ promotionRequest, handleAlert, user, promotionCommit
                     />
                 ) : (
                     <div className="promotion-request-card">
+                        <Stepper
+                            currentStep={promotionRequest.current_phase_number}
+                            process_level_number={promotionRequest.process_level_number}
+                            hideStep={promotionRequest.process_level_number === 1 && 4}
+                        />
                         <div>
-                            <div className="promotion-request-card-header">
+                            {/* <div className="promotion-request-card-header">
                                 {
                                     promotionRequest.current_phase_number > 0 && !promotionCommitteeID && (
                                         <p style={{ color: "green" }}>
@@ -45,7 +51,7 @@ function PromotionRequest({ promotionRequest, handleAlert, user, promotionCommit
                                         </p>
                                     )
                                 }
-                            </div>
+                            </div> */}
                             <p>{promotionRequest.promotion_request_status}</p>
                             <div style={{ maxHeight: 420, overflow: "auto" }}>
                                 <div style={{ width: "98%" }}>

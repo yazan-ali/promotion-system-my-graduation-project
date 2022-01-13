@@ -84,8 +84,8 @@ function PromotionRequestEditForm() {
         }
 
         setIsLoading(true)
-        await axios.put(`/promotionRequests/${promotionRequest._id}`, updatedPromotionRequest)
-            // await axios.put(`http://localhost:5000/promotionRequests/${promotionRequest._id}`, updatedPromotionRequest)
+        // await axios.put(`/promotionRequests/${promotionRequest._id}`, updatedPromotionRequest)
+        await axios.put(`http://localhost:5000/promotionRequests/${promotionRequest._id}`, updatedPromotionRequest)
             .then(res => {
                 if (res.data.success) {
                     dispatch(setPromotionRequest({ ...promotionRequest, ...updatedPromotionRequest }));
@@ -134,26 +134,26 @@ function PromotionRequestEditForm() {
                 <div style={{ display: showResearchFiles ? "none" : "" }}>
                     <Form onSubmit={handleSubmit}>
                         <FileUpload
-                            label={files.file_1 ? files.file_1.label : "استدعاء"}
-                            fileData={files.file_1 && files.file_1}
+                            label={!files?.file_1 ? "استدعاء" : files.file_1.label}
+                            fileData={files?.file_1 && files.file_1}
                             n={1}
                             canEdit={true}
                         />
                         <FileUpload
                             label={`${promotionRequest.promotion_type === "تثبيت أستاذ مساعد" ? "طلب التثبيت" : "طلب الترقية"}`}
-                            fileData={files.file_2 && files.file_2}
+                            fileData={files?.file_2 && files.file_2}
                             n={2}
                             canEdit={true}
                         />
                         <FileUpload
-                            label={files.file_3 ? files.file_3.label : "السيرة الذاتية"}
-                            fileData={files.file_3 && files.file_3}
+                            label={!files?.file_3 ? "السيرة الذاتية" : files.file_3.label}
+                            fileData={files?.file_3 && files.file_3}
                             n={3}
                             canEdit={true}
                         />
                         <FileUpload
-                            label={files.file_4 ? files.file_4.label : "تقيم الطلبة"}
-                            fileData={files.file_4 && files.file_4}
+                            label={!files?.file_4 ? "تقيم الطلبة" : files.file_4.label}
+                            fileData={files?.file_4 && files.file_4}
                             n={4}
                             canEdit={true}
                         />
@@ -161,14 +161,14 @@ function PromotionRequestEditForm() {
                             promotionRequest.promotion_type === "تثبيت أستاذ مساعد" && (
                                 <>
                                     <FileUpload
-                                        label={files.file_5 ? files.file_5.label : "البحث الأول"}
-                                        fileData={files.file_5 && files.file_5}
+                                        label={!files?.file_5 ? "البحث الأول" : files.file_5.label}
+                                        fileData={files?.file_5 && files.file_5}
                                         n={5}
                                         canEdit={true}
                                     />
                                     <FileUpload
-                                        label={files.file_6 ? files.file_6.label : "البحث الثاني"}
-                                        fileData={files.file_6 && files.file_6}
+                                        label={!files?.file_6 ? "البحث الثاني" : files.file_6.label}
+                                        fileData={files?.file_6 && files.file_6}
                                         n={6}
                                         canEdit={true}
                                     />
@@ -180,7 +180,7 @@ function PromotionRequestEditForm() {
                                 {errors.files}
                             </Label>
                         </div>}
-                        {files.researchFiles && (
+                        {files?.researchFiles && (
                             <div style={{ marginTop: 20 }}>
                                 <p>الأبحاث</p>
                                 {

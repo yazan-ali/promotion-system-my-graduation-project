@@ -31,3 +31,19 @@ button{
   align-items: center;
   justify-content: center;
 }
+
+.ui.ordered.steps .step:before{
+  display: none;
+}
+
+.ui.ordered.steps .step.completed:before, .ui.steps .step.completed>.icon:before{
+  display: block;
+}
+
+.ui.vertical.steps .active.step:after{
+  display: none;
+}
+
+.ui.vertical.steps>*{
+  text-align: center ;
+}
