@@ -130,10 +130,6 @@ router.post("/register", async (req, res) => {
         })
     }
     catch (err) {
-        res.json({
-            success: false,
-            message: "حدث خطا ما"
-        });
         console.log(err)
     }
 });
@@ -185,10 +181,6 @@ router.post("/login", async (req, res) => {
         }
     }
     catch (err) {
-        res.json({
-            success: false,
-            message: "حدث خطا ما"
-        });
         console.log(err)
     }
 })

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { PickerOverlay } from 'filestack-react';
-import { Button } from 'semantic-ui-react';
+import { Button, Label } from 'semantic-ui-react';
 import { useDispatch, useSelector } from "react-redux";
 import { setUserFiles, removeUserFile } from "../../state/actions/promotionRequestActions";
 
-function FileUpload({ label, fileUpload, removeFile, fileData, doNotShowFile, n, canEdit }) {
+function FileUpload({ label, fileUpload, removeFile, fileData, doNotShowFile, n, canEdit, err }) {
 
     const dispatch = useDispatch();
 
@@ -83,7 +83,14 @@ function FileUpload({ label, fileUpload, removeFile, fileData, doNotShowFile, n,
                             }
                         </p>
                     ) : (
-                        <Button style={{ marginRight: -2 }} type='button' onClick={handelShowFilePicker}>إضافة ملف</Button>
+                        <div>
+                            {err &&
+                                <Label basic color='red' pointing={"right"}>
+                                    {err}
+                                </Label>
+                            }
+                            <Button style={{ marginRight: -2 }} type='button' onClick={handelShowFilePicker}>إضافة ملف</Button>
+                        </div>
                     )
                 }
             </div>

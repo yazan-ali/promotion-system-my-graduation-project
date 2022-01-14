@@ -21,6 +21,7 @@ function PromotionRequestCreateForm(props) {
     const [endDate, setEndDate] = useState(null);
     const [dateErr, setDateErr] = useState(null);
     const [errors, setErrors] = useState({});
+    const [filesErrors, setFilesErrors] = useState({});
     const [showResearchFiles, setShowResearchFiles] = useState(false);
     const [canSubmit, setCanSubmit] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -124,7 +125,11 @@ function PromotionRequestCreateForm(props) {
                     setRedirect(true)
                 } else {
                     if (res.data.errors && Object.keys(res.data.errors).length > 0) {
-                        setErrors(res.data.errors)
+                        setErrors({
+                            start_date: res.data.errors.start_date,
+                            end_date: res.data.errors.end_date
+                        })
+                        setFilesErrors(res.data.errors.files)
                     }
                     alert = {
                         message: res.data.message,
@@ -201,6 +206,7 @@ function PromotionRequestCreateForm(props) {
                         removeFile={handleRemoveFile}
                         n={1}
                         canEdit={true}
+                        err={filesErrors.file_1}
                     />
 
                     <FileUpload
@@ -209,6 +215,7 @@ function PromotionRequestCreateForm(props) {
                         removeFile={handleRemoveFile}
                         n={2}
                         canEdit={true}
+                        err={filesErrors.file_2}
                     />
 
                     <FileUpload
@@ -217,6 +224,7 @@ function PromotionRequestCreateForm(props) {
                         removeFile={handleRemoveFile}
                         n={3}
                         canEdit={true}
+                        err={filesErrors.file_3}
                     />
                     <FileUpload
                         label="تقيم الطلبة"
@@ -224,6 +232,7 @@ function PromotionRequestCreateForm(props) {
                         removeFile={handleRemoveFile}
                         n={4}
                         canEdit={true}
+                        err={filesErrors.file_4}
                     />
                     {
                         promotionType === "تثبيت أستاذ مساعد" && (
@@ -234,6 +243,7 @@ function PromotionRequestCreateForm(props) {
                                     removeFile={handleRemoveFile}
                                     n={5}
                                     canEdit={true}
+                                    err={filesErrors.file_5}
                                 />
                                 <FileUpload
                                     label="البحث الثاني"
@@ -241,6 +251,7 @@ function PromotionRequestCreateForm(props) {
                                     removeFile={handleRemoveFile}
                                     n={6}
                                     canEdit={true}
+                                    err={filesErrors.file_5}
                                 />
                             </>
                         )

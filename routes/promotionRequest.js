@@ -96,15 +96,21 @@ router.get("/promotionRequests/:college/:section/:current_phase_number", async (
 // create promotion request
 router.post("/promotionRequests", async (req, res) => {
 
-    const { valid, errors } = validateCreatePromotionRequestInput(req.body.start_date, req.body.end_date, req.body.user_files);
+    const { valid, errors } = validateCreatePromotionRequestInput(
+        req.body.start_date,
+        req.body.end_date,
+        req.body.user_files,
+        req.body.promotion_type
+    );
 
-    if (!valid) {
-        res.json({
-            success: false,
-            errors: errors
-        })
-        return
-    }
+    // if (!valid) {
+    //     res.json({
+    //         success: false,
+    //         errors: errors,
+    //         message: "يجب رفع جميع الملفات المطلوبة"
+    //     })
+    //     return
+    // }
 
     const user = checkAuth(req, res);
 
@@ -157,15 +163,17 @@ router.post("/promotionRequests", async (req, res) => {
 // update promotion request
 router.put("/promotionRequests/:id", async (req, res) => {
 
-    // const { valid, errors } = validateUpdatePromotionRequestInput(req.body.user_files);
+    const { valid, errors } = validateUpdatePromotionRequestInput(req.body.user_files, req.body.promotion_type);
 
-    // if (!valid) {
-    //     res.json({
-    //         success: false,
-    //         errors: errors
-    //     })
-    //     return
-    // }
+    if (!valid) {
+        res.json({
+            success: false,
+            errors: errors,
+            message: "يجب رفع جميع الملفات المطلوبة"
+        })
+        return
+    }
+
     try {
 
         const user = checkAuth(req, res);

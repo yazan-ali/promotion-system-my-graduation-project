@@ -40,8 +40,10 @@ module.exports.validateLoginInput = (username, password) => {
 module.exports.validateCreatePromotionRequestInput = (
     start_date,
     end_date,
-    files
+    files,
+    promotion_type
 ) => {
+
     const errors = {};
     if (start_date === null) {
         errors.start_date = "يجب ادخال هذا الحقل";
@@ -49,19 +51,45 @@ module.exports.validateCreatePromotionRequestInput = (
     if (end_date === null) {
         errors.end_date = "يجب ادخال هذا الحقل";
     }
-    if (files.length < 2) {
-        errors.files = "يجب رفع جميع الملفات المطلوبة";
+
+    if (promotion_type === "تثبيت أستاذ مساعد") {
+        for (let i = 1; i <= 6; i++) {
+            if (!files[`file_${i}`]) {
+                errors.files = { ...errors.files, [`file_${i}`]: "يجب رفع هذا الملف" }
+            }
+        }
+    } else {
+        for (let i = 1; i <= 4; i++) {
+            if (!files[`file_${i}`]) {
+                errors.files = { ...errors.files, [`file_${i}`]: "يجب رفع هذا الملف" }
+            }
+        }
     }
+
     return {
         errors,
         valid: Object.keys(errors).length < 1
     }
 }
 
-module.exports.validateUpdatePromotionRequestInput = (files) => {
+module.exports.validateUpdatePromotionRequestInput = (files, promotion_type) => {
     const errors = {};
-    if (files.length < 3) {
-        errors.files = "يجب رفع جميع الملفات المطلوبة";
+
+
+    if (files) {
+        if (promotion_type === "تثبيت أستاذ مساعد") {
+            for (let i = 1; i <= 6; i++) {
+                if (!files[`file_${i}`]) {
+                    errors.files = { ...errors.files, [`file_${i}`]: "يجب رفع هذا الملف" }
+                }
+            }
+        } else {
+            for (let i = 1; i <= 4; i++) {
+                if (!files[`file_${i}`]) {
+                    errors.files = { ...errors.files, [`file_${i}`]: "يجب رفع هذا الملف" }
+                }
+            }
+        }
     }
     return {
         errors,

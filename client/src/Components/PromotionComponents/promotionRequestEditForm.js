@@ -23,6 +23,7 @@ function PromotionRequestEditForm() {
     const dispatch = useDispatch();
 
     const [errors, setErrors] = useState({});
+    const [filesErrors, setFilesErrors] = useState({});
     const [showResearchFiles, setShowResearchFiles] = useState(false);
     const [canSubmit, setCanSubmit] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
@@ -79,6 +80,7 @@ function PromotionRequestEditForm() {
 
         const updatedPromotionRequest = {
             user_files: files,
+            promotion_type: promotionRequest.promotion_type,
             current_phase_number: 1,
             rejectionReasons: []
         }
@@ -92,7 +94,11 @@ function PromotionRequestEditForm() {
                     setRedirect(true)
                 } else {
                     if (res.data.errors && Object.keys(res.data.errors).length > 0) {
-                        setErrors(res.data.errors)
+                        setErrors({
+                            start_date: res.data.errors.start_date,
+                            end_date: res.data.errors.end_date
+                        })
+                        setFilesErrors(res.data.errors.files)
                         return
                     }
                     alert = {
@@ -138,24 +144,28 @@ function PromotionRequestEditForm() {
                             fileData={files?.file_1 && files.file_1}
                             n={1}
                             canEdit={true}
+                            err={filesErrors.file_1}
                         />
                         <FileUpload
                             label={`${promotionRequest.promotion_type === "تثبيت أستاذ مساعد" ? "طلب التثبيت" : "طلب الترقية"}`}
                             fileData={files?.file_2 && files.file_2}
                             n={2}
                             canEdit={true}
+                            err={filesErrors.file_2}
                         />
                         <FileUpload
                             label={!files?.file_3 ? "السيرة الذاتية" : files.file_3.label}
                             fileData={files?.file_3 && files.file_3}
                             n={3}
                             canEdit={true}
+                            err={filesErrors.file_3}
                         />
                         <FileUpload
                             label={!files?.file_4 ? "تقيم الطلبة" : files.file_4.label}
                             fileData={files?.file_4 && files.file_4}
                             n={4}
                             canEdit={true}
+                            err={filesErrors.file_4}
                         />
                         {
                             promotionRequest.promotion_type === "تثبيت أستاذ مساعد" && (
@@ -165,12 +175,14 @@ function PromotionRequestEditForm() {
                                         fileData={files?.file_5 && files.file_5}
                                         n={5}
                                         canEdit={true}
+                                        err={filesErrors.file_5}
                                     />
                                     <FileUpload
                                         label={!files?.file_6 ? "البحث الثاني" : files.file_6.label}
                                         fileData={files?.file_6 && files.file_6}
                                         n={6}
                                         canEdit={true}
+                                        err={filesErrors.file_6}
                                     />
                                 </>
                             )

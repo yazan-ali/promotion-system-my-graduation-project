@@ -32,11 +32,13 @@ function PromotionRequest({ promotionRequest, handleAlert, user, promotionCommit
                     />
                 ) : (
                     <div className="promotion-request-card">
-                        <Stepper
-                            currentStep={promotionRequest.current_phase_number}
-                            process_level_number={promotionRequest.process_level_number}
-                            hideStep={promotionRequest.process_level_number === 1 && 4}
-                        />
+                        {
+                            !promotionCommitteeID && <Stepper
+                                currentStep={promotionRequest.current_phase_number}
+                                process_level_number={promotionRequest.process_level_number}
+                                hideStep={promotionRequest.process_level_number === 1 && 4}
+                            />
+                        }
                         <div>
                             {/* <div className="promotion-request-card-header">
                                 {

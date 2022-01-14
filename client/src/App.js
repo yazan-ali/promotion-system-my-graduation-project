@@ -4,7 +4,6 @@ import './App.css';
 import { AuthProvider } from './Components/UserComponents/userContext';
 import Routes from './Routes/routes';
 import Navbar from './Components/navbar';
-import Stepper from './Components/stepper';
 
 function App() {
 
