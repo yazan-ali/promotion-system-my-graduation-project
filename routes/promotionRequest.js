@@ -4,7 +4,11 @@ const PromotionRequset = require("../models/promotionRequest");
 const PromotionCommittee = require("../models/promotionCommittee");
 const User = require("../models/user");
 const checkAuth = require("../util/checkAuth");
-const { validateCreatePromotionRequestInput, validateUpdatePromotionRequestInput } = require("../util/validators");
+const {
+    validateCreatePromotionRequestInput,
+    validateUpdatePromotionRequestInput,
+    validateAdminFilesInput
+} = require("../util/validators");
 const nodemailer = require("nodemailer");
 
 // get all promotion request
@@ -163,18 +167,19 @@ router.post("/promotionRequests", async (req, res) => {
 // update promotion request
 router.put("/promotionRequests/:id", async (req, res) => {
 
-    const { valid, errors } = validateUpdatePromotionRequestInput(req.body.user_files, req.body.promotion_type);
-
-    if (!valid) {
-        res.json({
-            success: false,
-            errors: errors,
-            message: "يجب رفع جميع الملفات المطلوبة"
-        })
-        return
-    }
 
     try {
+
+        const { valid, errors } = validateUpdatePromotionRequestInput(req.body.user_files, req.body.promotion_type);
+
+        if (!valid) {
+            res.json({
+                success: false,
+                errors: errors,
+                message: "يجب رفع جميع الملفات المطلوبة"
+            })
+            return
+        }
 
         const user = checkAuth(req, res);
         const promotionRequest = await PromotionRequset.findOne({ _id: req.params.id });
@@ -281,13 +286,27 @@ router.put("/promotionRequests/:id/approve", async (req, res) => {
 
     try {
 
+        // const { valid, errors } = validateAdminFilesInput(
+        //     req.body.administrative_files,
+        //     req.body.current_phase_number,
+        //     req.body.process_level_number
+        // );
+
+        // if (!valid) {
+        //     res.json({
+        //         success: false,
+        //         errors: errors,
+        //         message: "يجب رفع جميع الملفات المطلوبة"
+        //     })
+        //     return
+        // }
+
         const user = checkAuth(req, res);
         const promotionRequest = await PromotionRequset.findOne({ _id: req.params.id });
 
         if (promotionRequest) {
             if (user && user.administrativeRank > 0) {
                 const updatedPromotionRequest = {
-                    // current_phase_number: promotionRequest.current_phase_number + 1,
                     current_phase_number: promotionRequest.current_phase_number === 3 &&
                         promotionRequest.process_level_number === 1 ?
                         promotionRequest.current_phase_number + 2
@@ -372,17 +391,27 @@ router.put("/promotionRequests/:id/process_2_approve", async (req, res) => {
 
     try {
 
+        // const { valid, errors } = validateAdminFilesInput(
+        //     req.body.administrative_files,
+        //     req.body.current_phase_number,
+        //     req.body.process_level_number
+        // );
+
+        // if (!valid) {
+        //     res.json({
+        //         success: false,
+        //         errors: errors,
+        //         message: "يجب رفع جميع الملفات المطلوبة"
+        //     })
+        //     return
+        // }
+
         const user = checkAuth(req, res);
         const promotionRequest = await PromotionRequset.findOne({ _id: req.params.id });
 
         if (promotionRequest) {
             if (user && user.administrativeRank > 0) {
                 const updatedPromotionRequest = {
-                    // current_phase_number: promotionRequest.current_phase_number > 0 ?
-                    //     promotionRequest.current_phase_number - 1
-                    //     :
-                    //     promotionRequest.current_phase_number,
-
                     current_phase_number: promotionRequest.current_phase_number === 6 &&
                         promotionRequest.process_level_number === 2 ?
                         promotionRequest.current_phase_number - 2

@@ -3,7 +3,8 @@ import { Button } from 'semantic-ui-react';
 import axios from 'axios';
 import { ranks } from "../../constants"
 
-function ApproveButton({ id, handleShowButtons, administrativeRank, current_phase_number, process_level_number }) {
+function ApproveButton({ id, handleShowButtons, administrativeRank, current_phase_number,
+    process_level_number, administrative_files, setErrors }) {
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -11,11 +12,13 @@ function ApproveButton({ id, handleShowButtons, administrativeRank, current_phas
 
         setIsLoading(true)
 
-        // await axios.put(`/promotionRequests/${id}/approve`)
-        await axios.put(`http://localhost:5000/promotionRequests/${id}/approve`)
+        // await axios.put(`/promotionRequests/${id}/approve`,{ current_phase_number, administrative_files, process_level_number })
+        await axios.put(`http://localhost:5000/promotionRequests/${id}/approve`, { current_phase_number, administrative_files, process_level_number })
             .then(res => {
                 if (res.data.success) {
                     handleShowButtons()
+                } else {
+                    setErrors(res.data.errors.files)
                 }
             })
 

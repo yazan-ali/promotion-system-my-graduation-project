@@ -96,3 +96,35 @@ module.exports.validateUpdatePromotionRequestInput = (files, promotion_type) => 
         valid: Object.keys(errors).length < 1
     }
 }
+
+module.exports.validateAdminFilesInput = (files, current_phase_number, process_level_number) => {
+    const errors = {};
+
+
+    if (process_level_number === 1) {
+        if (current_phase_number === 1) {
+            if (Object.keys(files).length < 3) {
+                errors.files = "يجب رفع جميع الملفات"
+            }
+        } else if (current_phase_number === 2) {
+            if (Object.keys(files).length < 5) {
+                errors.files = "يجب رفع جميع الملفات"
+            }
+        }
+    } else {
+        if (current_phase_number === 6) {
+            if (Object.keys(files).length < 6) {
+                errors.files = "يجب رفع ملف قرار المقيمين "
+            }
+        } else if (current_phase_number === 4) {
+            if (Object.keys(files).length < 7) {
+                errors.files = "يجب رفع ملف قرار مجلس العمداء "
+            }
+        }
+    }
+
+    return {
+        errors,
+        valid: Object.keys(errors).length < 1
+    }
+}

@@ -10,6 +10,7 @@ import moment from 'moment';
 import RejectionReasons from './rejectionReasons';
 import UserFilesList from './userFilesList'
 import { useDispatch, useSelector } from "react-redux";
+import { Message } from 'semantic-ui-react';
 import { setAdministrativeFile, removeAdministrativeFile, } from "../../state/actions/teacherDataActions";
 
 function TeacherPromotionRequest({ handleShowButtons, user, showButtons, handleShowEmailForm }) {
@@ -21,6 +22,7 @@ function TeacherPromotionRequest({ handleShowButtons, user, showButtons, handleS
     const [showSaveBtn, setShowSaveBtn] = useState(false);
     const [showRejectionReasonsForm, setShowRejectionReasonsForm] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [errors, setErrors] = useState(null)
 
     const administrativeRankCondition = (user.administrativeRank > 0 && user.administrativeRank === promotionRequest.current_phase_number);
 
@@ -42,6 +44,11 @@ function TeacherPromotionRequest({ handleShowButtons, user, showButtons, handleS
         setShowRejectionReasonsForm(true);
     }
 
+    const handleSetErrors = (errors) => {
+        setErrors(errors)
+        document.getElementById("alert").scrollIntoView({ behavior: 'smooth', block: "end" });
+    }
+
     const handleSubmit = async () => {
         const administrative_files = {
             administrative_files: files
@@ -54,6 +61,7 @@ function TeacherPromotionRequest({ handleShowButtons, user, showButtons, handleS
             .then(res => {
                 if (res.data.success) {
                     setShowSaveBtn(false);
+                    setErrors(null)
                 }
             });
 
@@ -62,6 +70,16 @@ function TeacherPromotionRequest({ handleShowButtons, user, showButtons, handleS
 
     return (
         <div className="promotion-request-card">
+            <div style={{ padding: "20px 0" }} id="alert">
+                {
+                    errors && (
+                        <Message
+                            error
+                            content={errors}
+                        />
+                    )
+                }
+            </div>
             <div>
                 <div style={{ display: "flex", flexDirection: "row-reverse", justifyContent: "space-between" }}>
                     <p>{moment(promotionRequest.updated_at).fromNow()}</p>
@@ -318,6 +336,8 @@ function TeacherPromotionRequest({ handleShowButtons, user, showButtons, handleS
                                             administrativeRank={user.administrativeRank}
                                             current_phase_number={promotionRequest.current_phase_number}
                                             process_level_number={promotionRequest.process_level_number}
+                                            administrative_files={files}
+                                            setErrors={handleSetErrors}
                                         />
                                     </>
                                 )
@@ -342,6 +362,8 @@ function TeacherPromotionRequest({ handleShowButtons, user, showButtons, handleS
                                         administrativeRank={user.administrativeRank}
                                         current_phase_number={promotionRequest.current_phase_number}
                                         process_level_number={promotionRequest.process_level_number}
+                                        administrative_files={files ? files : {}}
+                                        setErrors={handleSetErrors}
                                     />
                             }
                         </div>
