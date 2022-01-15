@@ -16,6 +16,7 @@ function Dashboard() {
     const { user } = useContext(AuthContext);
 
     const [isLoading, setIsLoading] = useState(false)
+    const [deansCouncilPromotionRequests, setDeansCouncilPromotionRequests] = useState([])
 
     const teachers = useSelector((state) => state.teachers.teachersList);
     const promotionRequestsList = useSelector((state) => state.promotionCommittee.promotionRequestsList);
@@ -32,8 +33,18 @@ function Dashboard() {
         await axios.get(`http://localhost:5000/user/${user.college}/${user.section}`).
             then(res => {
                 if (res.data.success) {
+                    let teachers = [];
                     if (res.data.teachers) {
                         dispatch(setTeachers(res.data.teachers));
+                        if (user.administrativeRank === 2) {
+                            res.data.teachers.map(teacher => {
+                                if (teacher?.promotionRequest?.current_phase_number === 4 &&
+                                    teacher?.promotionRequest?.process_level_number === 2) {
+                                    teachers.push(teacher)
+                                }
+                            })
+                        }
+                        setDeansCouncilPromotionRequests(teachers)
                     }
                 }
             })
@@ -67,31 +78,40 @@ function Dashboard() {
             <section className="dashboard">
                 {user && <TeacherInfoCard teacherData={user} />}
                 <Tabs
-                    tab1={
-                        promotionRequestsList && promotionRequestsList.length > 0 ? <PromotionCommitteePromotions
-                            promotionRequestsList={promotionRequestsList}
-                            user={user}
-                        /> : null
-                    }
-                    tab1_label={"طلبات الترقية من مجلس التعيين و الترقية / الكلية"}
-                    tab2={
-                        wisePromotionRequestsList && wisePromotionRequestsList.length > 0 ? <PromotionCommitteePromotions
+                    tabs={[{
+                        tab:
+                            promotionRequestsList && promotionRequestsList.length > 0 ? <PromotionCommitteePromotions
+                                promotionRequestsList={promotionRequestsList}
+                                user={user}
+                            /> : null,
+                        label: "طلبات الترقية من مجلس التعيين و الترقية / الكلية"
+                    },
+                    {
+                        tab: wisePromotionRequestsList && wisePromotionRequestsList.length > 0 ? <PromotionCommitteePromotions
                             promotionRequestsList={wisePromotionRequestsList}
                             user={user}
-                        /> : null
-                    }
-                    tab2_label={"طلبات الترقية من مجلس التعيين و الترقية / رئاسة الجامعة"}
-                    tab3={
-                        user.administrativeRank > 0 ?
+                        /> : null,
+                        label: "طلبات الترقية من مجلس التعيين و الترقية / أمانة سر المجالس "
+                    },
+                    {
+                        tab: user.administrativeRank === 2 && deansCouncilPromotionRequests.length > 0 ?
+                            <TeachersList
+                                teachers={deansCouncilPromotionRequests}
+                                user={user}
+                                showButton={true}
+                            /> : null,
+                        label: "طلبات الترقية / مجلس العمداء"
+                    },
+                    {
+                        tab: user.administrativeRank > 0 ?
                             <TeachersList
                                 teachers={teachers}
                                 user={user}
-                            /> : null
-                    }
-                    tab3_label={"أعضاء الهيئة التدريسية"
-                    }
-
-                    activeTab={user.administrativeRank ? 2 : 1}
+                            /> : null,
+                        label: "أعضاء الهيئة التدريسية"
+                    },
+                    ]}
+                    activeTab={3}
                     isLoading={isLoading}
                 />
             </section>

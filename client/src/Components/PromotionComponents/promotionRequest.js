@@ -40,20 +40,6 @@ function PromotionRequest({ promotionRequest, handleAlert, user, promotionCommit
                             />
                         }
                         <div>
-                            {/* <div className="promotion-request-card-header">
-                                {
-                                    promotionRequest.current_phase_number > 0 && !promotionCommitteeID && (
-                                        <p style={{ color: "green" }}>
-                                            يتم مراحعة طلبك من قبل {
-                                                (promotionRequest.current_phase_number === 6 &&
-                                                    promotionRequest.process_level_number === 2) ? [ranks[7]]
-                                                    :
-                                                    ranks[promotionRequest.current_phase_number]
-                                            }
-                                        </p>
-                                    )
-                                }
-                            </div> */}
                             <p>{promotionRequest.promotion_request_status}</p>
                             <div style={{ maxHeight: 420, overflow: "auto" }}>
                                 <div style={{ width: "98%" }}>

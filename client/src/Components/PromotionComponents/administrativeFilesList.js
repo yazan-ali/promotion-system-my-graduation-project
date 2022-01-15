@@ -4,7 +4,7 @@ function AdministrativeFilesList({ administrative_files, rank, current_phase_num
     return (
         <div className="files-list">
             {
-                administrative_files?.file_1 && (
+                rank > 0 && administrative_files?.file_1 && (
                     <div>
                         <label className="file-label">{administrative_files.file_1.label}</label>
                         <p className="file">
@@ -16,7 +16,7 @@ function AdministrativeFilesList({ administrative_files, rank, current_phase_num
                 )
             }
             {
-                administrative_files?.file_2 && (
+                rank > 0 && administrative_files?.file_2 && (
                     <div>
                         <label className="file-label">{administrative_files.file_2.label}</label>
                         <p className="file">
@@ -28,7 +28,7 @@ function AdministrativeFilesList({ administrative_files, rank, current_phase_num
                 )
             }
             {
-                administrative_files?.file_3 && (
+                rank > 0 && administrative_files?.file_3 && (
                     <div>
                         <label className="file-label">{administrative_files.file_3.label}</label>
                         <p className="file">
@@ -40,7 +40,7 @@ function AdministrativeFilesList({ administrative_files, rank, current_phase_num
                 )
             }
             {
-                administrative_files?.file_4 && (
+                rank > 0 && administrative_files?.file_4 && (
                     <div>
                         <label className="file-label">{administrative_files.file_4.label}</label>
                         <p className="file">
@@ -52,7 +52,7 @@ function AdministrativeFilesList({ administrative_files, rank, current_phase_num
                 )
             }
             {
-                administrative_files?.file_5 && (
+                rank > 0 && administrative_files?.file_5 && (
                     <div>
                         <label className="file-label">{administrative_files.file_5.label}</label>
                         <p className="file">

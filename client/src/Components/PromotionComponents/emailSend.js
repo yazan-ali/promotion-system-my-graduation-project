@@ -14,22 +14,21 @@ function EmailSend({ user_files, promotionRequestID }) {
 
         let files = []
 
-        if (user_files.length > 0) {
-
-            for (let file in user_files) {
-                if (file === "researchFiles" && user_files[file]) {
-                    user_files[file].map(file => {
-                        files.push({
-                            filename: file.file.name,
-                            path: file.file.url
-                        })
-                    })
-                } else if (user_files[file]) {
+        for (let file in user_files) {
+            if (file === "researchFiles" && user_files[file]) {
+                user_files[file].map(file => {
                     files.push({
-                        filename: user_files[file].name,
-                        path: user_files[file].url
+                        filename: file.file.name,
+                        path: file.file.url
                     })
-                }
+                })
+            } else if (user_files[file]) {
+                console.log(user_files[file])
+
+                files.push({
+                    filename: user_files[file].name,
+                    path: user_files[file].url
+                })
             }
         }
 

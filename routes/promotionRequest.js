@@ -170,16 +170,16 @@ router.put("/promotionRequests/:id", async (req, res) => {
 
     try {
 
-        const { valid, errors } = validateUpdatePromotionRequestInput(req.body.user_files, req.body.promotion_type);
+        // const { valid, errors } = validateUpdatePromotionRequestInput(req.body.user_files, req.body.promotion_type);
 
-        if (!valid) {
-            res.json({
-                success: false,
-                errors: errors,
-                message: "يجب رفع جميع الملفات المطلوبة"
-            })
-            return
-        }
+        // if (!valid) {
+        //     res.json({
+        //         success: false,
+        //         errors: errors,
+        //         message: "يجب رفع جميع الملفات المطلوبة"
+        //     })
+        //     return
+        // }
 
         const user = checkAuth(req, res);
         const promotionRequest = await PromotionRequset.findOne({ _id: req.params.id });

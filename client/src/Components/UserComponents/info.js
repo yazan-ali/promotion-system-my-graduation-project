@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom'
 
-function Info({ teacher, user, cssStyle, promotionRequestID }) {
+function Info({ teacher, user, cssStyle, promotionRequestID, showButton }) {
 
     const showButtonCondition = teacher.promotionRequest && teacher.promotionRequest.current_phase_number === user.administrativeRank
 
@@ -14,6 +14,10 @@ function Info({ teacher, user, cssStyle, promotionRequestID }) {
             {teacher.college && <p>الكلية : {teacher.college}</p>}
             {teacher.section && <p>القسم :  {teacher.section}</p>}
             {showButtonCondition && cssStyle &&
+                <a href={`/promotion-request/${teacher._id}`}>عرض طلب الترقية</a>
+            }
+
+            {showButton &&
                 <a href={`/promotion-request/${teacher._id}`}>عرض طلب الترقية</a>
             }
 
