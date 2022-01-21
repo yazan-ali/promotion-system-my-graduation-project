@@ -19,7 +19,6 @@ function Stepper({ currentStep, process_level_number, hideStep }) {
                                     currentStep < idx + 1 && true
                             }
                             active={currentStep === idx + 1}
-                            // description={`يتم مراجعة طلبك من قبل ${ranks[7]}`}
                             description={`${currentStep === 6 ? `يتم مراجعة طلبك من قبل ${ranks[7]}` : `المقيمين`}`}
                             lastStep={true}
                         />

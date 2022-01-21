@@ -107,14 +107,14 @@ router.post("/promotionRequests", async (req, res) => {
         req.body.promotion_type
     );
 
-    // if (!valid) {
-    //     res.json({
-    //         success: false,
-    //         errors: errors,
-    //         message: "يجب رفع جميع الملفات المطلوبة"
-    //     })
-    //     return
-    // }
+    if (!valid) {
+        res.json({
+            success: false,
+            errors: errors,
+            message: "يجب رفع جميع الملفات المطلوبة"
+        })
+        return
+    }
 
     const user = checkAuth(req, res);
 
@@ -170,16 +170,16 @@ router.put("/promotionRequests/:id", async (req, res) => {
 
     try {
 
-        // const { valid, errors } = validateUpdatePromotionRequestInput(req.body.user_files, req.body.promotion_type);
+        const { valid, errors } = validateUpdatePromotionRequestInput(req.body.user_files, req.body.promotion_type);
 
-        // if (!valid) {
-        //     res.json({
-        //         success: false,
-        //         errors: errors,
-        //         message: "يجب رفع جميع الملفات المطلوبة"
-        //     })
-        //     return
-        // }
+        if (!valid) {
+            res.json({
+                success: false,
+                errors: errors,
+                message: "يجب رفع جميع الملفات المطلوبة"
+            })
+            return
+        }
 
         const user = checkAuth(req, res);
         const promotionRequest = await PromotionRequset.findOne({ _id: req.params.id });
@@ -286,20 +286,20 @@ router.put("/promotionRequests/:id/approve", async (req, res) => {
 
     try {
 
-        // const { valid, errors } = validateAdminFilesInput(
-        //     req.body.administrative_files,
-        //     req.body.current_phase_number,
-        //     req.body.process_level_number
-        // );
+        const { valid, errors } = validateAdminFilesInput(
+            req.body.administrative_files,
+            req.body.current_phase_number,
+            req.body.process_level_number
+        );
 
-        // if (!valid) {
-        //     res.json({
-        //         success: false,
-        //         errors: errors,
-        //         message: "يجب رفع جميع الملفات المطلوبة"
-        //     })
-        //     return
-        // }
+        if (!valid) {
+            res.json({
+                success: false,
+                errors: errors,
+                message: "يجب رفع جميع الملفات المطلوبة"
+            })
+            return
+        }
 
         const user = checkAuth(req, res);
         const promotionRequest = await PromotionRequset.findOne({ _id: req.params.id });
@@ -391,20 +391,20 @@ router.put("/promotionRequests/:id/process_2_approve", async (req, res) => {
 
     try {
 
-        // const { valid, errors } = validateAdminFilesInput(
-        //     req.body.administrative_files,
-        //     req.body.current_phase_number,
-        //     req.body.process_level_number
-        // );
+        const { valid, errors } = validateAdminFilesInput(
+            req.body.administrative_files,
+            req.body.current_phase_number,
+            req.body.process_level_number
+        );
 
-        // if (!valid) {
-        //     res.json({
-        //         success: false,
-        //         errors: errors,
-        //         message: "يجب رفع جميع الملفات المطلوبة"
-        //     })
-        //     return
-        // }
+        if (!valid) {
+            res.json({
+                success: false,
+                errors: errors,
+                message: "يجب رفع جميع الملفات المطلوبة"
+            })
+            return
+        }
 
         const user = checkAuth(req, res);
         const promotionRequest = await PromotionRequset.findOne({ _id: req.params.id });
@@ -446,8 +446,8 @@ router.post("/send-email/:id", async (req, res) => {
             service: 'gmail',
             port: 465,
             auth: {
-                user: process.env.GMAIL,
-                pass: process.env.GMAIL_PASS,
+                user: "wiseuni2008@gmail.com",
+                pass: "wiseuni2008"
             },
         });
 

@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
-import useForm from '../../Hooks/useForm';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import { AuthContext } from '../UserComponents/userContext';
 import { Button, Form, Label } from 'semantic-ui-react';
 import FileUpload from './fileUpload';
-import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import RejectionReasons from './rejectionReasons';
 import EditResearchFiles from './editResearchFiles';
 import { useDispatch, useSelector } from "react-redux";

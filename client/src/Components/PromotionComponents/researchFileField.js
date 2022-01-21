@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Form, Label, Select, Divider, Table } from 'semantic-ui-react';
+import { Form, Select, Table } from 'semantic-ui-react';
 import FileUpload from './fileUpload';
 import { research_types, is_research_specialty } from '../../constants';
 import uuid from 'uuid/dist/v4';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setResearchFiles, removeResearchFile } from "../../state/actions/promotionRequestActions";
 
 function ResearchFileField({ id, addResearchData, handleRemoveResearch, researchFile }) {

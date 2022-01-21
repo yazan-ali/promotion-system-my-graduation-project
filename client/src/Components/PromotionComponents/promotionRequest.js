@@ -4,7 +4,6 @@ import PromotionRequestEditForm from './promotionRequestEditForm';
 import { Button } from 'semantic-ui-react'
 import DeleteButton from './deleteButton';
 import { Link } from 'react-router-dom';
-import { ranks } from '../../constants';
 import RejectionReasons from './rejectionReasons';
 import UserFilesList from './userFilesList';
 import AdministrativeFilesList from './administrativeFilesList';

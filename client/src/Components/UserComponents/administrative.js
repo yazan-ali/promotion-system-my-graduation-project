@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Form, Select } from 'semantic-ui-react';
-import { useDispatch, useSelector } from "react-redux";
-import { setTeachers, setCollegeAdministratives, setTeachersSearchList } from "../../state/actions/teachersActions";
+import { Button, } from 'semantic-ui-react';
+import { useSelector } from "react-redux";
 import SearchableTextField from '../PromotionCommitteeComponents/searchableTextField ';
 import axios from 'axios';
 import Loader from '../loader';
@@ -9,7 +8,6 @@ import Loader from '../loader';
 function Administrative({ rank, college, section }) {
 
     const searchList = useSelector((state) => state.teachers.teachersSearchList);
-    const dispatch = useDispatch();
 
     const [currentAdministrative, setCurrentAdministrative] = useState(null)
     const [newAdministrative, setNewAdministrative] = useState(null)

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { PickerOverlay } from 'filestack-react';
 import { Button, Label } from 'semantic-ui-react';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUserFiles, removeUserFile } from "../../state/actions/promotionRequestActions";
 
 function FileUpload({ label, fileUpload, removeFile, fileData, doNotShowFile, n, canEdit, err }) {
@@ -52,13 +52,13 @@ function FileUpload({ label, fileUpload, removeFile, fileData, doNotShowFile, n,
                 {
                     showFilePicker && (
                         <PickerOverlay
-                            apikey="AYjtgfnMtSSCeojaAOQcnz"
+                            // apikey="AYjtgfnMtSSCeojaAOQcnz"
+                            apikey="Aobwy9vP6RyyxDBGN8D1Jz"
                             onSuccess={(res) => setShowFilePicker(false)}
                             onUploadDone={(res) => handelFileUpolad(res)}
                             onError={(error) => console.log(error)}
                             buttonText={'Pick File'}
                             pickerOptions={
-                                { onClose: () => alert("close") },
                                 { fromSources: ["local_file_system", "googledrive"] }
                             }
                         />

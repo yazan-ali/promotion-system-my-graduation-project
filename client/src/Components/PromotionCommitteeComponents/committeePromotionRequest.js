@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react';
-import TeacherPromotionRequest from '../PromotionComponents/teacherPromotionRequest';
-import { Button } from 'semantic-ui-react';
 import { AuthContext } from '../UserComponents/userContext';
 import Info from '../UserComponents/info';
 import axios from 'axios';

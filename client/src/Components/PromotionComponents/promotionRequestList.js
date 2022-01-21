@@ -1,19 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import PromotionRequest from './promotionRequest';
 import axios from 'axios';
-import { Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { setPromotionRequest } from "../../state/actions/promotionRequestActions";
 import Loader from '../loader';
 import Snackbar from '../snackbar';
-import Stepper from '../stepper';
 
 function PromotionRequestList({ user }) {
 
-    const [showCreateForm, setShowCreateForm] = useState(false);
-    const [erorr, setErorr] = useState(null);
-    const [promotionType, setPromotionType] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [alert, setAlert] = useState({});
     const [showSnackbar, setShowSnackbar] = useState(false);

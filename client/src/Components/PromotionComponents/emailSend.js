@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import EmailSender from '../emailSender'
-import UserFilesList from './userFilesList'
 import "../Style/emailSender.css"
 
 function EmailSend({ user_files, promotionRequestID }) {

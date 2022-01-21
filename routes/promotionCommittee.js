@@ -4,29 +4,6 @@ const PromotionCommittee = require("../models/promotionCommittee");
 const User = require("../models/user");
 const checkAuth = require("../util/checkAuth");
 
-// get all promotions committee
-router.get("/promotionCommittee", async (req, res) => {
-
-    try {
-        const allPromotionCommittee = await PromotionCommittee.find({});
-        if (allPromotionCommittee) {
-            res.json({
-                success: true,
-                result: allPromotionCommittee
-            });
-        } else {
-            res.json({
-                success: false,
-                message: "An error occurred"
-            })
-            throw new Error("An error occurred")
-        }
-    }
-    catch (err) {
-        console.log(err);
-    }
-});
-
 // get specific promotions committee
 router.get("/promotionCommittee/:id", async (req, res) => {
 

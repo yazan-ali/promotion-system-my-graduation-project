@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from "react-redux";
-import { setTeachers, setCollegeAdministratives, setTeachersSearchList } from "../../state/actions/teachersActions";
-import { Button, Form, Select } from 'semantic-ui-react';
+import { setTeachers, setTeachersSearchList } from "../../state/actions/teachersActions";
+import { Select } from 'semantic-ui-react';
 import { collegeOptions, sectionOptions, wise_administratives_ranks } from '../../constants';
 import CollegeAdministratives from './collegeAdministratives';
 import WiseAdministratives from './wiseAdministratives';

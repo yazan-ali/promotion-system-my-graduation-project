@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
-import useForm from '../../Hooks/useForm';
 import axios from 'axios';
 import { AuthContext } from '../UserComponents/userContext';
 import { Button, Form, Label } from 'semantic-ui-react';
 import FileUpload from './fileUpload';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import AddResearchFiles from './addResearchFiles';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link, Redirect } from 'react-router-dom';
 import { setPromotionRequest } from "../../state/actions/promotionRequestActions";
 import Snackbar from '../snackbar';

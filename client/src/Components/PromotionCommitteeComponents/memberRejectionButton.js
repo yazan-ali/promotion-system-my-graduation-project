@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from 'semantic-ui-react';
 import axios from 'axios';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { memberReject } from "../../state/actions/promotionCommitteeActions"
 
 function MemberRejectionButton({ promotionCommitteeID, handleShowButtons, rejectionReasons, memberID }) {

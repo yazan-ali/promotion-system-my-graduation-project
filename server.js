@@ -28,7 +28,7 @@ app.use((err, req, res, next) => {
 })
 
 // mongoose connection
-mongoose.connect(process.env.DB);
+mongoose.connect("mongodb+srv://wiseuni2008:wiseuni2008@cluster0.0zfko.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
 
 const connection = mongoose.connection;
 connection.once('open', () => {

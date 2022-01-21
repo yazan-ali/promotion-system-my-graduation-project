@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Form, Label, Select, Table } from 'semantic-ui-react';
+import { Button, Table } from 'semantic-ui-react';
 import ResearchFileField from './researchFileField';
-import { useDispatch, useSelector } from "react-redux";
-import { setResearchFiles } from "../../state/actions/promotionRequestActions";
+import { useSelector } from "react-redux";
 import FileUpload from './fileUpload';
 
 function EditResearchFiles({ user, toggleShowResearchFiles, checkIfCanSubmit, promotionType, files, administrative_years_files }) {

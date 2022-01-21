@@ -42,25 +42,6 @@ function EmailSender({ emailAttachment, uploadedFiles, unselectFile, fileUpload,
 
         // await axios.post(`/send-email/${promotionRequestID}`, email)
         await axios.post(`http://localhost:5000/send-email/${promotionRequestID}`, email)
-            .then(res => {
-                if (res.data.success) {
-                    // alert = {
-                    //     message: res.data.message,
-                    //     type: "success"
-                    // };
-                    // dispatch(setPromotionRequest(res.data.result));
-                } else {
-                    // if (Object.keys(res.data.errors).length > 0) {
-                    //     setErrors(res.data.errors)
-                    //     return
-                    // }
-                    // alert = {
-                    //     message: res.data.message,
-                    //     type: "fail"
-                    // }
-                }
-                // handleAlert(alert)
-            });
 
         setIsLoading(false)
     }

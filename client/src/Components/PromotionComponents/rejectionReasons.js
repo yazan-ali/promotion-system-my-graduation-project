@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button, Form } from 'semantic-ui-react';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addRejectionReason, removeRejectionReason } from "../../state/actions/teacherDataActions";
 import { addMemberRejectionReason, removeMemberRejectionReason } from '../../state/actions/promotionCommitteeActions'
 import uuid from 'uuid/dist/v4';

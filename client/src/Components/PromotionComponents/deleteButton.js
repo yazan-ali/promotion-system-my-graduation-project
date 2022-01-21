@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from 'semantic-ui-react';
 import axios from 'axios';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setPromotionRequest } from "../../state/actions/promotionRequestActions";
 
 function DeleteButton({ id, handleAlert }) {

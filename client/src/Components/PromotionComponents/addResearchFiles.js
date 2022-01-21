@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Form, Label, Select } from 'semantic-ui-react';
-import { Icon, Menu, Table } from 'semantic-ui-react'
+import { Button } from 'semantic-ui-react';
+import { Table } from 'semantic-ui-react'
 import ResearchFileField from './researchFileField';
 import FileUpload from './fileUpload';
 

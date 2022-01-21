@@ -5,8 +5,6 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const checkAuth = require("../util/checkAuth");
 
-// const { validateRegisterInput, validateLoginInput } = require("../../util/validators");
-
 function generateToken(user) {
     return jwt.sign({
         id: user.id,
@@ -21,7 +19,7 @@ function generateToken(user) {
         administrativeRank: user.administrativeRank,
         promotionRequest: user.promotionRequest,
         isAdmin: user.isAdmin
-    }, process.env.TOKEN_SECRETE, { expiresIn: "1h" }
+    }, "This is very secrete...", { expiresIn: "1h" }
     )
 }
 
@@ -84,12 +82,6 @@ router.get("/user/:college/:section", async (req, res) => {
 
 // register
 router.post("/register", async (req, res) => {
-    // const { valid, errors } = validateRegisterInput(first_name, last_name, username, password,);
-    // if (!valid) {
-    //     throw new UserInputError("Errors", {
-    //         errors: errors
-    //     })
-    // }
 
     try {
 
@@ -140,20 +132,9 @@ router.post("/login", async (req, res) => {
 
     try {
 
-        //   const { errors, valid } = validateLoginInput(username, password);
         const user = await User.findOne({ username: req.body.username }).populate("promotionRequest");
 
-        // if (!valid) {
-        //     throw new UserInputError("Errors", {
-        //         errors: errors
-        //     });
-        // }
-
         if (user) {
-            // errors.general = "User not found";
-            // throw new UserInputError("User not found", {
-            //     errors: errors
-            // });
             const match = await bcrypt.compare(req.body.password, user.password);
             if (!match) {
                 res.json({
@@ -190,7 +171,6 @@ router.get("/teachers", async (req, res) => {
 
     try {
 
-        // const teachers = await User.find({ isAdmin: false })
         const teachers = await User.find({ isAdmin: false })
         res.json({
             success: true,

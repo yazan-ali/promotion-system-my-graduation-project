@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import '../Style/promotionRequest.css';
-import { Button, Form } from 'semantic-ui-react'
+import { Button } from 'semantic-ui-react'
 import ApproveButton from './approveButton';
 import ProcessTowApproveButton from './processTowApproveButton';
 import RejectionButton from './rejectionButton';

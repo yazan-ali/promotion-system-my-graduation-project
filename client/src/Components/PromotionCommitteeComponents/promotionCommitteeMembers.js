@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import { Button } from 'semantic-ui-react';
 import axios from 'axios';
-import MemberApproveButton from './memberApproveButton'
-import MemberRejectionButton from './memberRejectionButton'
-import RejectionReasons from '../PromotionComponents/rejectionReasons'
 import Member from './member';
 import { useDispatch } from "react-redux";
-import { setPromotionCommittee, setTeachers, clearSelectedTeachers, removeMember, setMembers } from "../../state/actions/promotionCommitteeActions";
+import { setPromotionCommittee, clearSelectedTeachers, setMembers } from "../../state/actions/promotionCommitteeActions";
 
 function PromotionCommitteeMembers({ members, promotionCommitteeID, showEditForm, user, canRemove, numOfMembers }) {
 

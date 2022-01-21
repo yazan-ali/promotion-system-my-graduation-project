@@ -54,9 +54,6 @@ const promototionRequestSchema = new mongoose.Schema({
         type: [],
         default: [],
     },
-    promotion_request_status: {
-        type: String,
-    },
     promotion_type: {
         type: String,
         require: true,

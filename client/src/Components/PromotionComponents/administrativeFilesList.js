@@ -1,6 +1,6 @@
 import React from 'react'
 
-function AdministrativeFilesList({ administrative_files, rank, current_phase_number, process_level_number }) {
+function AdministrativeFilesList({ administrative_files, rank, current_phase_number }) {
     return (
         <div className="files-list">
             {

@@ -1,6 +1,4 @@
 import React from 'react';
-import { Button } from 'semantic-ui-react';
-import { Link } from 'react-router-dom'
 
 function Info({ teacher, user, cssStyle, promotionRequestID, showButton }) {
 

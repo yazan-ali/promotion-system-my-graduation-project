@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Login from '../Components/UserComponents/login';
 import Register from '../Components/UserComponents/register'
 import AdminRegister from '../Components/UserComponents/adminRegister'

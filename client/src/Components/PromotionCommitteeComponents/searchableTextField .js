@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Form, } from 'semantic-ui-react';
+import React, { useState } from 'react';
+import { Form, } from 'semantic-ui-react';
 import SearchOption from './searchOption';
-import axios from 'axios';
 
 function SearchableTextField({ placeholder, optionsList, selectOption }) {
 
