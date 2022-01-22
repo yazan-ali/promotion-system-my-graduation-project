@@ -19,7 +19,8 @@ function generateToken(user) {
         administrativeRank: user.administrativeRank,
         promotionRequest: user.promotionRequest,
         isAdmin: user.isAdmin
-    }, "This is very secrete...", { expiresIn: "1h" }
+        // }, "This is very secrete...", { expiresIn: "1h" }
+    }, process.env.TOKEN_SECRETE, { expiresIn: "1h" }
     )
 }
 

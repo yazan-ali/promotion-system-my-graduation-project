@@ -446,8 +446,8 @@ router.post("/send-email/:id", async (req, res) => {
             service: 'gmail',
             port: 465,
             auth: {
-                user: "wiseuni2008@gmail.com",
-                pass: "wiseuni2008"
+                user: process.env.GMAIL,
+                pass: process.env.GMAIL_PASS,
             },
         });
 
