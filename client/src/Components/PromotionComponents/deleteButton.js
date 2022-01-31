@@ -21,8 +21,8 @@ function DeleteButton({ id, handleAlert }) {
 
         setIsLoading(true)
 
-        // await axios.delete(`/promotionRequests/${id}`)
-        await axios.delete(`http://localhost:5000/promotionRequests/${id}`)
+        await axios.delete(`/promotionRequests/${id}`)
+            // await axios.delete(`http://localhost:5000/promotionRequests/${id}`)
             .then(res => {
                 if (res.data.success) {
                     dispatch(setPromotionRequest(null));

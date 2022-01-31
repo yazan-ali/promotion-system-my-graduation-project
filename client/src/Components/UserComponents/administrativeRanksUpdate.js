@@ -19,8 +19,8 @@ function AdministrativeRanksUpdate() {
     const [wiseAdministrativesRanks, setWiseAdministrativesRanks] = useState("")
 
     useEffect(() => {
-        // axios.get(`/teachers`).
-        axios.get(`http://localhost:5000/teachers`).
+        axios.get(`/teachers`).
+            // axios.get(`http://localhost:5000/teachers`).
             then(res => {
                 if (res.data.success) {
                     dispatch(setTeachers(res.data.result));
@@ -47,37 +47,40 @@ function AdministrativeRanksUpdate() {
     return (
         <div className="administrative-ranks-update">
             <Tabs
-                tab1={
-                    <div className='administrative-root'>
-                        <h2 style={{ paddingBottom: 20 }}>تعديل عميد أو رئيس قسم</h2>
-                        <Select
-                            className="select"
-                            placeholder='اختر الكلية'
-                            options={collegeOptions}
-                            onChange={handleSelectCollege}
-                        />
-                        <CollegeAdministratives
-                            administratives={teachers.collegeAdministratives}
-                            college={college}
-                            sections={sectionOptions[sections]}
-                        />
-                    </div>
+                tabs={[{
+                    tab:
+                        <div div className='administrative-root' >
+                            <h2 style={{ paddingBottom: 20 }}>تعديل عميد أو رئيس قسم</h2>
+                            <Select
+                                className="select"
+                                placeholder='اختر الكلية'
+                                options={collegeOptions}
+                                onChange={handleSelectCollege}
+                            />
+                            < CollegeAdministratives
+                                administratives={teachers.collegeAdministratives}
+                                college={college}
+                                sections={sectionOptions[sections]}
+                            />
+                        </div>,
+                    label: "العمادة و رؤساء الاقسام"
+                },
+                {
+                    tab:
+                        <div className='administrative-root'>
+                            <h2 style={{ paddingBottom: 20 }}>تعديل المشرفين</h2>
+                            <Select
+                                className="select"
+                                placeholder='اختر'
+                                options={wise_administratives_ranks}
+                                onChange={handleWiseAdministrativesRank}
+                            />
+                            <WiseAdministratives selectedRank={wiseAdministrativesRanks} />
+                        </div>,
+                    label: "الرئاسة"
                 }
-                tab1_label={"العمادة و رؤساء الاقسام"}
-                tab2={
-                    <div className='administrative-root'>
-                        <h2 style={{ paddingBottom: 20 }}>تعديل المشرفين</h2>
-                        <Select
-                            className="select"
-                            placeholder='اختر'
-                            options={wise_administratives_ranks}
-                            onChange={handleWiseAdministrativesRank}
-                        />
-                        <WiseAdministratives selectedRank={wiseAdministrativesRanks} />
-                    </div>
-                }
-                tab2_label={"الرئاسة"}
-                activeTab={1}
+                ]}
+                activeTab={0}
             />
         </div>
     )

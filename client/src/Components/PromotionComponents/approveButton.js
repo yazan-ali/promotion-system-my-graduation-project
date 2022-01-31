@@ -12,8 +12,8 @@ function ApproveButton({ id, handleShowButtons, administrativeRank, current_phas
 
         setIsLoading(true)
 
-        // await axios.put(`/promotionRequests/${id}/approve`,{ current_phase_number, administrative_files, process_level_number })
-        await axios.put(`http://localhost:5000/promotionRequests/${id}/approve`, { current_phase_number, administrative_files, process_level_number })
+        await axios.put(`/promotionRequests/${id}/approve`, { current_phase_number, administrative_files, process_level_number })
+            // await axios.put(`http://localhost:5000/promotionRequests/${id}/approve`, { current_phase_number, administrative_files, process_level_number })
             .then(res => {
                 if (res.data.success) {
                     handleShowButtons()

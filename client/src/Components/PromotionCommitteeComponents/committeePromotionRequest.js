@@ -25,8 +25,8 @@ function CommitteePromotionRequest(props) {
         const token = localStorage.getItem("jwtToken");
         axios.defaults.headers.common['Authorization'] = token ? `Bearer ${token}` : ""
 
-        // axios.get(`/promotionCommittee/${promotionRequestID}`).
-        axios.get(`http://localhost:5000/promotionCommittee/${promotionRequestID}`).
+        axios.get(`/promotionCommittee/${promotionRequestID}`).
+            // axios.get(`http://localhost:5000/promotionCommittee/${promotionRequestID}`).
             then(res => {
                 if (res.data.success) {
                     dispatch(setCommitteePromotionRequest(res.data.result))
