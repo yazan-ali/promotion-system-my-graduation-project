@@ -19,8 +19,8 @@ function AdministrativeRanksUpdate() {
     const [wiseAdministrativesRanks, setWiseAdministrativesRanks] = useState("")
 
     useEffect(() => {
-        axios.get(`/teachers`).
-            // axios.get(`http://localhost:5000/teachers`).
+        // axios.get(`/teachers`).
+        axios.get(`http://localhost:5000/teachers`).
             then(res => {
                 if (res.data.success) {
                     dispatch(setTeachers(res.data.result));

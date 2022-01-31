@@ -14,8 +14,8 @@ function MemberRejectionButton({ promotionCommitteeID, handleShowButtons, reject
 
         setIsLoading(true)
 
-        await axios.put(`/promotionCommittee/${promotionCommitteeID}/rejection`, { rejectionReasons })
-            // await axios.put(`http://localhost:5000/promotionCommittee/${promotionCommitteeID}/rejection`, { rejectionReasons })
+        // await axios.put(`/promotionCommittee/${promotionCommitteeID}/rejection`, { rejectionReasons })
+        await axios.put(`http://localhost:5000/promotionCommittee/${promotionCommitteeID}/rejection`, { rejectionReasons })
             .then(res => {
                 if (res.data.success) {
                     handleShowButtons()

@@ -24,8 +24,8 @@ function Login() {
 
         setIsLoading(true)
 
-        await axios.post("/login", loginInfo)
-            // await axios.post("http://localhost:5000/login", loginInfo)
+        // await axios.post("/login", loginInfo)
+        await axios.post("http://localhost:5000/login", loginInfo)
             .then(res => {
                 if (res.data.auth) {
                     context.login(res.data.result);
